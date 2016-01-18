@@ -23,6 +23,21 @@ namespace DotNetDash
         public MainWindow()
         {
             InitializeComponent();
+            if(new RoboRioConnectionWindow().ShowDialog() != true)
+            {
+                Close();
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            NetworkTables.NetworkTable.Shutdown();
+            base.OnClosed(e);
+        }
+
+        private void OpenRoboRioConnectionWindow(object sender, RoutedEventArgs e)
+        {
+            new RoboRioConnectionWindow().ShowDialog();
         }
     }
 }

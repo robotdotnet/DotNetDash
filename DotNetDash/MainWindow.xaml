@@ -6,7 +6,14 @@
         xmlns:local="clr-namespace:DotNetDash"
         mc:Ignorable="d"
         Title="DotNetDash - Dashboard from RobotDotNet" Height="350" Width="525">
-    <Canvas>
-        
-    </Canvas>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Connect...">
+                <MenuItem Header="To RoboRIO" Click="OpenRoboRioConnectionWindow" />
+            </MenuItem>
+        </Menu>
+        <Canvas>
+            
+        </Canvas>
+    </DockPanel>
 </Window>

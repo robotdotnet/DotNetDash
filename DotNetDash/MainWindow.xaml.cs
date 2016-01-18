@@ -39,5 +39,10 @@ namespace DotNetDash
         {
             new RoboRioConnectionWindow().ShowDialog();
         }
+
+        private void OpenServerConnectionWindow(object sender, RoutedEventArgs e)
+        {
+            new ServerConnectionWindow().ShowDialog();
+        }
     }
 }

@@ -62,6 +62,9 @@
     <Compile Include="RoboRioConnectionWindow.xaml.cs">
       <DependentUpon>RoboRioConnectionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ServerConnectionWindow.xaml.cs">
+      <DependentUpon>ServerConnectionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -76,6 +79,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="RoboRioConnectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ServerConnectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

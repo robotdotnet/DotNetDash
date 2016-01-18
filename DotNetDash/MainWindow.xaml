@@ -10,6 +10,7 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Connect...">
                 <MenuItem Header="To RoboRIO" Click="OpenRoboRioConnectionWindow" />
+                <MenuItem Header="To Other Server" Click="OpenServerConnectionWindow" />
             </MenuItem>
         </Menu>
         <Canvas>

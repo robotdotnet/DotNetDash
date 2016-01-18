@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace DotNetDash
 {
     /// <summary>
-    /// Interaction logic for RoboRioConnectionWindow.xaml
+    /// Interaction logic for ServerConnectionWindow.xaml
     /// </summary>
-    public partial class RoboRioConnectionWindow : Window
+    public partial class ServerConnectionWindow : Window
     {
-        public RoboRioConnectionWindow()
+        public ServerConnectionWindow()
         {
             InitializeComponent();
         }
@@ -28,7 +28,7 @@ namespace DotNetDash
         private void ConnectClicked(object sender, RoutedEventArgs e)
         {
             NetworkTable.Shutdown();
-            NetworkTable.SetIPAddress($"roborio-{TeamNumber.Text}-frc.local");
+            NetworkTable.SetIPAddress(Server.Text);
             NetworkTable.SetClientMode();
             NetworkTable.Initialize();
             DialogResult = true;

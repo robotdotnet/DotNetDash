@@ -17,9 +17,6 @@ namespace DotNetDash.BuiltinProcessors
     [DashboardType(typeof(ITableProcessorFactory), "", true)]
     public class FallbackProcessorFactory : ITableProcessorFactory
     {
-        private bool loadedAllXamlDocs = false;
-        private List<XamlView> xamlViews;
-        
         public IXamlSearcher searcher;
         
         [ImportingConstructor]
@@ -30,19 +27,18 @@ namespace DotNetDash.BuiltinProcessors
 
         public TableProcessor Create(string subTable, ITable table, CompositionContainer container)
         {
-            if (!loadedAllXamlDocs)
-                LoadXamlDocs();
+            var xamlViews = LoadXamlDocs();
             var matchingView = xamlViews.FirstOrDefault(view => view.DashboardType == table.GetString("~TYPE~", ""));
-            return matchingView != null ? ProcessWithFirstXamlProcessor(subTable, table, container, matchingView) :
+            return matchingView != null ? CreateProcessorForFirstView(subTable, table, container, matchingView) :
                 (TableProcessor)new DefaultProcessor(subTable, table, container);
         }
 
-        private XamlProcessor ProcessWithFirstXamlProcessor(string subTable, ITable table, CompositionContainer container, XamlView view)
+        private static XamlProcessor CreateProcessorForFirstView(string subTable, ITable table, CompositionContainer container, XamlView view)
         {
             return new XamlProcessor(subTable, table, container, view);
         }
 
-        private void LoadXamlDocs()
+        private IEnumerable<XamlView> LoadXamlDocs()
         {
             var views = new List<XamlView>();
             foreach (var stream in searcher.GetXamlDocumentStreams())
@@ -63,7 +59,7 @@ namespace DotNetDash.BuiltinProcessors
                     //TODO: log xaml parsing errors
                 }
             }
-            xamlViews = views;
+            return views;
         }
     }
 }

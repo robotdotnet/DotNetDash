@@ -73,7 +73,6 @@
     <Compile Include="IRootTableProcessorFactory.cs" />
     <Compile Include="ITableProcessorFactory.cs" />
     <Compile Include="NetworkTableContext.cs" />
-    <Compile Include="ProcessorToViewConverter.cs" />
     <Compile Include="RoboRioConnectionWindow.xaml.cs">
       <DependentUpon>RoboRioConnectionWindow.xaml</DependentUpon>
     </Compile>

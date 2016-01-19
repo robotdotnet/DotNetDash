@@ -35,12 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NetworkTables, Version=2016.0.0.148, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FRC.NetworkTables.2016.0.0.148\lib\net45\NetworkTables.dll</HintPath>
+    <Reference Include="NetworkTables, Version=2016.0.1.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FRC.NetworkTables.2016.0.1.5\lib\net45\NetworkTables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,6 +61,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BuiltinProcessors\DefaultProcessor.cs" />
+    <Compile Include="BuiltinProcessors\DefaultRootTableProcessor.cs" />
+    <Compile Include="BuiltinProcessors\FallbackProcessorFactory.cs" />
+    <Compile Include="BuiltinProcessors\IXamlSearcher.cs" />
+    <Compile Include="BuiltinProcessors\LiveWindowSubsystemProcessor.cs" />
+    <Compile Include="BuiltinProcessors\XamlFileSearcher.cs" />
+    <Compile Include="DashboardMetadataUtils.cs" />
+    <Compile Include="DashboardTypeAttribute.cs" />
+    <Compile Include="IDashboardTypeMetadata.cs" />
+    <Compile Include="IRootTableProcessorFactory.cs" />
+    <Compile Include="ITableProcessorFactory.cs" />
+    <Compile Include="NetworkTableContext.cs" />
+    <Compile Include="ProcessorToViewConverter.cs" />
     <Compile Include="RoboRioConnectionWindow.xaml.cs">
       <DependentUpon>RoboRioConnectionWindow.xaml</DependentUpon>
     </Compile>
@@ -66,6 +81,11 @@
       <DependentUpon>ServerConnectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="BuiltinProcessors\XamlProcessor.cs" />
+    <Compile Include="TableProcessor.cs" />
+    <Compile Include="XamlView.xaml.cs">
+      <DependentUpon>XamlView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ServerConnectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XamlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

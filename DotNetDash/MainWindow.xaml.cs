@@ -27,6 +27,10 @@ namespace DotNetDash
             {
                 Close();
             }
+            else
+            {
+                InitializeTabs();
+            }
         }
 
         protected override void OnClosed(EventArgs e)
@@ -38,11 +42,29 @@ namespace DotNetDash
         private void OpenRoboRioConnectionWindow(object sender, RoutedEventArgs e)
         {
             new RoboRioConnectionWindow().ShowDialog();
+            InitializeTabs();
+        }
+
+        private void InitializeTabs()
+        {
+            Tabs.Items.Clear();
+            var rootViews = (App.Current as App).Container.GetExports<IRootTableProcessorFactory, IDashboardTypeMetadata>();
+            Tabs.Items.Add(CreateRootTableProcessor(rootViews, "SmartDashboard").GetBoundView());
+            Tabs.Items.Add(CreateRootTableProcessor(rootViews, "LiveWindow").GetBoundView());
         }
 
         private void OpenServerConnectionWindow(object sender, RoutedEventArgs e)
         {
             new ServerConnectionWindow().ShowDialog();
+            InitializeTabs();
+        }
+
+        private static TableProcessor CreateRootTableProcessor(IEnumerable<Lazy<IRootTableProcessorFactory, IDashboardTypeMetadata>> factories, string tableName)
+        {
+            var matchedProcessors = factories.Where(factory => factory.Metadata.IsMatch(tableName));
+            var processor = (matchedProcessors.FirstOrDefault(factory => !factory.Metadata.IsWildCard()) ?? factories.First())
+                                  .Value.Create(tableName, NetworkTables.NetworkTable.GetTable(tableName), (App.Current as App).Container);
+            return processor;
         }
     }
 }

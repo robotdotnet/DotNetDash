@@ -13,8 +13,6 @@
                 <MenuItem Header="To Other Server" Click="OpenServerConnectionWindow" />
             </MenuItem>
         </Menu>
-        <Canvas>
-            
-        </Canvas>
+        <TabControl x:Name="Tabs" />
     </DockPanel>
 </Window>

@@ -16,7 +16,7 @@ namespace DotNetDash.Test
         public void FactoryLoadsXamlParserWhenXamlDocumentOfTypeExists()
         {
             ITable baseTable = new MockTable();
-            var fallbackProcessorFactory = composer.GetExports<ITableProcessorFactory>().Select(factory => factory.Value).OfType<FallbackProcessorFactory>().First();
+            var fallbackProcessorFactory = new FallbackProcessorFactory(new MockXamlSearcher());
             baseTable.PutString("~TYPE~", "TestType");
             baseTable.PutString("Value", "a value");
             Assert.IsAssignableFrom<XamlProcessor>(fallbackProcessorFactory.Create("Test Table", baseTable, composer));
@@ -26,8 +26,17 @@ namespace DotNetDash.Test
         public void FactoryLoadsDefaultParserWhenXamlDocumentOfTypeDoesNotExist()
         {
             ITable baseTable = new MockTable();
-            var fallbackProcessorFactory = composer.GetExports<ITableProcessorFactory>().Select(factory => factory.Value).OfType<FallbackProcessorFactory>().First();
+            var fallbackProcessorFactory = new FallbackProcessorFactory(new MockXamlSearcher());
             baseTable.PutString("~TYPE~", "NonExistentType");
+            baseTable.PutString("Value", "a value");
+            Assert.IsAssignableFrom<DefaultProcessor>(fallbackProcessorFactory.Create("Test Table", baseTable, composer));
+        }
+        [Test, RequiresSTA]
+        public void FactoryLoadsDefaultParserWhenInvalidXamlDocumentOfTypeExists()
+        {
+            ITable baseTable = new MockTable();
+            var fallbackProcessorFactory = new FallbackProcessorFactory(new MockXamlSearcher());
+            baseTable.PutString("~TYPE~", "InvalidMarkupType");
             baseTable.PutString("Value", "a value");
             Assert.IsAssignableFrom<DefaultProcessor>(fallbackProcessorFactory.Create("Test Table", baseTable, composer));
         }

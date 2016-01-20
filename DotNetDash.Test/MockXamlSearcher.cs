@@ -12,6 +12,13 @@ namespace DotNetDash.Test
     {
         public IEnumerable<Stream> GetXamlDocumentStreams()
         {
+            yield return CreateValidMarkupStream();
+
+            yield return CreateInvalidMarkupStream();
+        }
+
+        private static MemoryStream CreateValidMarkupStream()
+        {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
             writer.Write(@"
@@ -28,7 +35,28 @@ namespace DotNetDash.Test
 ");
             writer.Flush();
             stream.Position = 0;
-            yield return stream;
+            return stream;
+        }
+
+        private static MemoryStream CreateInvalidMarkupStream()
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(@"
+<dash:XamlView
+            xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+            xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
+            xmlns:dash = ""clr-namespace:DotNetDash;assembly=DotNetDash""
+            DashboardType =""InvalidMarkupType"">
+<StackPanel Orientation=""Horizontal"">
+    <Label>Current Value</Label>
+    <TextBox Text=""{Binding [Value]}"" />
+
+</dash:XamlView>
+"); //Lacks the closing tag for StackPanel
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
     }
 }

@@ -49,21 +49,28 @@ namespace DotNetDash
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (TableProcessor item in e.NewItems)
-                    {
-                        panel.Children.Add(item.GetBoundView());
-                    }
+                    AddNewItemsToPanel(e.NewItems, panel);
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     break;
                 case NotifyCollectionChangedAction.Replace:
+                    AddNewItemsToPanel(e.NewItems, panel);
                     break;
                 case NotifyCollectionChangedAction.Move:
                     break;
                 case NotifyCollectionChangedAction.Reset:
+                    panel.Children.Clear();
                     break;
                 default:
                     break;
+            }
+        }
+
+        private static void AddNewItemsToPanel(System.Collections.IList newItems, Panel panel)
+        {
+            foreach (TableProcessor item in newItems)
+            {
+                panel.Children.Add(item.GetBoundView());
             }
         }
 

@@ -12,7 +12,23 @@ namespace DotNetDash.Test
     {
         public IEnumerable<Stream> GetXamlDocumentStreams()
         {
-            throw new NotImplementedException();
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(@"
+<dash:XamlView
+            xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
+            xmlns:x = ""http://schemas.microsoft.com/winfx/2006/xaml""
+            xmlns:dash = ""clr-namespace:DotNetDash;assembly=DotNetDash""
+            DashboardType =""TestType"">
+<StackPanel Orientation=""Horizontal"">
+    <Label>Current Value</Label>
+    <TextBox Text=""{Binding [Value]}"" />
+</StackPanel>
+</dash:XamlView>
+");
+            writer.Flush();
+            stream.Position = 0;
+            yield return stream;
         }
     }
 }

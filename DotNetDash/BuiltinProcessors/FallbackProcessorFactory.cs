@@ -17,7 +17,7 @@ namespace DotNetDash.BuiltinProcessors
     [DashboardType(typeof(ITableProcessorFactory), "", true)]
     public class FallbackProcessorFactory : ITableProcessorFactory
     {
-        public IXamlSearcher searcher;
+        private IXamlSearcher searcher;
         
         [ImportingConstructor]
         public FallbackProcessorFactory(IXamlSearcher searcher)

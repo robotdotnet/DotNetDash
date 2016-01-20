@@ -9,11 +9,11 @@ using NetworkTables.Tables;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace DotNetDash.BuiltinProcessors
+namespace DotNetDash.LiveWindow
 {
-    class LiveWindowSubsystemProcessor : TableProcessor
+    class SubsystemProcessor : TableProcessor
     {
-        public LiveWindowSubsystemProcessor(string name, ITable table, CompositionContainer container) : base(name, table, container)
+        public SubsystemProcessor(string name, ITable table, CompositionContainer container) : base(name, table, container)
         {
         }
 
@@ -36,12 +36,12 @@ namespace DotNetDash.BuiltinProcessors
         }
     }
 
-    [DashboardType(typeof(ITableProcessorFactory), "LW Subsystem", true)]
-    public class LiveWindowSubsystemProcessorFactory : ITableProcessorFactory
+    [DashboardType(typeof(ITableProcessorFactory), "LW Subsystem")]
+    public sealed class SubsystemProcessorFactory : ITableProcessorFactory
     {
         public TableProcessor Create(string subTable, ITable table, CompositionContainer container)
         {
-            return new LiveWindowSubsystemProcessor(subTable, table, container);
+            return new SubsystemProcessor(subTable, table, container);
         }
     }
 }

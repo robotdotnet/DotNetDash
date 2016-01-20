@@ -14,8 +14,8 @@ namespace DotNetDash.BuiltinProcessors
     /// This factory attempts to load a XAML document from the Extensions subdirectories and use a processor on that to create the view.
     /// If this a suitable XAML file is not found, then it will fallback to a processor that just creates text boxes with labels.
     /// </summary>
-    [DashboardType(typeof(ITableProcessorFactory), "", true)]
-    public class FallbackProcessorFactory : ITableProcessorFactory
+    [DashboardType(typeof(ITableProcessorFactory), "")]
+    public sealed class FallbackProcessorFactory : ITableProcessorFactory
     {
         private IXamlSearcher searcher;
         

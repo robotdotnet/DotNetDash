@@ -48,9 +48,11 @@ namespace DotNetDash
         private void InitializeTabs()
         {
             Tabs.Items.Clear();
-            var rootViews = (App.Current as App).Container.GetExports<IRootTableProcessorFactory, IDashboardTypeMetadata>();
-            Tabs.Items.Add(CreateRootTableProcessor(rootViews, "SmartDashboard").GetBoundView());
-            Tabs.Items.Add(CreateRootTableProcessor(rootViews, "LiveWindow").GetBoundView());
+            var rootViews = (Application.Current as App).Container.GetExports<IRootTableProcessorFactory, IDashboardTypeMetadata>();
+            foreach (var rootTable in Properties.Settings.Default.RootTables)
+            {
+                Tabs.Items.Add(CreateRootTableProcessor(rootViews, rootTable).GetBoundView());
+            }
         }
 
         private void OpenServerConnectionWindow(object sender, RoutedEventArgs e)
@@ -62,8 +64,8 @@ namespace DotNetDash
         private static TableProcessor CreateRootTableProcessor(IEnumerable<Lazy<IRootTableProcessorFactory, IDashboardTypeMetadata>> factories, string tableName)
         {
             var matchedProcessors = factories.Where(factory => factory.Metadata.IsMatch(tableName));
-            var processor = (matchedProcessors.FirstOrDefault(factory => !factory.Metadata.IsWildCard()) ?? factories.First())
-                                  .Value.Create(tableName, NetworkTables.NetworkTable.GetTable(tableName), (App.Current as App).Container);
+            var processor = (matchedProcessors.FirstOrDefault(factory => !factory.Metadata.IsWildCard()) ?? matchedProcessors.First())
+                                  .Value.Create(tableName, NetworkTables.NetworkTable.GetTable(tableName), (Application.Current as App).Container);
             return processor;
         }
     }

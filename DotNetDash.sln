@@ -7,20 +7,33 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash", "DotNetDash\Do
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.Test", "DotNetDash.Test\DotNetDash.Test.csproj", "{AEDD1D24-7E04-4A20-AD7F-9702FF2EDD62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.LiveWindow", "DotNetDash.LiveWindow\DotNetDash.LiveWindow.csproj", "{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CoreDebug|Any CPU = CoreDebug|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.CoreDebug|Any CPU.ActiveCfg = CoreDebug|Any CPU
+		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.CoreDebug|Any CPU.Build.0 = CoreDebug|Any CPU
 		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEDD1D24-7E04-4A20-AD7F-9702FF2EDD62}.CoreDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEDD1D24-7E04-4A20-AD7F-9702FF2EDD62}.CoreDebug|Any CPU.Build.0 = Debug|Any CPU
 		{AEDD1D24-7E04-4A20-AD7F-9702FF2EDD62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEDD1D24-7E04-4A20-AD7F-9702FF2EDD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEDD1D24-7E04-4A20-AD7F-9702FF2EDD62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEDD1D24-7E04-4A20-AD7F-9702FF2EDD62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}.CoreDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}.CoreDebug|Any CPU.Build.0 = Debug|Any CPU
+		{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

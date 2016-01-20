@@ -15,17 +15,7 @@ namespace DotNetDash
             :base(exportType)
         {
             Type = type;
-            Builtin = false;
         }
-
-        internal DashboardTypeAttribute(Type exportType, string type, bool builtin)
-            :base(exportType)
-        {
-            Type = type;
-            Builtin = builtin;
-        }
-
-        public bool Builtin { get; }
 
         public string Type { get; }
     }

@@ -8,8 +8,6 @@ namespace DotNetDash
 {
     public interface IDashboardTypeMetadata
     {
-        bool Builtin { get; }
-
         string Type { get; }
     }
 }

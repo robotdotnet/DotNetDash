@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DotNetDash
 {
-    interface IRootTableProcessorFactory : ITableProcessorFactory
+    public interface IRootTableProcessorFactory : ITableProcessorFactory
     {
     }
 }

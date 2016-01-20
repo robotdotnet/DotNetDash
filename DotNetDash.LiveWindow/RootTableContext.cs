@@ -1,0 +1,29 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using NetworkTables.Tables;
+
+namespace DotNetDash.LiveWindow
+{
+    public class RootTableContext : NetworkTableContext
+    {
+        private ITable statusTable;
+        public RootTableContext(string tableName, ITable table) : base(tableName, table)
+        {
+            statusTable = table.GetSubTable("~STATUS~");
+            statusTable.AddTableListener("LW Enabled", (changedTable, _, value, flags) =>
+                Enabled = (bool)value, true);
+        }
+
+        private bool enabled;
+
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { enabled = value; NotifyPropertyChanged(); }
+        }
+
+    }
+}

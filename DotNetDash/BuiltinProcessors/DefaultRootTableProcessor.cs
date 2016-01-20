@@ -13,7 +13,7 @@ using System.Windows.Threading;
 
 namespace DotNetDash.BuiltinProcessors
 {
-    class DefaultRootTableProcessor : TableProcessor
+    public class DefaultRootTableProcessor : TableProcessor
     {
         public DefaultRootTableProcessor(string name, ITable table, CompositionContainer container) : base(name, table, container)
         {
@@ -38,8 +38,8 @@ namespace DotNetDash.BuiltinProcessors
         }
     }
     
-    [DashboardType(typeof(IRootTableProcessorFactory), "", true)]
-    public class DefaultRootTableProcessorFactory : IRootTableProcessorFactory
+    [DashboardType(typeof(IRootTableProcessorFactory), "")]
+    public sealed class DefaultRootTableProcessorFactory : IRootTableProcessorFactory
     {
         public TableProcessor Create(string subTable, ITable table, CompositionContainer container)
         {

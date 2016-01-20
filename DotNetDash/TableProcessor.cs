@@ -98,9 +98,11 @@ namespace DotNetDash
         public FrameworkElement GetBoundView()
         {
             var view = element.Value;
-            view.DataContext = new NetworkTableContext(name, baseTable);
+            view.DataContext = GetTableContext(name, baseTable);
             return view;
         }
+
+        protected virtual NetworkTableContext GetTableContext(string name, ITable table) => new NetworkTableContext(name, table);
 
         protected abstract FrameworkElement GetViewCore();
     }

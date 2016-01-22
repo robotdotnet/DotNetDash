@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="DotNetDash.CANSpeedController.CANView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DotNetDash.CANSpeedController"
+             mc:Ignorable="d" 
+             xmlns:oxyplot="http://oxyplot.org/wpf"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <local:RoundedOutputConverter x:Key="RoundingConverter" />
+        <DataTemplate x:Key="PID">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="P:" />
+                    <TextBox Text="{Binding [p]}" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="I:" />
+                    <TextBox Text="{Binding [i]}" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="D:" />
+                    <TextBox Text="{Binding [d]}" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="F:" />
+                    <TextBox Text="{Binding [f]}" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Setpoint:" />
+                    <TextBox Text="{Binding Setpoint}" />
+                </StackPanel>
+                <Grid>
+                    <oxyplot:Plot Title="{Binding Name}"
+                                  IsLegendVisible="True" LegendTitle="Legend" LegendPlacement="Outside" LegendPosition="RightMiddle"
+                                  Width="500" Height="150">
+                        <oxyplot:Plot.Series>
+                            <oxyplot:LineSeries Title="Setpoint" ItemsSource="{Binding SetpointLine}" />
+                            <oxyplot:LineSeries Title="Output" ItemsSource="{Binding OutputPoints}" />
+                        </oxyplot:Plot.Series>
+                    </oxyplot:Plot>
+                </Grid>
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="PercentVbus">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding ElementName=Slider, Path=Value, Converter={StaticResource RoundingConverter}}" />
+                <Button DockPanel.Dock="Right" Content="Zero" Command="{Binding ZeroOutput}" />
+                <Slider Name="Slider" Minimum="-1" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding Path=[Value], Mode=TwoWay}" />
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="Voltage">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Left" Text="{Binding ElementName=Slider, Path=Value, Converter={StaticResource RoundingConverter}}" />
+                <Button DockPanel.Dock="Right" Content="Zero" Command="{Binding ZeroOutput}" />
+                <Slider Name="Slider" Minimum="-12" Maximum="12" SmallChange="0.1" LargeChange="0.5" Value="{Binding Path=[Value], Mode=TwoWay}" />
+            </DockPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="Disabled">
+            <TextBlock Text="Controller is disabled" />
+        </DataTemplate>
+        <DataTemplate x:Key="MotionProfile">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Current Output:" />
+                <Label Content="{Binding [Value]}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="Follower">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Currently Following:" />
+                <TextBox Text="{Binding [Value]}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Margin="0,0,10,0" Text="Current Control Mode:" />
+            <ComboBox ItemsSource="{Binding ControlModes}" SelectedItem="{Binding Path=Mode, Mode=TwoWay}" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Margin="0,0,10,0" Text="Enabled:" />
+            <CheckBox VerticalAlignment="Center" IsThreeState="False" IsChecked="{Binding [Enabled]}" />
+        </StackPanel>
+        <ContentControl>
+            <ContentControl.Content>
+                <MultiBinding>
+                    <Binding />
+                    <Binding Path="Mode" />
+                    <MultiBinding.Converter>
+                        <local:TemplateSelector x:Name="Selector" />
+                    </MultiBinding.Converter>
+                </MultiBinding>
+            </ContentControl.Content>
+        </ContentControl>
+    </DockPanel>
+</UserControl>

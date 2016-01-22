@@ -21,7 +21,7 @@ namespace DotNetDash
         {
             get
             {
-                return table.GetValue(key, string.Empty);
+                return table.GetValue(key, null);
             }
             set
             {

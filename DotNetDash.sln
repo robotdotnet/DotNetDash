@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.Test", "DotNetDa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.LiveWindow", "DotNetDash.LiveWindow\DotNetDash.LiveWindow.csproj", "{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.CANSpeedController", "DotNetDash.CANSpeedController\DotNetDash.CANSpeedController.csproj", "{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CoreDebug|Any CPU = CoreDebug|Any CPU
@@ -34,6 +36,12 @@ Global
 		{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}.CoreDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}.CoreDebug|Any CPU.Build.0 = Debug|Any CPU
+		{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

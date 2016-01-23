@@ -8,51 +8,51 @@
              xmlns:oxyplot="http://oxyplot.org/wpf"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <local:RoundedOutputConverter x:Key="RoundingConverter" />
         <DataTemplate x:Key="PID">
-            <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="P:" />
-                    <TextBox Text="{Binding [p]}" />
-                </StackPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="I:" />
-                    <TextBox Text="{Binding [i]}" />
-                </StackPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="D:" />
-                    <TextBox Text="{Binding [d]}" />
-                </StackPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="F:" />
-                    <TextBox Text="{Binding [f]}" />
-                </StackPanel>
-                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="Setpoint:" />
-                    <TextBox Text="{Binding Setpoint}" />
-                </StackPanel>
-                <Grid>
-                    <oxyplot:Plot Title="{Binding Name}"
-                                  IsLegendVisible="True" LegendTitle="Legend" LegendPlacement="Outside" LegendPosition="RightMiddle"
-                                  Width="500" Height="150">
-                        <oxyplot:Plot.Series>
-                            <oxyplot:LineSeries Title="Setpoint" ItemsSource="{Binding SetpointLine}" />
-                            <oxyplot:LineSeries Title="Output" ItemsSource="{Binding OutputPoints}" />
-                        </oxyplot:Plot.Series>
-                    </oxyplot:Plot>
-                </Grid>
-            </DockPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="5*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="P:" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding [p]}" />
+                <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Text="I:" />
+                <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding [i]}" />
+                <TextBlock Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right"  Text="D:" />
+                <TextBox Grid.Row="0" Grid.Column="5" Text="{Binding [d]}" />
+                <TextBlock Grid.Row="0" Grid.Column="6" HorizontalAlignment="Right"  Text="F:" />
+                <TextBox Grid.Row="0" Grid.Column="7" Text="{Binding [f]}" />
+                <oxyplot:Plot Title="{Binding Name}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8"
+                                IsLegendVisible="True" LegendTitle="Legend" LegendPlacement="Outside" LegendPosition="RightMiddle"
+                                Width="500" Height="150">
+                    <oxyplot:LineSeries Title="Setpoint" ItemsSource="{Binding SetpointLine}" />
+                    <oxyplot:LineSeries Title="Output" ItemsSource="{Binding OutputPoints}" />
+                </oxyplot:Plot>
+                <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Right" Text="Setpoint:" />
+                <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding Setpoint}" />
+            </Grid>
         </DataTemplate>
         <DataTemplate x:Key="PercentVbus">
             <DockPanel>
-                <TextBlock DockPanel.Dock="Left" Text="{Binding ElementName=Slider, Path=Value, Converter={StaticResource RoundingConverter}}" />
+                <TextBlock DockPanel.Dock="Left" Text="{Binding ElementName=Slider, Path=Value, StringFormat=' {0:0.000}'}" />
                 <Button DockPanel.Dock="Right" Content="Zero" Command="{Binding ZeroOutput}" />
                 <Slider Name="Slider" Minimum="-1" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding Path=[Value], Mode=TwoWay}" />
             </DockPanel>
         </DataTemplate>
         <DataTemplate x:Key="Voltage">
             <DockPanel>
-                <TextBlock DockPanel.Dock="Left" Text="{Binding ElementName=Slider, Path=Value, Converter={StaticResource RoundingConverter}}" />
+                <TextBlock DockPanel.Dock="Left" Text="{Binding ElementName=Slider, Path=Value, StringFormat=' {0:0.000}'}" />
                 <Button DockPanel.Dock="Right" Content="Zero" Command="{Binding ZeroOutput}" />
                 <Slider Name="Slider" Minimum="-12" Maximum="12" SmallChange="0.1" LargeChange="0.5" Value="{Binding Path=[Value], Mode=TwoWay}" />
             </DockPanel>
@@ -62,8 +62,8 @@
         </DataTemplate>
         <DataTemplate x:Key="MotionProfile">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="Current Output:" />
-                <Label Content="{Binding [Value]}" />
+                <TextBlock Text="Current Vbus Output:" />
+                <Label Content="{Binding [Value], StringFormat=' {0:0.000}'}" />
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="Follower">

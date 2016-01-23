@@ -3,13 +3,15 @@ using System.ComponentModel.Composition.Hosting;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace DotNetDash.BuiltinProcessors
 {
     class DefaultProcessor : TableProcessor
     {
-        public DefaultProcessor(string name, ITable table, CompositionContainer container)
-            :base(name, table, container)
+        public DefaultProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+            :base(name, table, processorFactories)
         {
         }
 

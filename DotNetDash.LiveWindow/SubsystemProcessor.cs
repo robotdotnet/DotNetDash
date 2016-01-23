@@ -8,12 +8,14 @@ using System.Windows;
 using NetworkTables.Tables;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.ComponentModel.Composition;
 
 namespace DotNetDash.LiveWindow
 {
     class SubsystemProcessor : TableProcessor
     {
-        public SubsystemProcessor(string name, ITable table, CompositionContainer container) : base(name, table, container)
+        public SubsystemProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+            : base(name, table, processorFactories)
         {
         }
 
@@ -39,9 +41,16 @@ namespace DotNetDash.LiveWindow
     [DashboardType(typeof(ITableProcessorFactory), "LW Subsystem")]
     public sealed class SubsystemProcessorFactory : ITableProcessorFactory
     {
-        public TableProcessor Create(string subTable, ITable table, CompositionContainer container)
+        private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
+
+        public SubsystemProcessorFactory([ImportMany] IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
-            return new SubsystemProcessor(subTable, table, container);
+            this.processorFactories = processorFactories;
+        }
+
+        public TableProcessor Create(string subTable, ITable table)
+        {
+            return new SubsystemProcessor(subTable, table, processorFactories);
         }
     }
 }

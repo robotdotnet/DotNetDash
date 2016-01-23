@@ -13,8 +13,8 @@ namespace DotNetDash.BuiltinProcessors
     {
         private readonly XamlView view;
 
-        public XamlProcessor(string name, ITable table, CompositionContainer container, XamlView view)
-            :base(name, table, container)
+        public XamlProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories, XamlView view)
+            :base(name, table, processorFactories)
         {
             this.view = view;
         }

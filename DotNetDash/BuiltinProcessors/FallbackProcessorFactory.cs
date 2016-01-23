@@ -17,25 +17,27 @@ namespace DotNetDash.BuiltinProcessors
     [DashboardType(typeof(ITableProcessorFactory), "")]
     public sealed class FallbackProcessorFactory : ITableProcessorFactory
     {
+        private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
         private IXamlSearcher searcher;
         
         [ImportingConstructor]
-        public FallbackProcessorFactory(IXamlSearcher searcher)
+        public FallbackProcessorFactory(IXamlSearcher searcher, [ImportMany] IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
             this.searcher = searcher;
+            this.processorFactories = processorFactories;
         }
 
-        public TableProcessor Create(string subTable, ITable table, CompositionContainer container)
+        public TableProcessor Create(string subTable, ITable table)
         {
             var xamlViews = LoadXamlDocs();
             var matchingView = xamlViews.FirstOrDefault(view => view.DashboardType == table.GetString("~TYPE~", ""));
-            return matchingView != null ? CreateProcessorForFirstView(subTable, table, container, matchingView) :
-                (TableProcessor)new DefaultProcessor(subTable, table, container);
+            return matchingView != null ? CreateProcessorForFirstView(subTable, table, matchingView) :
+                (TableProcessor)new DefaultProcessor(subTable, table, processorFactories);
         }
 
-        private static XamlProcessor CreateProcessorForFirstView(string subTable, ITable table, CompositionContainer container, XamlView view)
+        private XamlProcessor CreateProcessorForFirstView(string subTable, ITable table, XamlView view)
         {
-            return new XamlProcessor(subTable, table, container, view);
+            return new XamlProcessor(subTable, table, processorFactories, view);
         }
 
         private IEnumerable<XamlView> LoadXamlDocs()

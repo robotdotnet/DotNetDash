@@ -16,22 +16,18 @@ namespace DotNetDash
     public abstract class TableProcessor
     {
         protected readonly ITable baseTable;
-        private readonly CompositionContainer container;
         protected readonly string name;
-
-        [ImportMany(typeof(ITableProcessorFactory))]
-        private IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
+        private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
 
         protected ObservableCollection<TableProcessor> subTableProcessors = new ObservableCollection<TableProcessor>();
 
         protected Lazy<FrameworkElement> element;
 
-        protected TableProcessor(string name, ITable table, CompositionContainer container)
+        protected TableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
             this.name = name;
             baseTable = table;
-            this.container = container;
-            container.ComposeParts(this);
+            this.processorFactories = processorFactories;
             element = new Lazy<FrameworkElement>(() => GetViewCore());
             InitProcessors();
             subTableProcessors.CollectionChanged += SubTableProcessorsChanged;
@@ -91,7 +87,7 @@ namespace DotNetDash
             var matchedProcessors = processorFactories.Where(factory => factory.Metadata.IsMatch(type));
             // TODO: Add support for showing multiple options when there are multiple ways to view a specific data type
             var subProcessor = (matchedProcessors.FirstOrDefault(factory => !factory.Metadata.IsWildCard()) ?? matchedProcessors.First())
-                    .Value.Create(subTable, table, container);
+                    .Value.Create(subTable, table);
             subTableProcessors.Add(subProcessor);
         }
 

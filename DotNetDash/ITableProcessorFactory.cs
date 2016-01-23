@@ -10,6 +10,6 @@ namespace DotNetDash
 {
     public interface ITableProcessorFactory
     {
-        TableProcessor Create(string subTable, ITable table, CompositionContainer container);
+        TableProcessor Create(string subTable, ITable table);
     }
 }

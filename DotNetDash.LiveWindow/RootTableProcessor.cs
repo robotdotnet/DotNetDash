@@ -11,12 +11,14 @@ using System.Windows.Media;
 using System.Windows.Data;
 using System.Globalization;
 using DotNetDash.BuiltinProcessors;
+using System.ComponentModel.Composition;
 
 namespace DotNetDash.LiveWindow
 {
     class RootTableProcessor : DefaultRootTableProcessor
     {
-        public RootTableProcessor(string name, ITable table, CompositionContainer container) : base(name, table, container)
+        public RootTableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+            : base(name, table, processorFactories)
         {
         }
 
@@ -81,9 +83,16 @@ namespace DotNetDash.LiveWindow
     [DashboardType(typeof(IRootTableProcessorFactory), nameof(LiveWindow))]
     public sealed class RootTableProcessorFactory : IRootTableProcessorFactory
     {
-        public TableProcessor Create(string subTable, ITable table, CompositionContainer container)
+        private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
+
+        public RootTableProcessorFactory([ImportMany] IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
-            return new RootTableProcessor(subTable, table, container);
+            this.processorFactories = processorFactories;
+        }
+
+        public TableProcessor Create(string subTable, ITable table)
+        {
+            return new RootTableProcessor(subTable, table, processorFactories);
         }
     }
 }

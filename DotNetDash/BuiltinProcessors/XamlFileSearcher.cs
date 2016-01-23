@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DotNetDash.BuiltinProcessors
 {
+    [Export(typeof(IXamlSearcher))]
     public class XamlFileSearcher : IXamlSearcher
     {
         public IEnumerable<Stream> GetXamlDocumentStreams()

@@ -65,7 +65,7 @@ namespace DotNetDash
         {
             var matchedProcessors = factories.Where(factory => factory.Metadata.IsMatch(tableName));
             var processor = (matchedProcessors.FirstOrDefault(factory => !factory.Metadata.IsWildCard()) ?? matchedProcessors.First())
-                                  .Value.Create(tableName, NetworkTables.NetworkTable.GetTable(tableName), (Application.Current as App).Container);
+                                  .Value.Create(tableName, NetworkTables.NetworkTable.GetTable(tableName));
             return processor;
         }
     }

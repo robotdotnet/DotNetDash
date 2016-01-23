@@ -15,7 +15,8 @@ namespace DotNetDash.BuiltinProcessors
 {
     public class DefaultRootTableProcessor : TableProcessor
     {
-        public DefaultRootTableProcessor(string name, ITable table, CompositionContainer container) : base(name, table, container)
+        public DefaultRootTableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+            : base(name, table, processorFactories)
         {
         }
 
@@ -41,9 +42,17 @@ namespace DotNetDash.BuiltinProcessors
     [DashboardType(typeof(IRootTableProcessorFactory), "")]
     public sealed class DefaultRootTableProcessorFactory : IRootTableProcessorFactory
     {
-        public TableProcessor Create(string subTable, ITable table, CompositionContainer container)
+        private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
+
+        [ImportingConstructor]
+        public DefaultRootTableProcessorFactory([ImportMany] IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
-            return new DefaultRootTableProcessor(subTable, table, container);
+            this.processorFactories = processorFactories;
+        }
+
+        public TableProcessor Create(string subTable, ITable table)
+        {
+            return new DefaultRootTableProcessor(subTable, table, processorFactories);
         }
     }
 }

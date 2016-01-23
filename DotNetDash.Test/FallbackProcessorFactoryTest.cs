@@ -9,36 +9,36 @@ using System.Threading.Tasks;
 
 namespace DotNetDash.Test
 {
-    [TestFixture]
-    public class FallbackProcessorFactoryTest : TestBase
+    [TestFixture, RequiresSTA]
+    public class FallbackProcessorFactoryTest
     {
-        [Test, RequiresSTA]
+        [Test]
         public void FactoryLoadsXamlParserWhenXamlDocumentOfTypeExists()
         {
             ITable baseTable = new MockTable();
-            var fallbackProcessorFactory = new FallbackProcessorFactory(new MockXamlSearcher());
+            var fallbackProcessorFactory = new FallbackProcessorFactory(new MockXamlSearcher(), Enumerable.Empty<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>>());
             baseTable.PutString("~TYPE~", "TestType");
             baseTable.PutString("Value", "a value");
-            Assert.IsAssignableFrom<XamlProcessor>(fallbackProcessorFactory.Create("Test Table", baseTable, composer));
+            Assert.IsAssignableFrom<XamlProcessor>(fallbackProcessorFactory.Create("Test Table", baseTable));
         }
 
-        [Test, RequiresSTA]
+        [Test]
         public void FactoryLoadsDefaultParserWhenXamlDocumentOfTypeDoesNotExist()
         {
             ITable baseTable = new MockTable();
-            var fallbackProcessorFactory = new FallbackProcessorFactory(new MockXamlSearcher());
+            var fallbackProcessorFactory = new FallbackProcessorFactory(new MockXamlSearcher(), Enumerable.Empty<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>>());
             baseTable.PutString("~TYPE~", "NonExistentType");
             baseTable.PutString("Value", "a value");
-            Assert.IsAssignableFrom<DefaultProcessor>(fallbackProcessorFactory.Create("Test Table", baseTable, composer));
+            Assert.IsAssignableFrom<DefaultProcessor>(fallbackProcessorFactory.Create("Test Table", baseTable));
         }
-        [Test, RequiresSTA]
+        [Test]
         public void FactoryLoadsDefaultParserWhenInvalidXamlDocumentOfTypeExists()
         {
             ITable baseTable = new MockTable();
-            var fallbackProcessorFactory = new FallbackProcessorFactory(new MockXamlSearcher());
+            var fallbackProcessorFactory = new FallbackProcessorFactory(new MockXamlSearcher(), Enumerable.Empty<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>>());
             baseTable.PutString("~TYPE~", "InvalidMarkupType");
             baseTable.PutString("Value", "a value");
-            Assert.IsAssignableFrom<DefaultProcessor>(fallbackProcessorFactory.Create("Test Table", baseTable, composer));
+            Assert.IsAssignableFrom<DefaultProcessor>(fallbackProcessorFactory.Create("Test Table", baseTable));
         }
     }
 }

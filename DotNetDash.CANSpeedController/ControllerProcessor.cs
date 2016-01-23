@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using NetworkTables.Tables;
+using System.ComponentModel.Composition;
 
 namespace DotNetDash.CANSpeedController
 {
     class ControllerProcessor : TableProcessor
     {
-        public ControllerProcessor(string name, ITable table, CompositionContainer container) : base(name, table, container)
+        public ControllerProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+            : base(name, table, processorFactories)
         {
         }
 
@@ -26,9 +28,17 @@ namespace DotNetDash.CANSpeedController
     [DashboardType(typeof(ITableProcessorFactory), "CANSpeedController")]
     public sealed class ControllerProcessorFactory : ITableProcessorFactory
     {
-        public TableProcessor Create(string subTable, ITable table, CompositionContainer container)
+        private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
+
+        [ImportingConstructor]
+        public ControllerProcessorFactory([ImportMany] IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
-            return new ControllerProcessor(subTable, table, container);
+            this.processorFactories = processorFactories;
+        }
+
+        public TableProcessor Create(string subTable, ITable table)
+        {
+            return new ControllerProcessor(subTable, table, processorFactories);
         }
     }
 }

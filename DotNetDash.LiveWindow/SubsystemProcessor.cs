@@ -43,6 +43,7 @@ namespace DotNetDash.LiveWindow
     {
         private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
 
+        [ImportingConstructor]
         public SubsystemProcessorFactory([ImportMany] IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
             this.processorFactories = processorFactories;

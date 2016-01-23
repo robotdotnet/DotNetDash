@@ -26,13 +26,13 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="P:" />
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding [p]}" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding [p], StringFormat='{}{0:0.00000}'}" />
                 <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Text="I:" />
-                <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding [i]}" />
+                <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding [i], StringFormat='{}{0:0.00000}'}" />
                 <TextBlock Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right"  Text="D:" />
-                <TextBox Grid.Row="0" Grid.Column="5" Text="{Binding [d]}" />
+                <TextBox Grid.Row="0" Grid.Column="5" Text="{Binding [d], StringFormat='{}{0:0.00000}'}" />
                 <TextBlock Grid.Row="0" Grid.Column="6" HorizontalAlignment="Right"  Text="F:" />
-                <TextBox Grid.Row="0" Grid.Column="7" Text="{Binding [f]}" />
+                <TextBox Grid.Row="0" Grid.Column="7" Text="{Binding [f], StringFormat='{}{0:0.00000}'}" />
                 <oxyplot:Plot Title="{Binding Name}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8"
                                 IsLegendVisible="True" LegendTitle="Legend" LegendPlacement="Outside" LegendPosition="RightMiddle"
                                 Width="500" Height="150">

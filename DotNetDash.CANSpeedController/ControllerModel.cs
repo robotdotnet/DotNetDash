@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NetworkTables.Tables;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace DotNetDash.CANSpeedController
 {
@@ -19,7 +20,7 @@ namespace DotNetDash.CANSpeedController
             {
                 FillControlModeOptions();
             }
-            table.AddTableListenerEx((modifiedTable, key, value, _) =>
+            table.AddTableListenerOnDispatcher(Application.Current.Dispatcher, (modifiedTable, key, value, _) =>
             {
                 switch (key)
                 {
@@ -44,19 +45,16 @@ namespace DotNetDash.CANSpeedController
 
         private void ShowValue(double value)
         {
-            System.Windows.Application.Current.Dispatcher.BeginInvoke((Action)(() =>
-                {
-                // All missing modes do not require any special code.  They can just directly bind to [Value]
-                switch (Mode)
-                {
-                    case ControlMode.Position:
-                    case ControlMode.Speed:
-                    case ControlMode.Current:
-                        OutputPoints.Add(new OxyPlot.DataPoint(OutputPoints.Count, value));
-                        SetpointLine.Add(new OxyPlot.DataPoint(SetpointLine.Count, Setpoint));
-                        break;
-                }
-            }));
+            // All missing modes do not require any special code.  They can just directly bind to [Value]
+            switch (Mode)
+            {
+                case ControlMode.Position:
+                case ControlMode.Speed:
+                case ControlMode.Current:
+                    OutputPoints.Add(new OxyPlot.DataPoint(OutputPoints.Count, value));
+                    SetpointLine.Add(new OxyPlot.DataPoint(SetpointLine.Count, Setpoint));
+                    break;
+            }
         }
 
         public ObservableCollection<OxyPlot.DataPoint> OutputPoints { get; } = new ObservableCollection<OxyPlot.DataPoint>();
@@ -76,7 +74,8 @@ namespace DotNetDash.CANSpeedController
                     NotifyPropertyChanged();
                     OutputPoints.Clear();
                     SetpointLine.Clear();
-                }
+                } 
+
             }
         }
 

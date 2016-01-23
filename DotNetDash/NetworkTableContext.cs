@@ -12,7 +12,8 @@ namespace DotNetDash
         {
             Name = tableName;
             this.table = table;
-            table.AddTableListener((changedTable, key, value, flags) => NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName));
+            table.AddTableListenerOnDispatcher(App.Current.Dispatcher,
+                (changedTable, key, value, flags) => NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName));
         }
 
         public string Name { get; }

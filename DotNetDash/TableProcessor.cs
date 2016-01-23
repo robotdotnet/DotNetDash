@@ -64,9 +64,13 @@ namespace DotNetDash
 
         private static void AddNewItemsToPanel(System.Collections.IList newItems, Panel panel)
         {
-            foreach (TableProcessor item in newItems)
+            foreach (var view in newItems.OfType<TableProcessor>().Select(processor => processor.GetBoundView()))
             {
-                panel.Children.Add(item.GetBoundView());
+                if (view.Parent == null)
+                {
+
+                    panel.Children.Add(view); 
+                }
             }
         }
 

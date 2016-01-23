@@ -77,18 +77,24 @@ namespace DotNetDash
 
         protected void InitProcessors()
         {
-            baseTable.AddSubTableListener((table, newTableName, _, flags) => AddTableProcessor(newTableName));
+            baseTable.AddSubTableListener((table, newTableName, _, flags) => AddTableProcessorToView(newTableName));
         }
 
-        private void AddTableProcessor(string subTable)
+        private void AddTableProcessorToView(string subTable)
         {
             var table = baseTable.GetSubTable(subTable);
             var type = table.GetString("~TYPE~", "");
+            var selectedProcessorFactory = GetProcessorForType(type);
+            var subProcessor = selectedProcessorFactory.Create(subTable, table);
+            subTableProcessors.Add(subProcessor);
+        }
+
+        private ITableProcessorFactory GetProcessorForType(string type)
+        {
             var matchedProcessors = processorFactories.Where(factory => factory.Metadata.IsMatch(type));
             // TODO: Add support for showing multiple options when there are multiple ways to view a specific data type
-            var subProcessor = (matchedProcessors.FirstOrDefault(factory => !factory.Metadata.IsWildCard()) ?? matchedProcessors.First())
-                    .Value.Create(subTable, table);
-            subTableProcessors.Add(subProcessor);
+            var selectedProcessorFactory = (matchedProcessors.FirstOrDefault(factory => !factory.Metadata.IsWildCard()) ?? matchedProcessors.First()).Value;
+            return selectedProcessorFactory;
         }
 
         public FrameworkElement GetBoundView()

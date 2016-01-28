@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DotNetDash
 {
     [MetadataAttribute]
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public sealed class DashboardTypeAttribute : ExportAttribute, IDashboardTypeMetadata
     {
         public DashboardTypeAttribute(Type exportType, string type)

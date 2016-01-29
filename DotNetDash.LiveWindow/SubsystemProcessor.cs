@@ -21,7 +21,12 @@ namespace DotNetDash.LiveWindow
 
         protected override FrameworkElement GetViewCore()
         {
-            return CreateSubTableHolder("SubTableContainerStyle");
+            var panel = new StackPanel { Orientation = Orientation.Vertical };
+            var nameBlock = new TextBlock { HorizontalAlignment = HorizontalAlignment.Center };
+            nameBlock.SetBinding(TextBlock.TextProperty, nameof(NetworkTableContext.Name));
+            panel.Children.Add(nameBlock);
+            panel.Children.Add(CreateSubTableHolder("SubTableContainerStyle"));
+            return panel;
         }
     }
 

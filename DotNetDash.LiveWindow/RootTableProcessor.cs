@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Globalization;
 using DotNetDash.BuiltinProcessors;
 using System.ComponentModel.Composition;
+using System.Threading;
 
 namespace DotNetDash.LiveWindow
 {
@@ -20,6 +21,14 @@ namespace DotNetDash.LiveWindow
         public RootTableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
+            baseTable.AddSubTableListenerOnSynchronizationContext(SynchronizationContext.Current, (tbl, subTableName, flags) =>
+            {
+                if (subTableName == "~STATUS~")
+                {
+                    SubTableProcessorMap.Remove(new ComparableTable(subTableName, null));
+                }
+            });
+            SubTableProcessorMap.Remove(new ComparableTable("~STATUS~", null));
         }
 
         protected override FrameworkElement GetViewCore()

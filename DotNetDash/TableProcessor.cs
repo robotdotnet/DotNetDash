@@ -39,6 +39,7 @@ namespace DotNetDash
             this.name = name;
             baseTable = table;
             this.processorFactories = processorFactories;
+            InitCurrentSubTables();
             InitProcessorListener();
         }
 
@@ -84,19 +85,30 @@ namespace DotNetDash
         protected virtual NetworkTableContext GetTableContext(string name, ITable table) => new NetworkTableContext(name, table);
 
         protected abstract FrameworkElement GetViewCore();
+        
+        private void InitCurrentSubTables()
+        {
+            foreach (var subTableName in baseTable.GetSubTables())
+            {
+                AddProcessorOptionsForTable(subTableName);
+            }
+        }
 
-        protected void InitProcessorListener()
+        private void InitProcessorListener()
         {
             baseTable.AddSubTableListenerOnSynchronizationContext(SynchronizationContext.Current,
                 (table, newTableName, flags) => AddProcessorOptionsForTable(newTableName));
         }
 
-        private void AddProcessorOptionsForTable(string newTableName)
+        private void AddProcessorOptionsForTable(string subTableName)
         {
-            var subTable = baseTable.GetSubTable(newTableName);
+            var subTable = baseTable.GetSubTable(subTableName);
             var tableType = subTable.GetString("~TYPE~", "");
-            var selectedProcessors = new ObservableCollection<TableProcessor>(GetSortedTableProcessorsForType(subTable, newTableName, tableType));
-            subTableToProcessorsMap.Add(new ComparableTable(newTableName, subTable), selectedProcessors);
+            var selectedProcessors = new ObservableCollection<TableProcessor>(GetSortedTableProcessorsForType(subTable, subTableName, tableType));
+            if (!subTableToProcessorsMap.ContainsKey(new ComparableTable(subTableName, subTable)))
+            {
+                subTableToProcessorsMap.Add(new ComparableTable(subTableName, subTable), selectedProcessors); 
+            }
         }
 
         private IEnumerable<TableProcessor> GetSortedTableProcessorsForType(ITable table, string tableName, string tableType)
@@ -119,7 +131,7 @@ namespace DotNetDash
         }
 
 
-        protected ItemsControl CreateSubTableHolder(string styleName)
+        protected FrameworkElement CreateSubTableHolder(string styleName)
         {
             var content = new ItemsControl
             {
@@ -127,7 +139,7 @@ namespace DotNetDash
                 DataContext = this
             };
             content.SetBinding(ItemsControl.ItemsSourceProperty, nameof(SubTableProcessorMap));
-            return content;
+            return new ContentControl { Content = content };
         }
     }
 }

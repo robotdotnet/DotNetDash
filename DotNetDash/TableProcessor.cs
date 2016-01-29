@@ -39,7 +39,6 @@ namespace DotNetDash
             this.name = name;
             baseTable = table;
             this.processorFactories = processorFactories;
-            View = GetBoundView();
             InitProcessorListener();
         }
 
@@ -47,7 +46,17 @@ namespace DotNetDash
 
         public FrameworkElement View
         {
-            get { return view; }
+            get
+            {
+                if (view != null)
+                {
+                    return view;
+                }
+                else
+                {
+                    return view = GetBoundView();
+                }
+            }
             private set
             {
                 view = value;

@@ -28,11 +28,7 @@ namespace DotNetDash.BuiltinProcessors
 
         protected override FrameworkElement GetViewCore()
         {
-            var tab = new TabItem();
-            tab.SetBinding(HeaderedContentControl.HeaderProperty, nameof(NetworkTableContext.Name));
-            var content = CreateSubTableHolder("RootTableStyle");
-            tab.Content = content;
-            return tab;
+            return CreateSubTableHolder("RootTableStyle");
         }
     }
     

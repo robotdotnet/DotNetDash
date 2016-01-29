@@ -33,9 +33,7 @@ namespace DotNetDash.LiveWindow
 
         protected override FrameworkElement GetViewCore()
         {
-            var tab = (TabItem)base.GetViewCore();
-            var enabledBody = (FrameworkElement)tab.Content;
-            tab.Content = null;
+            var enabledBody = base.GetViewCore();
             enabledBody.Name = "LiveWindowView";
             var disabledBody = new TextBlock
             {
@@ -50,8 +48,7 @@ namespace DotNetDash.LiveWindow
             disabledBody.SetBinding(UIElement.VisibilityProperty, new Binding("Enabled") { Converter = new LWDisabledToVisibilityConverter() });
             outline.Children.Add(enabledBody);
             outline.Children.Add(disabledBody);
-            tab.Content = outline;
-            return tab;
+            return outline;
         }
 
         protected override NetworkTableContext GetTableContext(string name, ITable table) => new RootTableContext(name, table);

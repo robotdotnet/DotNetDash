@@ -70,7 +70,11 @@ namespace DotNetDash
             var rootViews = (Application.Current as App).Container.GetExports<IRootTableProcessorFactory, IDashboardTypeMetadata>();
             foreach (var rootTable in Properties.Settings.Default.RootTables)
             {
-                Tabs.Items.Add(CreateRootTableProcessor(rootViews, rootTable).View);
+                Tabs.Items.Add(new TabItem
+                {
+                    Content = CreateRootTableProcessor(rootViews, rootTable).View,
+                    Header = rootTable
+                });
             }
         }
 

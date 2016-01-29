@@ -1,6 +1,7 @@
 ﻿using NetworkTables.Tables;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace DotNetDash
 {
@@ -12,7 +13,7 @@ namespace DotNetDash
         {
             Name = tableName;
             this.table = table;
-            table.AddTableListenerOnDispatcher(App.Current.Dispatcher,
+            table.AddTableListenerOnSynchronizationContext(SynchronizationContext.Current,
                 (changedTable, key, value, flags) => NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName));
         }
 

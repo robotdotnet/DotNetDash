@@ -84,7 +84,7 @@ namespace DotNetDash.Test
 
         public void AddTableListenerEx(Action<ITable, string, object, NotifyFlags> listenerDelegate, NotifyFlags flags)
         {
-            throw new NotImplementedException();
+            tableListeners.Add(new ActionTableListener(listenerDelegate));
         }
 
         public void AddTableListenerEx(ITableListener listener, NotifyFlags flags)

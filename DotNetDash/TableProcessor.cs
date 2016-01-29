@@ -10,6 +10,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -47,14 +48,28 @@ namespace DotNetDash
         public FrameworkElement View
         {
             get { return view; }
-            private set { view = value; NotifyPropertyChanged(); }
+            private set
+            {
+                view = value;
+                TryBindView(value);
+                NotifyPropertyChanged();
+            }
         }
 
         private FrameworkElement GetBoundView()
         {
             var view = GetViewCore();
-            view.DataContext = GetTableContext(name, baseTable);
+            TryBindView(view);
             return view;
+        }
+
+        private void TryBindView(FrameworkElement view)
+        {
+            if (view != null)
+            {
+
+                view.DataContext = GetTableContext(name, baseTable); 
+            }
         }
 
         protected virtual NetworkTableContext GetTableContext(string name, ITable table) => new NetworkTableContext(name, table);
@@ -63,7 +78,8 @@ namespace DotNetDash
 
         protected void InitProcessorListener()
         {
-            baseTable.AddSubTableListenerOnDispatcher(Application.Current.Dispatcher, (table, newTableName, flags) => AddProcessorOptionsForTable(newTableName));
+            baseTable.AddSubTableListenerOnSynchronizationContext(SynchronizationContext.Current,
+                (table, newTableName, flags) => AddProcessorOptionsForTable(newTableName));
         }
 
         private void AddProcessorOptionsForTable(string newTableName)

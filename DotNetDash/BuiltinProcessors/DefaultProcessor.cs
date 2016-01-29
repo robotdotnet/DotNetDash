@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Linq;
 using System.Collections.Generic;
 using NetworkTables;
+using System.Threading;
 
 namespace DotNetDash.BuiltinProcessors
 {
@@ -14,7 +15,7 @@ namespace DotNetDash.BuiltinProcessors
         public DefaultProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             :base(name, table, processorFactories)
         {
-            baseTable.AddTableListenerOnDispatcher(Application.Current.Dispatcher, (sendingTable, key, value, flags) => 
+            baseTable.AddTableListenerOnSynchronizationContext(SynchronizationContext.Current, (sendingTable, key, value, flags) =>
             {
                 if (key == "~TYPE~") return;
                 var stackPanel = (StackPanel)View;

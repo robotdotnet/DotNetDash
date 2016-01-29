@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NetworkTables.Tables;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Threading;
 
 namespace DotNetDash.CANSpeedController
 {
@@ -20,7 +21,7 @@ namespace DotNetDash.CANSpeedController
             {
                 FillControlModeOptions();
             }
-            table.AddTableListenerOnDispatcher(Application.Current.Dispatcher, (modifiedTable, key, value, _) =>
+            table.AddTableListenerOnSynchronizationContext(SynchronizationContext.Current, (modifiedTable, key, value, _) =>
             {
                 switch (key)
                 {

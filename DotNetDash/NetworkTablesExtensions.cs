@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
@@ -11,7 +12,7 @@ namespace DotNetDash
 {
     public static class NetworkTablesExtensions
     {
-        public static void AddSubTableListenerOnDispatcher(this ITable table, Dispatcher dispatcher, Action<ITable, string, NotifyFlags> callback)
+        public static void AddSubTableListenerOnSynchronizationContext(this ITable table, SynchronizationContext context, Action<ITable, string, NotifyFlags> callback)
         {
             if (callback == null)
             {
@@ -19,11 +20,11 @@ namespace DotNetDash
             }
             table.AddSubTableListener((tbl, name, _, flags) =>
             {
-                dispatcher.InvokeAsync(() => callback(tbl, name, flags));
+                context.Post(state => callback(tbl, name, flags), null);
             });
         }
 
-        public static void AddTableListenerOnDispatcher(this ITable table, Dispatcher dispatcher, Action<ITable, string, object, NotifyFlags> callback, bool immediateNotify = false)
+        public static void AddTableListenerOnSynchronizationContext(this ITable table, SynchronizationContext context, Action<ITable, string, object, NotifyFlags> callback, bool immediateNotify = false)
         {
             if (callback == null)
             {
@@ -31,11 +32,15 @@ namespace DotNetDash
             }
             table.AddTableListener((tbl, name, value, flags) =>
             {
-                dispatcher.InvokeAsync(() => callback(tbl, name, value, flags));
+                if (context == null)
+                {
+
+                    context.Post(state => callback(tbl, name, value, flags), null);
+                }
             }, immediateNotify);
         }
 
-        public static void AddTableListenerOnDispatcher(this ITable table, Dispatcher dispatcher, Action<ITable, string, object, NotifyFlags> callback, NotifyFlags flags)
+        public static void AddTableListenerOnSynchronizationContext(this ITable table, SynchronizationContext context, Action<ITable, string, object, NotifyFlags> callback, NotifyFlags flags)
         {
             if (callback == null)
             {
@@ -43,7 +48,7 @@ namespace DotNetDash
             }
             table.AddTableListenerEx((tbl, name, value, _flags) =>
             {
-                dispatcher.InvokeAsync(() => callback(tbl, name, value, _flags));
+                context.Post(state => callback(tbl, name, value, _flags), null);
             }, flags);
         }
     }

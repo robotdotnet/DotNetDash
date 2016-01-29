@@ -1,11 +1,8 @@
-﻿using System;
+﻿using NetworkTables.Tables;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NetworkTables.Tables;
 using System.Collections.ObjectModel;
-using System.Windows;
+using System.Linq;
 using System.Threading;
 
 namespace DotNetDash.CANSpeedController

@@ -1,12 +1,10 @@
-﻿using NetworkTables.Tables;
-using System.ComponentModel.Composition.Hosting;
+﻿using NetworkTables;
+using NetworkTables.Tables;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Linq;
-using System.Collections.Generic;
-using NetworkTables;
-using System.Threading;
 
 namespace DotNetDash.BuiltinProcessors
 {

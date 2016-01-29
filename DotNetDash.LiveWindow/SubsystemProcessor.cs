@@ -1,14 +1,9 @@
-﻿using System;
+﻿using NetworkTables.Tables;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using NetworkTables.Tables;
-using System.Windows.Controls;
-using System.Windows.Media;
 using System.ComponentModel.Composition;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DotNetDash.LiveWindow
 {

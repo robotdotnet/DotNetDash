@@ -85,6 +85,7 @@
     <Compile Include="ComparableTable.cs" />
     <Compile Include="DashboardMetadataUtils.cs" />
     <Compile Include="DashboardTypeAttribute.cs" />
+    <Compile Include="DragDropBehavior.cs" />
     <Compile Include="IDashboardTypeMetadata.cs" />
     <Compile Include="IRootTableProcessorFactory.cs" />
     <Compile Include="ITableProcessorFactory.cs" />

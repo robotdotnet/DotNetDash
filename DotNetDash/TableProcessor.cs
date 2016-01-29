@@ -28,8 +28,7 @@ namespace DotNetDash
             get { return subTableToProcessorsMap; }
             set { subTableToProcessorsMap = value; NotifyPropertyChanged(); }
         }
-
-        protected ObservableCollection<TableProcessor> subTableProcessors = new ObservableCollection<TableProcessor>();
+        
         private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
 
         public event PropertyChangedEventHandler PropertyChanged;

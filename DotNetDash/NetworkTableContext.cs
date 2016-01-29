@@ -13,24 +13,30 @@ namespace DotNetDash
         {
             Name = tableName;
             this.table = table;
-            table.AddTableListenerOnSynchronizationContext(SynchronizationContext.Current,
-                (changedTable, key, value, flags) => NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName));
+            Numbers = new NetworkTableBackedLookup<double>(table);
+            Booleans = new NetworkTableBackedLookup<bool>(table);
+            Strings = new NetworkTableBackedLookup<string>(table);
+            Raw = new NetworkTableBackedLookup<byte[]>(table);
+            StringArrays = new NetworkTableBackedLookup<string[]>(table);
+            BooleanArrays = new NetworkTableBackedLookup<bool[]>(table);
+            NumberArrays = new NetworkTableBackedLookup<double[]>(table);
         }
 
         public string Name { get; }
 
-        public object this[string key]
-        {
-            get
-            {
-                return table.GetValue(key, null);
-            }
-            set
-            {
-                table.PutValue(key, value);
-                NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName);
-            }
-        }
+        public NetworkTableBackedLookup<double> Numbers { get; }
+
+        public NetworkTableBackedLookup<bool> Booleans { get; }
+
+        public NetworkTableBackedLookup<string> Strings { get; }
+
+        public NetworkTableBackedLookup<byte[]> Raw { get; }
+
+        public NetworkTableBackedLookup<string[]> StringArrays { get; }
+
+        public NetworkTableBackedLookup<bool[]> BooleanArrays { get; }
+
+        public NetworkTableBackedLookup<double[]> NumberArrays { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

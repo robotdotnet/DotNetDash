@@ -35,7 +35,7 @@ namespace DotNetDash.CANSpeedController
                         break;
                 }
             }, NetworkTables.NotifyFlags.NotifyImmediate | NetworkTables.NotifyFlags.NotifyUpdate | NetworkTables.NotifyFlags.NotifyNew);
-            ZeroOutput = new Command(() => this["Value"] = 0.0);
+            ZeroOutput = new Command(() => Numbers["Value"] = 0.0);
         }
 
         private static void FillControlModeOptions()
@@ -71,7 +71,7 @@ namespace DotNetDash.CANSpeedController
                 if (mode != value)
                 {
                     mode = value;
-                    this[nameof(Mode)] = (double)(int)value;
+                    Numbers[nameof(Mode)] = (int)value;
                     NotifyPropertyChanged();
                     OutputPoints.Clear();
                     SetpointLine.Clear();
@@ -88,7 +88,7 @@ namespace DotNetDash.CANSpeedController
             set
             {
                 setpoint = value;
-                this["Value"] = value; //Propagate value back to the speed controller
+                Numbers["Value"] = value; //Propagate value back to the speed controller
             }
         }
 

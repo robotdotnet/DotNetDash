@@ -32,7 +32,7 @@
   <ItemGroup>
     <Reference Include="NetworkTables, Version=2016.0.1.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FRC.NetworkTables.2016.0.1.5\lib\net45\NetworkTables.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
       <HintPath>..\packages\OxyPlot.Core.1.0.0-unstable1970\lib\net45\OxyPlot.dll</HintPath>
@@ -76,6 +76,7 @@
     <ProjectReference Include="..\DotNetDash\DotNetDash.csproj">
       <Project>{956d8251-a86b-4a80-8b99-5d356b6ed9fc}</Project>
       <Name>DotNetDash</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

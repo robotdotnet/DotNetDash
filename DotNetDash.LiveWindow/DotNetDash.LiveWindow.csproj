@@ -32,11 +32,11 @@
   <ItemGroup>
     <Reference Include="Hellosam.Net.Collections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\hellosam.net.collections.1.0.0\lib\net35-client\Hellosam.Net.Collections.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="NetworkTables, Version=2016.0.1.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FRC.NetworkTables.2016.0.1.5\lib\net45\NetworkTables.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -63,6 +63,7 @@
     <ProjectReference Include="..\DotNetDash\DotNetDash.csproj">
       <Project>{956d8251-a86b-4a80-8b99-5d356b6ed9fc}</Project>
       <Name>DotNetDash</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

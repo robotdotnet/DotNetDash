@@ -22,13 +22,6 @@ namespace DotNetDash.LiveWindow
         {
         }
 
-        protected override Panel GetPanelLayout()
-        {
-            var tabItem = (TabItem)element.Value;
-            var rootGrid = (Grid)tabItem.Content;
-            return (Panel)rootGrid.Children[0];
-        }
-
         protected override FrameworkElement GetViewCore()
         {
             var tab = (TabItem)base.GetViewCore();

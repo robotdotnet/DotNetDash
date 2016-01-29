@@ -23,7 +23,7 @@ namespace DotNetDash
             });
         }
 
-        public static void AddTableListenerOnDispatcher(this ITable table, Dispatcher dispatcher, Action<ITable, string, object, NotifyFlags> callback)
+        public static void AddTableListenerOnDispatcher(this ITable table, Dispatcher dispatcher, Action<ITable, string, object, NotifyFlags> callback, bool immediateNotify = false)
         {
             if (callback == null)
             {
@@ -32,7 +32,7 @@ namespace DotNetDash
             table.AddTableListener((tbl, name, value, flags) =>
             {
                 dispatcher.InvokeAsync(() => callback(tbl, name, value, flags));
-            });
+            }, immediateNotify);
         }
 
         public static void AddTableListenerOnDispatcher(this ITable table, Dispatcher dispatcher, Action<ITable, string, object, NotifyFlags> callback, NotifyFlags flags)

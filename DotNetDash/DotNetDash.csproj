@@ -45,6 +45,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Hellosam.Net.Collections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\hellosam.net.collections.1.0.0\lib\net35-client\Hellosam.Net.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NetworkTables, Version=2016.0.1.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FRC.NetworkTables.2016.0.1.5\lib\net45\NetworkTables.dll</HintPath>
       <Private>True</Private>
@@ -78,6 +82,7 @@
     <Compile Include="BuiltinProcessors\IXamlSearcher.cs" />
     <Compile Include="BuiltinProcessors\XamlFileSearcher.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="ComparableTable.cs" />
     <Compile Include="DashboardMetadataUtils.cs" />
     <Compile Include="DashboardTypeAttribute.cs" />
     <Compile Include="IDashboardTypeMetadata.cs" />
@@ -93,6 +98,7 @@
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="BuiltinProcessors\XamlProcessor.cs" />
+    <Compile Include="TableMultiView.cs" />
     <Compile Include="TableProcessor.cs" />
     <Compile Include="XamlView.xaml.cs">
       <DependentUpon>XamlView.xaml</DependentUpon>

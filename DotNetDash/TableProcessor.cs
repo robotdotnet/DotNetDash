@@ -1,11 +1,14 @@
-﻿using NetworkTables.Tables;
+﻿using Hellosam.Net.Collections;
+using NetworkTables.Tables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,97 +16,43 @@ using System.Windows.Controls;
 
 namespace DotNetDash
 {
-    public abstract class TableProcessor
+    public abstract class TableProcessor : INotifyPropertyChanged
     {
         protected readonly ITable baseTable;
         protected readonly string name;
-        private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
+        protected ObservableDictionary<ComparableTable, ObservableCollection<TableProcessor>> subTableToProcessorsMap = new ObservableDictionary<ComparableTable, ObservableCollection<TableProcessor>>();
+
+        public ObservableDictionary<ComparableTable, ObservableCollection<TableProcessor>> SubTableProcessorMap
+        {
+            get { return subTableToProcessorsMap; }
+            set { subTableToProcessorsMap = value; NotifyPropertyChanged(); }
+        }
 
         protected ObservableCollection<TableProcessor> subTableProcessors = new ObservableCollection<TableProcessor>();
+        private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
 
-        protected Lazy<FrameworkElement> element;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected TableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
             this.name = name;
             baseTable = table;
             this.processorFactories = processorFactories;
-            element = new Lazy<FrameworkElement>(() => GetViewCore());
-            InitProcessors();
-            subTableProcessors.CollectionChanged += SubTableProcessorsChanged;
+            View = GetBoundView();
+            InitProcessorListener();
         }
 
-        private void SubTableProcessorsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private FrameworkElement view;
+
+        public FrameworkElement View
         {
-            Application.Current.Dispatcher.BeginInvoke((Action<NotifyCollectionChangedEventArgs>)HandleSubTableChange, e);
+            get { return view; }
+            private set { view = value; NotifyPropertyChanged(); }
         }
 
-        private void HandleSubTableChange(NotifyCollectionChangedEventArgs e)
+        private FrameworkElement GetBoundView()
         {
-            var panel = GetPanelLayout();
-            if (panel == null) return;
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    AddNewItemsToPanel(e.NewItems, panel);
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    AddNewItemsToPanel(e.NewItems, panel);
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    panel.Children.Clear();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private static void AddNewItemsToPanel(System.Collections.IList newItems, Panel panel)
-        {
-            foreach (var view in newItems.OfType<TableProcessor>().Select(processor => processor.GetBoundView()))
-            {
-                if (view.Parent == null)
-                {
-
-                    panel.Children.Add(view); 
-                }
-            }
-        }
-
-        protected virtual Panel GetPanelLayout()
-        {
-            return null;
-        }
-
-        protected void InitProcessors()
-        {
-            baseTable.AddSubTableListener((table, newTableName, _, flags) => AddTableProcessorToView(newTableName));
-        }
-
-        private void AddTableProcessorToView(string subTable)
-        {
-            var table = baseTable.GetSubTable(subTable);
-            var type = table.GetString("~TYPE~", "");
-            var selectedProcessorFactory = GetProcessorForType(type);
-            var subProcessor = selectedProcessorFactory.Create(subTable, table);
-            subTableProcessors.Add(subProcessor);
-        }
-
-        private ITableProcessorFactory GetProcessorForType(string type)
-        {
-            var matchedProcessors = processorFactories.Where(factory => factory.Metadata.IsMatch(type));
-            // TODO: Add support for showing multiple options when there are multiple ways to view a specific data type
-            var selectedProcessorFactory = (matchedProcessors.FirstOrDefault(factory => !factory.Metadata.IsWildCard()) ?? matchedProcessors.First()).Value;
-            return selectedProcessorFactory;
-        }
-
-        public FrameworkElement GetBoundView()
-        {
-            var view = element.Value;
+            var view = GetViewCore();
             view.DataContext = GetTableContext(name, baseTable);
             return view;
         }
@@ -111,5 +60,49 @@ namespace DotNetDash
         protected virtual NetworkTableContext GetTableContext(string name, ITable table) => new NetworkTableContext(name, table);
 
         protected abstract FrameworkElement GetViewCore();
+
+        protected void InitProcessorListener()
+        {
+            baseTable.AddSubTableListenerOnDispatcher(Application.Current.Dispatcher, (table, newTableName, flags) => AddProcessorOptionsForTable(newTableName));
+        }
+
+        private void AddProcessorOptionsForTable(string newTableName)
+        {
+            var subTable = baseTable.GetSubTable(newTableName);
+            var tableType = subTable.GetString("~TYPE~", "");
+            var selectedProcessors = new ObservableCollection<TableProcessor>(GetSortedTableProcessorsForType(subTable, newTableName, tableType));
+            subTableToProcessorsMap.Add(new ComparableTable(newTableName, subTable), selectedProcessors);
+        }
+
+        private IEnumerable<TableProcessor> GetSortedTableProcessorsForType(ITable table, string tableName, string tableType)
+        {
+            var matchedProcessorFactories = processorFactories.Where(factory => factory.Metadata.IsMatch(tableType)).ToList();
+            matchedProcessorFactories.Sort((factory1, factory2) =>
+            {
+                if (factory1.Metadata.IsWildCard())
+                    return factory2.Metadata.IsWildCard() ? 0 : 1;
+                else if (factory2.Metadata.IsWildCard())
+                    return factory1.Metadata.IsWildCard() ? 0 : -1;
+                return 0;
+            });
+            return matchedProcessorFactories.Select(factory => factory.Value.Create(tableName, table));
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
+
+        protected ItemsControl CreateSubTableHolder(string styleName)
+        {
+            var content = new ItemsControl
+            {
+                Style = (Style)Application.Current.Resources[styleName],
+                DataContext = this
+            };
+            content.SetBinding(ItemsControl.ItemsSourceProperty, nameof(SubTableProcessorMap));
+            return content;
+        }
     }
 }

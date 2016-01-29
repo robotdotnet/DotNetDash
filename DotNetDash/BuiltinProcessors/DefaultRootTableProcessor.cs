@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.ComponentModel.Composition;
 using System.Collections.Specialized;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace DotNetDash.BuiltinProcessors
 {
@@ -18,23 +19,19 @@ namespace DotNetDash.BuiltinProcessors
         public DefaultRootTableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
-        }
-
-        protected override Panel GetPanelLayout()
-        {
-            return (Panel)((TabItem)element.Value).Content;
+            SubTableProcessorMap.Add(new ComparableTable(name, table),
+                new ObservableCollection<TableProcessor>
+                {
+                    new DefaultProcessor(name, table, processorFactories)
+                });
         }
 
         protected override FrameworkElement GetViewCore()
         {
             var tab = new TabItem();
             tab.SetBinding(HeaderedContentControl.HeaderProperty, nameof(NetworkTableContext.Name));
-            var canvas = new Canvas();
-            foreach (var processor in subTableProcessors)
-            {
-                canvas.Children.Add(processor.GetBoundView());
-            }
-            tab.Content = canvas;
+            var content = CreateSubTableHolder("RootTableStyle");
+            tab.Content = content;
             return tab;
         }
     }

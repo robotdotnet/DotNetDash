@@ -19,22 +19,9 @@ namespace DotNetDash.LiveWindow
         {
         }
 
-        protected override Panel GetPanelLayout()
-        {
-            return (Panel)((Border)element.Value).Child;
-        }
-
         protected override FrameworkElement GetViewCore()
         {
-            var border = new Border { BorderBrush = Brushes.Black, BorderThickness = new Thickness(2) };
-            var layout = new StackPanel { Orientation = Orientation.Vertical };
-            layout.Children.Add(new Label { Content = name, HorizontalAlignment = HorizontalAlignment.Center});
-            foreach (var processor in subTableProcessors)
-            {
-                layout.Children.Add(processor.GetBoundView());
-            }
-            border.Child = layout;
-            return border;
+            return CreateSubTableHolder("SubTableContainerStyle");
         }
     }
 

@@ -13,6 +13,10 @@
                 <MenuItem Header="To Other Server" Click="OpenServerConnectionWindow" />
             </MenuItem>
         </Menu>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock>Connection:</TextBlock>
+            <Rectangle Width="40" x:Name="ConnectionIndicator" />
+        </StackPanel>
         <TabControl x:Name="Tabs" />
     </DockPanel>
 </Window>

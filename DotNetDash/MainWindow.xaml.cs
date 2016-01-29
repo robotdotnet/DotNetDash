@@ -29,7 +29,7 @@ namespace DotNetDash
             }
             else
             {
-                InitializeTabs();
+                InitializeDashboard();
             }
         }
 
@@ -42,7 +42,26 @@ namespace DotNetDash
         private void OpenRoboRioConnectionWindow(object sender, RoutedEventArgs e)
         {
             new RoboRioConnectionWindow().ShowDialog();
+            InitializeDashboard();
+        }
+
+        private void InitializeDashboard()
+        {
             InitializeTabs();
+            InitializeConnectivityMarker();
+        }
+
+        private async void InitializeConnectivityMarker()
+        {
+            await Task.Delay(500); //Add a delay to the connection check so NetworkTables can establish the connection
+            if(NetworkTables.NetworkTable.Connections().Any())
+            {
+                ConnectionIndicator.Fill = Brushes.Green;
+            }
+            else
+            {
+                ConnectionIndicator.Fill = Brushes.Red;
+            }
         }
 
         private void InitializeTabs()
@@ -58,7 +77,7 @@ namespace DotNetDash
         private void OpenServerConnectionWindow(object sender, RoutedEventArgs e)
         {
             new ServerConnectionWindow().ShowDialog();
-            InitializeTabs();
+            InitializeDashboard();
         }
 
         private static TableProcessor CreateRootTableProcessor(IEnumerable<Lazy<IRootTableProcessorFactory, IDashboardTypeMetadata>> factories, string tableName)

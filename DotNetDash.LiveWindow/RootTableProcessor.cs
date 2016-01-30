@@ -21,10 +21,10 @@ namespace DotNetDash.LiveWindow
             {
                 if (subTableName == "~STATUS~")
                 {
-                    SubTableProcessorMap.Remove(new ComparableTable(subTableName, null));
+                    SubTableProcessorMap.Remove("~STATUS~");
                 }
             });
-            SubTableProcessorMap.Remove(new ComparableTable("~STATUS~", null));
+            SubTableProcessorMap.Remove("~STATUS~");
         }
 
         protected override FrameworkElement GetViewCore()

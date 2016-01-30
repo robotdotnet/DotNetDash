@@ -12,9 +12,9 @@ namespace DotNetDash
         {
             base.OnAttached();
             AssociatedObject.AllowDrop = true;
-            AssociatedObject.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
-            AssociatedObject.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
-            AssociatedObject.PreviewMouseMove += OnMouseMove;
+            AssociatedObject.MouseLeftButtonDown += OnMouseLeftButtonDown;
+            AssociatedObject.MouseLeftButtonUp += OnMouseLeftButtonUp;
+            AssociatedObject.MouseMove += OnMouseMove;
         }
 
         protected override void OnDetaching()
@@ -45,6 +45,7 @@ namespace DotNetDash
             Panel.SetZIndex(AssociatedObject, top + 1);
             isDragging = true;
             Mouse.Capture(AssociatedObject);
+            e.Handled = true;
         }
 
         private Canvas GetContainingPanelAsCanvas()
@@ -65,6 +66,7 @@ namespace DotNetDash
             Panel.SetZIndex(AssociatedObject, top + 1);
             isDragging = false;
             Mouse.Capture(null);
+            e.Handled = true;
         }
         protected void OnMouseMove(object sender, MouseEventArgs e)
         {
@@ -91,6 +93,7 @@ namespace DotNetDash
                     newTop = canvas.Margin.Top;
                 AssociatedObject.SetValue(Canvas.TopProperty, newTop);
             }
+            e.Handled = true;
         }
     }
 }

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B9B7AAD7-C3E7-44AA-9DEF-58AFF8ACD713}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  </PropertyGroup>
+  <ItemGroup>
+    <XamlPlugin Include="*.xaml" />
+  </ItemGroup>
+  <Target Name="Build">
+    <Copy SourceFiles="@(XamlPlugin)" DestinationFolder="../bin/$(Configuration)/Plugins/XAML Plugins" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

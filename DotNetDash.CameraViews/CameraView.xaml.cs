@@ -1,25 +1,31 @@
 ﻿using AForge.Video;
-using AForge.Video.DirectShow;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace DotNetDash.CameraViews
 {
     /// <summary>
-    /// Interaction logic for LocalCameraView.xaml
+    /// Interaction logic for BaseCameraView.xaml
     /// </summary>
-    public partial class LocalCameraView : UserControl, INotifyPropertyChanged
+    public partial class CameraView : UserControl, INotifyPropertyChanged
     {
-        public LocalCameraView()
+        public CameraView()
         {
             DataContext = this;
-            CameraDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             InitializeComponent();
             IsVisibleChanged += OnIsVisibleChanged;
         }
@@ -33,19 +39,9 @@ namespace DotNetDash.CameraViews
                 CurrentDevice?.SignalToStop();
         }
 
-        public FilterInfoCollection CameraDevices { get; private set; }
+        public IVideoSource currentDevice;
 
-        public FilterInfo SelectedFilter
-        {
-            set
-            {
-                CurrentDevice = value != null ? new VideoCaptureDevice(value.MonikerString) : null;
-            }
-        }
-
-        public VideoCaptureDevice currentDevice;
-
-        public VideoCaptureDevice CurrentDevice
+        public IVideoSource CurrentDevice
         {
             get
             {
@@ -70,19 +66,17 @@ namespace DotNetDash.CameraViews
         private void NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             var bitmap = eventArgs.Frame.Clone() as System.Drawing.Bitmap;
-            Dispatcher.BeginInvoke((Action)(() => CameraView = bitmap));
+            Dispatcher.BeginInvoke((Action)(() => View = bitmap));
         }
 
         private System.Drawing.Bitmap cameraView;
-        private System.Drawing.Bitmap processingView;
 
-        public System.Drawing.Bitmap CameraView
+        public System.Drawing.Bitmap View
         {
             get { return cameraView; }
             set
             {
                 cameraView = value;
-                processingView = (System.Drawing.Bitmap)(cameraView.Clone());
                 NotifyProperyChanged();
             }
         }

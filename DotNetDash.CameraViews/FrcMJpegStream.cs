@@ -125,7 +125,7 @@ namespace DotNetDash.CameraViews
                             {
                                 NewFrame?.Invoke(this, new NewFrameEventArgs(frame)); 
                             }
-                            bytesReceived += BitConverter.ToInt32(imageLengthBytes, 0);
+                            bytesReceived += IPAddress.NetworkToHostOrder(BitConverter.ToInt32(imageLengthBytes, 0));
                             framesReceived++;
                         }
                     }

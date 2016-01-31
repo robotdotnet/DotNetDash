@@ -10,7 +10,7 @@ namespace DotNetDash.CANSpeedController
         public CANView()
         {
             InitializeComponent();
-            Selector.ResourceHost = this;
+            ViewSelector.ResourceHost = this;
         }
     }
 }

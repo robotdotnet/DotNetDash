@@ -16,6 +16,7 @@ namespace DotNetDash
         public MainWindow()
         {
             InitializeComponent();
+            LoadCustomControls();
             if(new RoboRioConnectionWindow().ShowDialog() != true)
             {
                 Close();
@@ -24,6 +25,24 @@ namespace DotNetDash
             {
                 InitializeDashboard();
             }
+        }
+
+        private void LoadCustomControls()
+        {
+            var factories = (Application.Current as App).Container.GetExports<IViewProcessorFactory, ICustomViewFactoryMetadata>();
+            foreach (var factory in factories)
+            {
+                InsertMenu.Items.Add(new MenuItem {
+                    Header = factory.Metadata.Name,
+                    Command = new Command(() => AddViewToCurrentRootView(factory.Metadata.Name, factory.Value.Create()))
+                });
+            }
+        }
+
+        private void AddViewToCurrentRootView(string name, IViewProcessor viewProcessor)
+        {
+            var currentRootProcessor = (TableProcessor)Tabs.SelectedContent;
+            currentRootProcessor.AddViewProcessorToView($"{name}_{Guid.NewGuid()}", viewProcessor);
         }
 
         protected override void OnClosed(EventArgs e)
@@ -65,7 +84,7 @@ namespace DotNetDash
             {
                 Tabs.Items.Add(new TabItem
                 {
-                    Content = CreateRootTableProcessor(rootViews, rootTable).View,
+                    Content = CreateRootTableProcessor(rootViews, rootTable),
                     Header = rootTable
                 });
             }

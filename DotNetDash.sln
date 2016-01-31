@@ -11,10 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.LiveWindow", "Do
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.CANSpeedController", "DotNetDash.CANSpeedController\DotNetDash.CANSpeedController.csproj", "{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyXamlPlugins", "XamlPlugins\CopyXamlPlugins.proj", "{B9B7AAD7-C3E7-44AA-9DEF-58AFF8ACD713}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.XamlPlugins", "DotNetDash.XamlPlugins\DotNetDash.XamlPlugins.proj", "{B9B7AAD7-C3E7-44AA-9DEF-58AFF8ACD713}"
 	ProjectSection(ProjectDependencies) = postProject
 		{956D8251-A86B-4A80-8B99-5D356B6ED9FC} = {956D8251-A86B-4A80-8B99-5D356B6ED9FC}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.CameraViews", "DotNetDash.CameraViews\DotNetDash.CameraViews.csproj", "{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,18 @@ Global
 		{B9B7AAD7-C3E7-44AA-9DEF-58AFF8ACD713}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9B7AAD7-C3E7-44AA-9DEF-58AFF8ACD713}.Release|x86.ActiveCfg = Release|Any CPU
 		{B9B7AAD7-C3E7-44AA-9DEF-58AFF8ACD713}.Release|x86.Build.0 = Release|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.CoreDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.CoreDebug|Any CPU.Build.0 = Debug|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.CoreDebug|x86.ActiveCfg = Debug|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.CoreDebug|x86.Build.0 = Debug|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.Debug|x86.Build.0 = Debug|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.Release|x86.ActiveCfg = Release|Any CPU
+		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,6 +12,7 @@
                 <MenuItem Header="To RoboRIO" Click="OpenRoboRioConnectionWindow" />
                 <MenuItem Header="To Other Server" Click="OpenServerConnectionWindow" />
             </MenuItem>
+            <MenuItem Header="Insert Dash Contol" x:Name="InsertMenu" />
         </Menu>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBlock>Connection:</TextBlock>

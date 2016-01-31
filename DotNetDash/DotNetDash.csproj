@@ -82,6 +82,8 @@
     <Compile Include="BuiltinProcessors\IXamlSearcher.cs" />
     <Compile Include="BuiltinProcessors\XamlFileSearcher.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="CustomViewFactoryAttribute.cs" />
+    <Compile Include="ICustomViewFactoryMetadata.cs" />
     <Compile Include="DashboardMetadataUtils.cs" />
     <Compile Include="DashboardTypeAttribute.cs" />
     <Compile Include="DragDropBehavior.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="IRootTableProcessorFactory.cs" />
     <Compile Include="ITableProcessorFactory.cs" />
     <Compile Include="IViewProcessor.cs" />
+    <Compile Include="IViewProcessorFactory.cs" />
     <Compile Include="NetworkTableBackedLookup.cs" />
     <Compile Include="NetworkTableContext.cs" />
     <Compile Include="NetworkTablesExtensions.cs" />

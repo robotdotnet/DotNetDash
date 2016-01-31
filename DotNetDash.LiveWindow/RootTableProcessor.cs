@@ -21,10 +21,10 @@ namespace DotNetDash.LiveWindow
             {
                 if (subTableName == "~STATUS~")
                 {
-                    SubTableProcessorMap.Remove("~STATUS~");
+                    KeyToMultiProcessorMap.Remove("~STATUS~");
                 }
             });
-            SubTableProcessorMap.Remove("~STATUS~");
+            KeyToMultiProcessorMap.Remove("~STATUS~");
         }
 
         protected override FrameworkElement GetViewCore()

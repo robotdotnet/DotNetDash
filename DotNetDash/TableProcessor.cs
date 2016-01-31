@@ -15,18 +15,12 @@ namespace DotNetDash
     public abstract class TableProcessor : IViewProcessor, INotifyPropertyChanged
     {
         protected readonly ITable baseTable;
+        protected ObservableDictionary<string, ObservableCollection<IViewProcessor>> keyToMultiProcessorMap = new ObservableDictionary<string, ObservableCollection<IViewProcessor>>();
         protected readonly string name;
-        protected ObservableDictionary<string, ObservableCollection<IViewProcessor>> subTableToProcessorsMap = new ObservableDictionary<string, ObservableCollection<IViewProcessor>>();
 
-        public ObservableDictionary<string, ObservableCollection<IViewProcessor>> SubTableProcessorMap
-        {
-            get { return subTableToProcessorsMap; }
-            set { subTableToProcessorsMap = value; NotifyPropertyChanged(); }
-        }
-        
         private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private FrameworkElement view;
 
         protected TableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
@@ -37,7 +31,13 @@ namespace DotNetDash
             InitProcessorListener();
         }
 
-        private FrameworkElement view;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public ObservableDictionary<string, ObservableCollection<IViewProcessor>> KeyToMultiProcessorMap
+        {
+            get { return keyToMultiProcessorMap; }
+            set { keyToMultiProcessorMap = value; NotifyPropertyChanged(); }
+        }
 
         public FrameworkElement View
         {
@@ -60,49 +60,43 @@ namespace DotNetDash
             }
         }
 
-        private FrameworkElement GetBoundView()
+        internal void AddViewProcessorToView(string name, IViewProcessor processor)
         {
-            var view = GetViewCore();
-            TryBindView(view);
-            return view;
+            KeyToMultiProcessorMap.Add(name, new ObservableCollection<IViewProcessor> { processor });
         }
 
-        private void TryBindView(FrameworkElement view)
-        {
-            if (view != null)
-            {
 
-                view.DataContext = GetTableContext(name, baseTable); 
-            }
+        protected FrameworkElement CreateSubTableHolder(string styleName)
+        {
+            var content = new ItemsControl
+            {
+                Style = (Style)Application.Current.Resources[styleName],
+                DataContext = this
+            };
+            content.SetBinding(ItemsControl.ItemsSourceProperty, nameof(KeyToMultiProcessorMap));
+            return new ContentControl { Content = content };
         }
 
         protected virtual NetworkTableContext GetTableContext(string name, ITable table) => new NetworkTableContext(name, table);
 
         protected abstract FrameworkElement GetViewCore();
-        
-        private void InitCurrentSubTables()
-        {
-            foreach (var subTableName in baseTable.GetSubTables())
-            {
-                AddProcessorOptionsForTable(subTableName);
-            }
-        }
-
-        private void InitProcessorListener()
-        {
-            baseTable.AddSubTableListenerOnSynchronizationContext(SynchronizationContext.Current,
-                (table, newTableName, flags) => AddProcessorOptionsForTable(newTableName));
-        }
 
         private void AddProcessorOptionsForTable(string subTableName)
         {
             var subTable = baseTable.GetSubTable(subTableName);
             var tableType = subTable.GetString("~TYPE~", "");
             var selectedProcessors = new ObservableCollection<IViewProcessor>(GetSortedTableProcessorsForType(subTable, subTableName, tableType));
-            if (!subTableToProcessorsMap.ContainsKey(subTableName))
+            if (!keyToMultiProcessorMap.ContainsKey(subTableName))
             {
-                subTableToProcessorsMap.Add(subTableName, selectedProcessors); 
+                keyToMultiProcessorMap.Add(subTableName, selectedProcessors);
             }
+        }
+
+        private FrameworkElement GetBoundView()
+        {
+            var view = GetViewCore();
+            TryBindView(view);
+            return view;
         }
 
         private IEnumerable<TableProcessor> GetSortedTableProcessorsForType(ITable table, string tableName, string tableType)
@@ -119,21 +113,32 @@ namespace DotNetDash
             return matchedProcessorFactories.Select(factory => factory.Value.Create(tableName, table));
         }
 
+        private void InitCurrentSubTables()
+        {
+            foreach (var subTableName in baseTable.GetSubTables())
+            {
+                AddProcessorOptionsForTable(subTableName);
+            }
+        }
+
+        private void InitProcessorListener()
+        {
+            baseTable.AddSubTableListenerOnSynchronizationContext(SynchronizationContext.Current,
+                (table, newTableName, flags) => AddProcessorOptionsForTable(newTableName));
+        }
+
         private void NotifyPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-
-        protected FrameworkElement CreateSubTableHolder(string styleName)
+        private void TryBindView(FrameworkElement view)
         {
-            var content = new ItemsControl
+            if (view != null)
             {
-                Style = (Style)Application.Current.Resources[styleName],
-                DataContext = this
-            };
-            content.SetBinding(ItemsControl.ItemsSourceProperty, nameof(SubTableProcessorMap));
-            return new ContentControl { Content = content };
+
+                view.DataContext = GetTableContext(name, baseTable);
+            }
         }
     }
 }

@@ -82,7 +82,6 @@
     <Compile Include="BuiltinProcessors\IXamlSearcher.cs" />
     <Compile Include="BuiltinProcessors\XamlFileSearcher.cs" />
     <Compile Include="Command.cs" />
-    <Compile Include="ComparableTable.cs" />
     <Compile Include="DashboardMetadataUtils.cs" />
     <Compile Include="DashboardTypeAttribute.cs" />
     <Compile Include="DragDropBehavior.cs" />

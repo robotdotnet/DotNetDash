@@ -12,7 +12,7 @@ namespace DotNetDash.BuiltinProcessors
         public DefaultRootTableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
-            SubTableProcessorMap.Add(new ComparableTable(name, table),
+            SubTableProcessorMap.Add(name,
                 new ObservableCollection<TableProcessor>
                 {
                     new DefaultProcessor(name, table, processorFactories)

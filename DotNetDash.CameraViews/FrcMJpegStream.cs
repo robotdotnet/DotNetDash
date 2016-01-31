@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AForge.Video;
-using System.Threading;
-using System.ComponentModel;
-using System.Net.Sockets;
+﻿using AForge.Video;
+using System;
 using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DotNetDash.CameraViews
 {

@@ -135,9 +135,10 @@ namespace DotNetDash.CameraViews
             {
                 PlayingFinished?.Invoke(this, ReasonToFinishPlaying.StoppedByUser);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 PlayingFinished?.Invoke(this, ReasonToFinishPlaying.VideoSourceError);
+                VideoSourceError?.Invoke(this, new VideoSourceErrorEventArgs(ex.Message));
             }
         }
 

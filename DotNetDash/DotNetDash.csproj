@@ -101,7 +101,6 @@
     <Compile Include="ServerConnectionWindow.xaml.cs">
       <DependentUpon>ServerConnectionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
     <Compile Include="BuiltinProcessors\XamlProcessor.cs" />
     <Compile Include="TableMultiView.cs" />
     <Compile Include="TableProcessor.cs" />
@@ -153,7 +152,7 @@
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />

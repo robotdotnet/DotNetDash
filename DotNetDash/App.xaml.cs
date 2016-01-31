@@ -18,6 +18,12 @@ namespace DotNetDash
             Container = new CompositionContainer(CreateExtensionCatalog());
         }
 
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            DotNetDash.Properties.Settings.Default.Save();
+        }
+
         private static ComposablePartCatalog CreateExtensionCatalog()
         {
             if (!Directory.Exists("Plugins"))

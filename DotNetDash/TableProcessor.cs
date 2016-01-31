@@ -12,13 +12,13 @@ using System.Windows.Controls;
 
 namespace DotNetDash
 {
-    public abstract class TableProcessor : INotifyPropertyChanged
+    public abstract class TableProcessor : IViewProcessor, INotifyPropertyChanged
     {
         protected readonly ITable baseTable;
         protected readonly string name;
-        protected ObservableDictionary<string, ObservableCollection<TableProcessor>> subTableToProcessorsMap = new ObservableDictionary<string, ObservableCollection<TableProcessor>>();
+        protected ObservableDictionary<string, ObservableCollection<IViewProcessor>> subTableToProcessorsMap = new ObservableDictionary<string, ObservableCollection<IViewProcessor>>();
 
-        public ObservableDictionary<string, ObservableCollection<TableProcessor>> SubTableProcessorMap
+        public ObservableDictionary<string, ObservableCollection<IViewProcessor>> SubTableProcessorMap
         {
             get { return subTableToProcessorsMap; }
             set { subTableToProcessorsMap = value; NotifyPropertyChanged(); }
@@ -98,7 +98,7 @@ namespace DotNetDash
         {
             var subTable = baseTable.GetSubTable(subTableName);
             var tableType = subTable.GetString("~TYPE~", "");
-            var selectedProcessors = new ObservableCollection<TableProcessor>(GetSortedTableProcessorsForType(subTable, subTableName, tableType));
+            var selectedProcessors = new ObservableCollection<IViewProcessor>(GetSortedTableProcessorsForType(subTable, subTableName, tableType));
             if (!subTableToProcessorsMap.ContainsKey(subTableName))
             {
                 subTableToProcessorsMap.Add(subTableName, selectedProcessors); 

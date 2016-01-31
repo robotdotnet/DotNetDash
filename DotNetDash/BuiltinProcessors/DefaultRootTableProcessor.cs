@@ -13,7 +13,7 @@ namespace DotNetDash.BuiltinProcessors
             : base(name, table, processorFactories)
         {
             SubTableProcessorMap.Add(name,
-                new ObservableCollection<TableProcessor>
+                new ObservableCollection<IViewProcessor>
                 {
                     new DefaultProcessor(name, table, processorFactories)
                 });

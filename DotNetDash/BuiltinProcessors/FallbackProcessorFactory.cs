@@ -1,7 +1,9 @@
 ﻿using NetworkTables.Tables;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Windows.Markup;
 
@@ -16,12 +18,14 @@ namespace DotNetDash.BuiltinProcessors
     {
         private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
         private IXamlSearcher searcher;
+        private ILogger logger;
         
         [ImportingConstructor]
         public FallbackProcessorFactory(IXamlSearcher searcher, [ImportMany] IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
             this.searcher = searcher;
             this.processorFactories = processorFactories;
+            logger = Log.ForContext<FallbackProcessorFactory>();
         }
 
         public TableProcessor Create(string subTable, ITable table)
@@ -49,13 +53,9 @@ namespace DotNetDash.BuiltinProcessors
                         views.Add((XamlView)XamlReader.Load(stream));
                     }
                 }
-                catch (InvalidCastException)
+                catch (Exception ex)
                 {
-                    //TODO: log invalid casts
-                }
-                catch (XamlParseException)
-                {
-                    //TODO: log xaml parsing errors
+                    logger.Warning(ex, "Failed to load XAML view.");
                 }
             }
             return views;

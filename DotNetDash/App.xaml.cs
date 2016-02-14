@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition.Hosting;
+﻿using Serilog;
+using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Data;
 using System.IO;
@@ -16,6 +17,7 @@ namespace DotNetDash
         {
             base.OnStartup(e);
             Container = new CompositionContainer(CreateExtensionCatalog());
+            Log.Logger = new LoggerConfiguration().ReadFrom.AppSettings().Enrich.WithProperty("Table", "Application Core").CreateLogger();
         }
 
         protected override void OnExit(ExitEventArgs e)

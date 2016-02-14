@@ -21,9 +21,11 @@ namespace DotNetDash.LiveWindow
             {
                 if (subTableName == "~STATUS~")
                 {
+                    logger.Information("Removing ~STATUS~ table processors");
                     KeyToMultiProcessorMap.Remove("~STATUS~");
                 }
             });
+            logger.Information("Removing ~STATUS~ table processors");
             KeyToMultiProcessorMap.Remove("~STATUS~");
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Serilog;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
@@ -8,6 +9,8 @@ namespace DotNetDash
 {
     class DragDropBehavior : Behavior<ContentPresenter>
     {
+        private ILogger logger;
+
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -15,6 +18,7 @@ namespace DotNetDash
             AssociatedObject.MouseLeftButtonDown += OnMouseLeftButtonDown;
             AssociatedObject.MouseLeftButtonUp += OnMouseLeftButtonUp;
             AssociatedObject.MouseMove += OnMouseMove;
+            logger = Log.ForContext(AssociatedObject.GetType());
         }
 
         protected override void OnDetaching()
@@ -46,6 +50,7 @@ namespace DotNetDash
             isDragging = true;
             Mouse.Capture(AssociatedObject);
             e.Handled = true;
+            logger.Debug("Beginning drag operation");
         }
 
         private Canvas GetContainingPanelAsCanvas()
@@ -67,6 +72,7 @@ namespace DotNetDash
             isDragging = false;
             Mouse.Capture(null);
             e.Handled = true;
+            logger.Debug("Dropping element");
         }
         protected void OnMouseMove(object sender, MouseEventArgs e)
         {

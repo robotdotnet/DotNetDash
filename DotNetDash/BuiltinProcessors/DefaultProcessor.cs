@@ -16,6 +16,7 @@ namespace DotNetDash.BuiltinProcessors
             baseTable.AddTableListenerOnSynchronizationContext(SynchronizationContext.Current, (sendingTable, key, value, flags) =>
             {
                 if (key == "~TYPE~") return;
+                logger.Verbose($"Adding property view for {name}");
                 var stackPanel = (StackPanel)View;
                 stackPanel.Children.Add(CreateNewElementView(key, value));
             }, NotifyFlags.NotifyImmediate | NotifyFlags.NotifyNew);

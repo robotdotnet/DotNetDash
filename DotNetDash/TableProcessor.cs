@@ -1,5 +1,6 @@
 ﻿using Hellosam.Net.Collections;
 using NetworkTables.Tables;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +18,7 @@ namespace DotNetDash
         protected readonly ITable baseTable;
         protected ObservableDictionary<string, ObservableCollection<IViewProcessor>> keyToMultiProcessorMap = new ObservableDictionary<string, ObservableCollection<IViewProcessor>>();
         protected readonly string name;
+        protected readonly ILogger logger;
 
         private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
 
@@ -24,6 +26,8 @@ namespace DotNetDash
 
         protected TableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
+            logger = Log.ForContext(GetType()).ForContext("Table", name);
+            logger.Information("Creating table processor for table");
             this.name = name;
             baseTable = table;
             this.processorFactories = processorFactories;
@@ -62,12 +66,14 @@ namespace DotNetDash
 
         internal void AddViewProcessorToView(string name, IViewProcessor processor)
         {
+            logger.Information($"Adding custom view processor {name} to the view");
             KeyToMultiProcessorMap.Add(name, new ObservableCollection<IViewProcessor> { processor });
         }
 
 
         protected FrameworkElement CreateSubTableHolder(string styleName)
         {
+            logger.Information("Creating subtable holder");
             var content = new ItemsControl
             {
                 Style = (Style)Application.Current.Resources[styleName],
@@ -83,9 +89,12 @@ namespace DotNetDash
 
         private void AddProcessorOptionsForTable(string subTableName)
         {
+            logger.Information($"Creating processors for subtable {subTableName}");
             var subTable = baseTable.GetSubTable(subTableName);
             var tableType = subTable.GetString("~TYPE~", "");
+            logger.Information($"Subtable {subTableName} has a Dashboard type of '{tableType}'");
             var selectedProcessors = new ObservableCollection<IViewProcessor>(GetSortedTableProcessorsForType(subTable, subTableName, tableType));
+            logger.Information($"Found {selectedProcessors.Count} applicable subprocessors for table '{subTableName}'");
             if (!keyToMultiProcessorMap.ContainsKey(subTableName))
             {
                 keyToMultiProcessorMap.Add(subTableName, selectedProcessors);
@@ -94,6 +103,7 @@ namespace DotNetDash
 
         private FrameworkElement GetBoundView()
         {
+            logger.Information("Creating bound view");
             var view = GetViewCore();
             TryBindView(view);
             return view;

@@ -1,0 +1,10 @@
+﻿<dash:XamlView
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:dash="clr-namespace:DotNetDash;assembly=DotNetDash"
+            DashboardType="String Chooser">
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{Binding Name}" />
+        <CheckBox IsChecked="{Binding Booleans[Value]}" IsEnabled="false" />
+    </StackPanel>
+</dash:XamlView>

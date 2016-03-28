@@ -12,6 +12,12 @@
   <ItemGroup>
     <XamlPlugin Include="*.xaml" />
   </ItemGroup>
+  <ItemGroup>
+    <XamlPlugin Include="DigitalInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlPlugin>
+  </ItemGroup>
   <Target Name="Build">
     <Copy SourceFiles="@(XamlPlugin)" DestinationFolder="../bin/$(Configuration)/Plugins/XAML Plugins" SkipUnchangedFiles="true" />
   </Target>

@@ -109,7 +109,7 @@ namespace DotNetDash
             return view;
         }
 
-        private IEnumerable<TableProcessor> GetSortedTableProcessorsForType(ITable table, string tableName, string tableType)
+        protected IEnumerable<TableProcessor> GetSortedTableProcessorsForType(ITable table, string tableName, string tableType)
         {
             var matchedProcessorFactories = processorFactories.Where(factory => factory.Metadata.IsMatch(tableType)).ToList();
             matchedProcessorFactories.Sort((factory1, factory2) =>

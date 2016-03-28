@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace DotNetDash.CANSpeedController
+namespace DotNetDash.SpeedController
 {
     /// <summary>
     /// Interaction logic for CANView.xaml

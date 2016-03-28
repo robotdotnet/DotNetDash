@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\Plugins\CANSpeedController\</OutputPath>
+    <OutputPath>..\bin\Debug\Plugins\SpeedController\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\Plugins\CANSpeedController\</OutputPath>
+    <OutputPath>..\bin\Release\Plugins\SpeedController\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -69,7 +69,11 @@
     <Compile Include="ControllerModel.cs" />
     <Compile Include="ControlMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ControllerProcessor.cs" />
+    <Compile Include="CANControllerProcessor.cs" />
+    <Compile Include="PWMControllerProcessor.cs" />
+    <Compile Include="SpeedControllerView.xaml.cs">
+      <DependentUpon>SpeedControllerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TemplateSelector.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +88,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="CANView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SpeedControllerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

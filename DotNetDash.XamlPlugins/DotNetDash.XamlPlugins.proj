@@ -10,13 +10,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
   </PropertyGroup>
   <ItemGroup>
-    <XamlPlugin Include="*.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <XamlPlugin Include="DigitalInput.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </XamlPlugin>
+    <XamlPlugin Include="DigitalInput.xaml" />
+    <XamlPlugin Include="SendableChooser.xaml" />
   </ItemGroup>
   <Target Name="Build">
     <Copy SourceFiles="@(XamlPlugin)" DestinationFolder="../bin/$(Configuration)/Plugins/XAML Plugins" SkipUnchangedFiles="true" />

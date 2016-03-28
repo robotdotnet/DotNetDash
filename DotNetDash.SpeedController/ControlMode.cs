@@ -1,4 +1,4 @@
-﻿namespace DotNetDash.CANSpeedController
+﻿namespace DotNetDash.SpeedController
 {
     /// <summary>
     /// Current mode as reported by the CAN Speed Controller to NetworkTables.

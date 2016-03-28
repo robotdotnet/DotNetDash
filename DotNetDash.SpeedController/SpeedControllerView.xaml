@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="DotNetDash.SpeedController.SpeedControllerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DotNetDash.SpeedController"
+             mc:Ignorable="d">
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Text="{Binding Name}" HorizontalAlignment="Center" />
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Margin="0,0,10,0" Text="Enabled:" />
+            <CheckBox VerticalAlignment="Center" IsThreeState="False" IsChecked="{Binding Booleans[Enabled]}" />
+        </StackPanel>
+        <TextBlock DockPanel.Dock="Left" Text="{Binding ElementName=Slider, Path=Value, StringFormat=' {0:0.000}'}" />
+        <Button Name="ZeroButton"  DockPanel.Dock="Right" Content="Zero" Command="{Binding ZeroOutput}" />
+        <Slider Width="100"  Name="Slider" Minimum="-1" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding Path=Numbers[Value], Mode=TwoWay}" />
+    </DockPanel>
+</UserControl>

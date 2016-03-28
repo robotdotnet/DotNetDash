@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 
-namespace DotNetDash.CANSpeedController
+namespace DotNetDash.SpeedController
 {
-    class ControllerProcessor : TableProcessor
+    class CANControllerProcessor : TableProcessor
     {
-        public ControllerProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+        public CANControllerProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
         }
@@ -36,7 +36,7 @@ namespace DotNetDash.CANSpeedController
 
         public TableProcessor Create(string subTable, ITable table)
         {
-            return new ControllerProcessor(subTable, table, processorFactories);
+            return new CANControllerProcessor(subTable, table, processorFactories);
         }
     }
 }

@@ -33,12 +33,13 @@
                 <TextBox Grid.Row="0" Grid.Column="5" Text="{Binding Numbers[d], StringFormat='{}{0:0.00000}'}" />
                 <TextBlock Grid.Row="0" Grid.Column="6" HorizontalAlignment="Right"  Text="F:" />
                 <TextBox Grid.Row="0" Grid.Column="7" Text="{Binding Numbers[f], StringFormat='{}{0:0.00000}'}" />
-                <oxyplot:Plot Title="{Binding Name}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="8"
+                <oxyplot:Plot Title="PID Tuning Graph" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7"
                                 IsLegendVisible="True" LegendTitle="Legend" LegendPlacement="Outside" LegendPosition="RightMiddle"
                                 Width="500" Height="150">
                     <oxyplot:LineSeries Title="Setpoint" ItemsSource="{Binding SetpointLine}" />
                     <oxyplot:LineSeries Title="Output" ItemsSource="{Binding OutputPoints}" />
                 </oxyplot:Plot>
+                <Button Command="{Binding ClearGraph}" Content="Clear Graph" Grid.Row="1" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Right" Text="Setpoint:" />
                 <TextBox Grid.Row="2" Grid.Column="4" Text="{Binding Setpoint}" />
             </Grid>
@@ -74,6 +75,7 @@
         </DataTemplate>
     </UserControl.Resources>
     <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Text="{Binding Name}" HorizontalAlignment="Center" />
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Margin="0,0,10,0" Text="Current Control Mode:" />
             <ComboBox ItemsSource="{Binding ControlModes}" SelectedItem="{Binding Path=Mode, Mode=TwoWay}" />

@@ -10,6 +10,7 @@ namespace DotNetDash.CANSpeedController
     public class ControllerModel : NetworkTableContext
     {
         private static List<ControlMode> controlModes;
+        private object syncRoot = new object();
         public IEnumerable<ControlMode> ControlModes => controlModes;
 
         public ControllerModel(string tableName, ITable table) : base(tableName, table)
@@ -33,6 +34,14 @@ namespace DotNetDash.CANSpeedController
                 }
             }, NetworkTables.NotifyFlags.NotifyImmediate | NetworkTables.NotifyFlags.NotifyUpdate | NetworkTables.NotifyFlags.NotifyNew);
             ZeroOutput = new Command(() => Numbers["Value"] = 0.0);
+            ClearGraph = new Command(() =>
+                {
+                    lock (syncRoot)
+                    {
+                        OutputPoints.Clear();
+                        SetpointLine.Clear(); 
+                    }
+                });
         }
 
         private static void FillControlModeOptions()
@@ -49,8 +58,11 @@ namespace DotNetDash.CANSpeedController
                 case ControlMode.Position:
                 case ControlMode.Speed:
                 case ControlMode.Current:
-                    OutputPoints.Add(new OxyPlot.DataPoint(OutputPoints.Count, value));
-                    SetpointLine.Add(new OxyPlot.DataPoint(SetpointLine.Count, Setpoint));
+                    lock (syncRoot)
+                    {
+                        OutputPoints.Add(new OxyPlot.DataPoint(OutputPoints.Count, value));
+                        SetpointLine.Add(new OxyPlot.DataPoint(SetpointLine.Count, Setpoint)); 
+                    }
                     break;
             }
         }
@@ -90,5 +102,6 @@ namespace DotNetDash.CANSpeedController
         }
 
         public Command ZeroOutput { get; }
+        public Command ClearGraph { get; }
     }
 }

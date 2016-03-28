@@ -64,6 +64,8 @@ namespace DotNetDash
             }
         }
 
+        public abstract string Name { get; }
+
         internal void AddViewProcessorToView(string name, IViewProcessor processor)
         {
             logger.Information($"Adding custom view processor {name} to the view");

@@ -19,5 +19,7 @@ namespace DotNetDash.BuiltinProcessors
         {
             return view;
         }
+
+        public override string Name => "XAML-defined View";
     }
 }

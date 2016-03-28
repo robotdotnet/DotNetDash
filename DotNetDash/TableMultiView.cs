@@ -15,6 +15,27 @@ namespace DotNetDash
         {
             AllowDrop = true;
         }
+        
+        public DataTemplate ViewSwitchTemplate
+        {
+            get { return (DataTemplate)GetValue(ViewSwitchTemplateProperty); }
+            set { SetValue(ViewSwitchTemplateProperty, value); }
+        }
+        
+        public static readonly DependencyProperty ViewSwitchTemplateProperty =
+            DependencyProperty.Register(nameof(ViewSwitchTemplate), typeof(DataTemplate), typeof(TableMultiView), new PropertyMetadata(ViewSwitchTemplateChanged));
+
+        private static void ViewSwitchTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (TableMultiView)d;
+            view.OnViewSwitchTemplateChanged((DataTemplate)e.OldValue, (DataTemplate)e.NewValue);
+        }
+
+        protected virtual void OnViewSwitchTemplateChanged(DataTemplate oldViewSwitchTemplate, DataTemplate newViewSwitchTemplate)
+        {
+            CreateContextMenu();
+        }
+
 
         private ContentPresenter presenter;
 
@@ -48,12 +69,12 @@ namespace DotNetDash
             {
                 var menuItem = new MenuItem
                 {
-                    DataContext = item,
-                    Header = item
+                    Header = item,
+                    HeaderTemplate = ViewSwitchTemplate
                 };
                 menuItem.Click += (o, e) =>
                 {
-                    SelectedItem = ((FrameworkElement)o).DataContext;
+                    SelectedItem = ((MenuItem)o).Header;
                 };
                 ContextMenu.Items.Add(menuItem);
             }
@@ -84,10 +105,8 @@ namespace DotNetDash
 
         private void TrySetNewContent(object newPresenter)
         {
-            if (ItemTemplate == null || presenter == null) return;
-            //var newContent = (FrameworkElement)ItemTemplate.LoadContent();
-            //newContent.DataContext = newPresenter;
-            presenter.Content = newPresenter;
+            if (presenter != null)
+                presenter.Content = newPresenter;
         }
     }
 }

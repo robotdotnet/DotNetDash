@@ -69,6 +69,14 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="ViewSwitchTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Focusable" Value="True" />
         </Style>
     </Application.Resources>
 </Application>

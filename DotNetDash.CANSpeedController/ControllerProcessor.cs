@@ -19,6 +19,8 @@ namespace DotNetDash.CANSpeedController
         }
 
         protected override NetworkTableContext GetTableContext(string name, ITable table) => new ControllerModel(name, table);
+
+        public override string Name => "CAN Speed Controller View";
     }
 
     [DashboardType(typeof(ITableProcessorFactory), "CANSpeedController")]

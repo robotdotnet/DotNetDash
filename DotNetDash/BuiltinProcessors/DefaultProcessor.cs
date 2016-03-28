@@ -27,6 +27,8 @@ namespace DotNetDash.BuiltinProcessors
             return new StackPanel { Orientation = Orientation.Vertical };
         }
 
+        public override string Name => "Default Processor";
+
         private UIElement CreateNewElementView(string key, object value)
         {
             var keyValueLine = new StackPanel { Orientation = Orientation.Horizontal };

@@ -23,6 +23,8 @@ namespace DotNetDash.LiveWindow
             panel.Children.Add(CreateSubTableHolder("SubTableContainerStyle"));
             return panel;
         }
+
+        public override string Name => "LiveWindow Subsystem View";
     }
 
     [DashboardType(typeof(ITableProcessorFactory), "LW Subsystem")]

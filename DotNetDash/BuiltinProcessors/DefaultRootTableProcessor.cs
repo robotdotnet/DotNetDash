@@ -20,6 +20,8 @@ namespace DotNetDash.BuiltinProcessors
         {
             return CreateSubTableHolder("RootTableStyle");
         }
+
+        public override string Name => "Root Table Processor";
     }
     
     [DashboardType(typeof(IRootTableProcessorFactory), "")]

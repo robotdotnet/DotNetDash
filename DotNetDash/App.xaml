@@ -15,7 +15,7 @@
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical" />
+                        <WrapPanel Orientation="Vertical" MaxHeight="4000" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>

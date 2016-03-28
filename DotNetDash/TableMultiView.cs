@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -36,6 +38,31 @@ namespace DotNetDash
             {
                 SelectedItem = newValue.OfType<object>().ElementAt(0);
             }
+            CreateContextMenu();
+        }
+
+        private void CreateContextMenu()
+        {
+            ContextMenu = new ContextMenu();
+            foreach (var item in ItemsSource)
+            {
+                var menuItem = new MenuItem
+                {
+                    DataContext = item,
+                    Header = item
+                };
+                menuItem.Click += (o, e) =>
+                {
+                    SelectedItem = ((FrameworkElement)o).DataContext;
+                };
+                ContextMenu.Items.Add(menuItem);
+            }
+        }
+
+        protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+        {
+            base.OnItemsChanged(e);
+            CreateContextMenu();
         }
 
         protected override void OnVisualParentChanged(DependencyObject oldParent)
@@ -58,9 +85,9 @@ namespace DotNetDash
         private void TrySetNewContent(object newPresenter)
         {
             if (ItemTemplate == null || presenter == null) return;
-            var newContent = (FrameworkElement)ItemTemplate.LoadContent();
-            newContent.DataContext = newPresenter;
-            presenter.Content = newContent;
+            //var newContent = (FrameworkElement)ItemTemplate.LoadContent();
+            //newContent.DataContext = newPresenter;
+            presenter.Content = newPresenter;
         }
     }
 }

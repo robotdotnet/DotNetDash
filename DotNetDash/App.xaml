@@ -22,7 +22,13 @@
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <local:TableMultiView ItemsSource="{Binding}" />
+                        <local:TableMultiView ItemsSource="{Binding}">
+                            <local:TableMultiView.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentPresenter Content="{Binding View}" />
+                                </DataTemplate>
+                            </local:TableMultiView.ItemTemplate>
+                        </local:TableMultiView>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -55,18 +61,12 @@
         <Style TargetType="local:TableMultiView">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate>
+                    <ControlTemplate TargetType="local:TableMultiView">
                         <Border BorderBrush="Black" BorderThickness="1" CornerRadius="3">
-                            <ContentPresenter x:Name="PART_Presenter" />
+                            <ContentPresenter x:Name="PART_Presenter" ContentTemplate="{TemplateBinding ItemTemplate}" >
+                            </ContentPresenter>
                         </Border>
                     </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ItemTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <ContentPresenter Content="{Binding View}" />
-                    </DataTemplate>
                 </Setter.Value>
             </Setter>
         </Style>

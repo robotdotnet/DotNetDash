@@ -13,7 +13,7 @@ namespace DotNetDash.BuiltinProcessors
             : base(name, table, processorFactories)
         {
             KeyToMultiProcessorMap.Add(name,
-                new ObservableCollection<IViewProcessor>(GetSortedTableProcessorsForType(table, name, table.GetString("~TYPE~"))));
+                new ObservableCollection<IViewProcessor>(GetSortedTableProcessorsForType(table, name, name)));
         }
 
         protected override FrameworkElement GetViewCore()

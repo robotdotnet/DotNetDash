@@ -28,4 +28,12 @@ You must set the `DashboardType` to the SmartDashboard type of the sendable.
 The `Name` property binds to the `Name` property on the table. For all other table entries, you bind to them by `DataType[Key_Name]`. So, for a boolean Value key, you would bind to `Booleans[Value]` as above.
 
 ### C# Plugins
-For anything more advanced, you need to create a C# plugin. There will be more documentation on this in the future. You can see examples of this here with the LiveWindow and CANSpeedController support.
+For anything more advanced, you need to create a C# plugin. There will be more documentation on this in the future, but some basic documentation is below. You can see examples of this here with the LiveWindow and CANSpeedController support.
+
+To start off, you will need to do the following:
+
+1. Create a subclass of `TableProcessor`. This class will create the view and the backing context for DotNetDash. Below are some properties and methods you must provide:
+  * `GetViewCore`: Create an instance of your view.
+  * `Name`: Specifies a user-friendly name for your processor (used when changing the processor in use).
+  * (optional) `GetTableContext`: Create an instance of the backing context (must derive from `NetworkTableContext`). Only use this if you need a custom context.
+2. Create an implementation of `ITableProcessorFactory` that provides your `TableProcessor` for a given SmartDashboard type.

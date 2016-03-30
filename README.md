@@ -3,6 +3,9 @@ DotNetDash is RobotDotNet's SmartDashboard replacement. It is designed from the 
 
 It is currently under heavy development, and may have breaking changes.
 
+
+[![Build status](https://ci.appveyor.com/api/projects/status/0g63crtkakhifcde/branch/master?svg=true)](https://ci.appveyor.com/project/robotdotnet/dotnetdash/branch/master)
+
 ## Supported Operating Systems
 The current implementation is based on WPF, so it is Windows only.
 Between now and release, we may switch over to [Perspex](https://perspex.github.io) for multi-platform support.

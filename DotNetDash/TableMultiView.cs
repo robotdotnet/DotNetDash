@@ -65,7 +65,7 @@ namespace DotNetDash
         private void CreateContextMenu()
         {
             ContextMenu = new ContextMenu();
-            foreach (var item in ItemsSource)
+            foreach (var item in ItemsSource ?? Enumerable.Empty<object>())
             {
                 var menuItem = new MenuItem
                 {

@@ -15,7 +15,14 @@ namespace DotNetDash
             }
             table.AddSubTableListener((tbl, name, _, flags) =>
             {
-                context.Post(state => callback(tbl, name, flags), null);
+                if (context != null)
+                {
+                    context.Post(state => callback(tbl, name, flags), null);
+                }
+                else
+                {
+                    ThreadPool.QueueUserWorkItem(state => callback(tbl, name, flags), null);
+                }
             });
         }
 
@@ -27,10 +34,13 @@ namespace DotNetDash
             }
             table.AddTableListener((tbl, name, value, flags) =>
             {
-                if (context == null)
+                if (context != null)
                 {
-
                     context.Post(state => callback(tbl, name, value, flags), null);
+                }
+                else
+                {
+                    ThreadPool.QueueUserWorkItem(state => callback(tbl, name, value, flags), null);
                 }
             }, immediateNotify);
         }
@@ -43,7 +53,14 @@ namespace DotNetDash
             }
             table.AddTableListenerEx((tbl, name, value, _flags) =>
             {
-                context.Post(state => callback(tbl, name, value, _flags), null);
+                if (context != null)
+                {
+                    context.Post(state => callback(tbl, name, value, _flags), null);
+                }
+                else
+                {
+                    ThreadPool.QueueUserWorkItem(state => callback(tbl, name, value, _flags), null);
+                }
             }, flags);
         }
     }

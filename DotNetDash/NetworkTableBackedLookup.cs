@@ -13,7 +13,8 @@ namespace DotNetDash
         {
             this.table = table;
             table.AddTableListenerOnSynchronizationContext(SynchronizationContext.Current,
-                (changedTable, key, value, flags) => NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName));
+                (changedTable, key, value, flags) =>
+                    NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName));
         }
 
         public T this[string key]

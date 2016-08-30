@@ -9,7 +9,7 @@ namespace DotNetDash.LiveWindow
         {
             statusTable = table.GetSubTable("~STATUS~");
             statusTable.AddTableListener("LW Enabled", (changedTable, _, value, flags) =>
-                Enabled = (bool)value, true);
+                Enabled = value.GetBoolean(), true);
         }
 
         private bool enabled;

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using NetworkTables;
 
 namespace DotNetDash
 {
@@ -23,7 +23,13 @@ namespace DotNetDash
             }
             else
             {
-                InitializeDashboard();
+                NetworkTable.Shutdown();
+                NetworkTable.SetIPAddress($"roborio-{Properties.Settings.Default.TeamNumber}-frc.local");
+                NetworkTable.SetClientMode();
+                NetworkTable.AddConnectionListener(SetConnectivityMarker, true);
+                NetworkTable.Initialize();
+
+               InitializeDashboard();
             }
         }
 
@@ -60,20 +66,23 @@ namespace DotNetDash
         private void InitializeDashboard()
         {
             InitializeTabs();
-            InitializeConnectivityMarker();
+            //InitializeConnectivityMarker();
         }
 
-        private async void InitializeConnectivityMarker()
+        private void SetConnectivityMarker(int uid, bool connected, ConnectionInfo conn)
         {
-            await Task.Delay(500); //Add a delay to the connection check so NetworkTables can establish the connection
-            if(NetworkTables.NetworkTable.Connections().Any())
-            {
-                ConnectionIndicator.Fill = Brushes.Green;
-            }
-            else
-            {
-                ConnectionIndicator.Fill = Brushes.Red;
-            }
+            this.Dispatcher.Invoke(
+              delegate
+              {
+                  if (NetworkTables.NetworkTable.Connections().Any())
+                  {
+                      ConnectionIndicator.Fill = Brushes.Green;
+                  }
+                  else
+                  {
+                      ConnectionIndicator.Fill = Brushes.Red;
+                  }
+              }, System.Windows.Threading.DispatcherPriority.Normal);
         }
 
         private void InitializeTabs()

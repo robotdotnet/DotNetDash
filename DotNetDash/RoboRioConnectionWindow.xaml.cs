@@ -1,5 +1,4 @@
-﻿using NetworkTables;
-using System.Windows;
+﻿using System.Windows;
 
 namespace DotNetDash
 {
@@ -15,10 +14,6 @@ namespace DotNetDash
 
         private void ConnectClicked(object sender, RoutedEventArgs e)
         {
-            NetworkTable.Shutdown();
-            NetworkTable.SetIPAddress($"roborio-{Properties.Settings.Default.TeamNumber}-frc.local");
-            NetworkTable.SetClientMode();
-            NetworkTable.Initialize();
             DialogResult = true;
             Close();
         }

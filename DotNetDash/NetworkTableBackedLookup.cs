@@ -21,11 +21,13 @@ namespace DotNetDash
         {
             get
             {
-                return (table.GetValue(key, default(T)) is T) ? (T)(table.GetValue(key, default(T))) : default(T);
+                bool success = false;
+                var value = table.GetValue(key, NetworkTables.Value.MakeValue(default(T)));
+                return (value is T) ? value.GetValue<T>(out success) : default(T);
             }
             set
             {
-                table.PutValue(key, value);
+                table.PutValue(key, NetworkTables.Value.MakeValue(value));
                 NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName);
             }
         }

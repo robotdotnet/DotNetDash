@@ -1,7 +1,9 @@
-﻿using NetworkTables.Tables;
+﻿using System;
+using NetworkTables.Tables;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using NetworkTables;
 
 namespace DotNetDash
 {
@@ -11,6 +13,20 @@ namespace DotNetDash
 
         public NetworkTableBackedLookup(ITable table)
         {
+            bool validType = false;
+            foreach (var type in Value.GetSupportedValueTypes())
+            {
+                if (type == typeof(T))
+                {
+                    validType = true;
+                    break;
+                }
+            }
+            if (!validType)
+            {
+                throw new InvalidOperationException($"Generic type {typeof(T)} is not supported");
+            }
+
             this.table = table;
             table.AddTableListenerOnSynchronizationContext(SynchronizationContext.Current,
                 (changedTable, key, value, flags) =>
@@ -21,11 +37,17 @@ namespace DotNetDash
         {
             get
             {
-                return (table.GetValue(key, default(T)) is T) ? (T)(table.GetValue(key, default(T))) : default(T);
+                var value = table.GetValue(key, null);
+                if (value == null) return default(T);
+                bool success;
+                var rawVal = value.GetValue<T>(out success);
+                return !success ? default(T) : rawVal;
             }
             set
             {
-                table.PutValue(key, value);
+                var val = Value.MakeValue(value);
+                if (val == null) return;
+                table.PutValue(key, val);
                 NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName);
             }
         }

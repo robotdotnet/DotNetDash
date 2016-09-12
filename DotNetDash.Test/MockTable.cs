@@ -1,5 +1,4 @@
 ﻿using NetworkTables;
-using NetworkTables.Native;
 using NetworkTables.Tables;
 using System;
 using System.Collections.Generic;
@@ -10,14 +9,14 @@ namespace DotNetDash.Test
     {
         private class ActionTableListener : ITableListener
         {
-            private readonly Action<ITable, string, object, NotifyFlags> listenerDelegate;
+            private readonly Action<ITable, string, Value, NotifyFlags> listenerDelegate;
 
-            public ActionTableListener(Action<ITable, string, object, NotifyFlags> listenerDelegate)
+            public ActionTableListener(Action<ITable, string, Value, NotifyFlags> listenerDelegate)
             {
                 this.listenerDelegate = listenerDelegate;
             }
 
-            public void ValueChanged(ITable source, string key, object value, NotifyFlags flags)
+            public void ValueChanged(ITable source, string key, Value value, NotifyFlags flags)
             {
                 listenerDelegate(source, key, value, flags);
             }
@@ -30,7 +29,7 @@ namespace DotNetDash.Test
 
 
 
-        private void RaiseListeners(List<ITableListener> listeners, string key, object value, NotifyFlags flags)
+        private void RaiseListeners(List<ITableListener> listeners, string key, Value value, NotifyFlags flags)
         {
             foreach (var listener in listeners)
             {
@@ -39,9 +38,49 @@ namespace DotNetDash.Test
         }
 
 
-        public void AddSubTableListener(Action<ITable, string, object, NotifyFlags> listenerDelegate)
+        public void AddSubTableListener(Action<ITable, string, Value, NotifyFlags> listenerDelegate)
         {
             subtableListeners.Add(new ActionTableListener(listenerDelegate));
+        }
+
+        public bool SetDefaultValue(string key, Value defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetDefaultNumber(string key, double defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetDefaultBoolean(string key, bool defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetDefaultString(string key, string defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetDefaultRaw(string key, byte[] defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetDefaultBooleanArray(string key, bool[] defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetDefaultNumberArray(string key, double[] defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SetDefaultStringArray(string key, string[] defaultValue)
+        {
+            throw new NotImplementedException();
         }
 
         public void AddSubTableListener(ITableListener listener)
@@ -49,7 +88,7 @@ namespace DotNetDash.Test
             subtableListeners.Add(listener);
         }
 
-        public void AddSubTableListener(Action<ITable, string, object, NotifyFlags> listenerDelegate, bool localNotify)
+        public void AddSubTableListener(Action<ITable, string, Value, NotifyFlags> listenerDelegate, bool localNotify)
         {
             subtableListeners.Add(new ActionTableListener(listenerDelegate));
         }
@@ -59,7 +98,7 @@ namespace DotNetDash.Test
             subtableListeners.Add(listener);
         }
 
-        public void AddTableListener(Action<ITable, string, object, NotifyFlags> listenerDelegate, bool immediateNotify = false)
+        public void AddTableListener(Action<ITable, string, Value, NotifyFlags> listenerDelegate, bool immediateNotify = false)
         {
             tableListeners.Add(new ActionTableListener(listenerDelegate));
         }
@@ -69,7 +108,7 @@ namespace DotNetDash.Test
             tableListeners.Add(listener);
         }
 
-        public void AddTableListener(string key, Action<ITable, string, object, NotifyFlags> listenerDelegate, bool immediateNotify)
+        public void AddTableListener(string key, Action<ITable, string, Value, NotifyFlags> listenerDelegate, bool immediateNotify)
         {
             throw new NotImplementedException();
         }
@@ -79,7 +118,7 @@ namespace DotNetDash.Test
             throw new NotImplementedException();
         }
 
-        public void AddTableListenerEx(Action<ITable, string, object, NotifyFlags> listenerDelegate, NotifyFlags flags)
+        public void AddTableListenerEx(Action<ITable, string, Value, NotifyFlags> listenerDelegate, NotifyFlags flags)
         {
             tableListeners.Add(new ActionTableListener(listenerDelegate));
         }
@@ -89,7 +128,7 @@ namespace DotNetDash.Test
             throw new NotImplementedException();
         }
 
-        public void AddTableListenerEx(string key, Action<ITable, string, object, NotifyFlags> listenerDelegate, NotifyFlags flags)
+        public void AddTableListenerEx(string key, Action<ITable, string, Value, NotifyFlags> listenerDelegate, NotifyFlags flags)
         {
             throw new NotImplementedException();
         }
@@ -138,7 +177,7 @@ namespace DotNetDash.Test
             else
             {
                 storage[key] = defaultValue;
-                RaiseListeners(tableListeners, key, defaultValue, NotifyFlags.NotifyNew);
+                RaiseListeners(tableListeners, key, Value.MakeBoolean(defaultValue), NotifyFlags.NotifyNew);
                 return storage[key];
             }
         }
@@ -157,7 +196,7 @@ namespace DotNetDash.Test
             else
             {
                 storage[key] = defaultValue;
-                RaiseListeners(tableListeners, key, defaultValue, NotifyFlags.NotifyNew);
+                RaiseListeners(tableListeners, key, Value.MakeBooleanArray(defaultValue), NotifyFlags.NotifyNew);
                 return storage[key];
             }
         }
@@ -191,7 +230,7 @@ namespace DotNetDash.Test
             else
             {
                 storage[key] = defaultValue;
-                RaiseListeners(tableListeners, key, defaultValue, NotifyFlags.NotifyNew);
+                RaiseListeners(tableListeners, key, Value.MakeDouble(defaultValue), NotifyFlags.NotifyNew);
                 return storage[key];
             }
         }
@@ -210,7 +249,7 @@ namespace DotNetDash.Test
             else
             {
                 storage[key] = defaultValue;
-                RaiseListeners(tableListeners, key, defaultValue, NotifyFlags.NotifyNew);
+                RaiseListeners(tableListeners, key, Value.MakeDoubleArray(defaultValue), NotifyFlags.NotifyNew);
                 return storage[key];
             }
         }
@@ -239,7 +278,7 @@ namespace DotNetDash.Test
             else
             {
                 storage[key] = defaultValue;
-                RaiseListeners(tableListeners, key, defaultValue, NotifyFlags.NotifyNew);
+                RaiseListeners(tableListeners, key, Value.MakeString(defaultValue), NotifyFlags.NotifyNew);
                 return storage[key];
             }
         }
@@ -258,7 +297,7 @@ namespace DotNetDash.Test
             else
             {
                 storage[key] = defaultValue;
-                RaiseListeners(tableListeners, key, defaultValue, NotifyFlags.NotifyNew);
+                RaiseListeners(tableListeners, key, Value.MakeStringArray(defaultValue), NotifyFlags.NotifyNew);
                 return storage[key];
             }
         }
@@ -282,12 +321,12 @@ namespace DotNetDash.Test
             return new HashSet<string>(subTables.Keys);
         }
 
-        public object GetValue(string key)
+        public Value GetValue(string key)
         {
             return storage[key];
         }
 
-        public object GetValue(string key, object defaultValue)
+        public Value GetValue(string key, Value defaultValue)
         {
             if (storage.ContainsKey(key))
             {
@@ -309,28 +348,28 @@ namespace DotNetDash.Test
         public bool PutBoolean(string key, bool value)
         {
             storage[key] = value;
-            RaiseListeners(tableListeners, key, value, NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
+            RaiseListeners(tableListeners, key, Value.MakeBoolean(value), NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
             return true;
         }
 
         public bool PutBooleanArray(string key, bool[] value)
         {
             storage[key] = value;
-            RaiseListeners(tableListeners, key, value, NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
+            RaiseListeners(tableListeners, key, Value.MakeBooleanArray(value), NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
             return true;
         }
 
         public bool PutNumber(string key, double value)
         {
             storage[key] = value;
-            RaiseListeners(tableListeners, key, value, NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
+            RaiseListeners(tableListeners, key, Value.MakeDouble(value), NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
             return true;
         }
 
         public bool PutNumberArray(string key, double[] value)
         {
             storage[key] = value;
-            RaiseListeners(tableListeners, key, value, NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
+            RaiseListeners(tableListeners, key, Value.MakeDoubleArray(value), NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
             return true;
         }
 
@@ -342,25 +381,25 @@ namespace DotNetDash.Test
         public bool PutString(string key, string value)
         {
             storage[key] = value;
-            RaiseListeners(tableListeners, key, value, NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
+            RaiseListeners(tableListeners, key, Value.MakeString(value), NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
             return true;
         }
 
         public bool PutStringArray(string key, string[] value)
         {
             storage[key] = value;
-            RaiseListeners(tableListeners, key, value, NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
+            RaiseListeners(tableListeners, key, Value.MakeStringArray(value), NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
             return true;
         }
 
-        public bool PutValue(string key, object value)
+        public bool PutValue(string key, Value value)
         {
             storage[key] = value;
             RaiseListeners(tableListeners, key, value, NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
             return true;
         }
 
-        public void RemoveTableListener(Action<ITable, string, object, NotifyFlags> listenerDelegate)
+        public void RemoveTableListener(Action<ITable, string, Value, NotifyFlags> listenerDelegate)
         {
             throw new NotImplementedException();
         }

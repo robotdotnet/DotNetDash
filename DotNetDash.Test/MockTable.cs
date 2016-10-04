@@ -63,22 +63,22 @@ namespace DotNetDash.Test
             throw new NotImplementedException();
         }
 
-        public bool SetDefaultRaw(string key, byte[] defaultValue)
+        public bool SetDefaultRaw(string key, IList<byte> defaultValue)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetDefaultBooleanArray(string key, bool[] defaultValue)
+        public bool SetDefaultBooleanArray(string key, IList<bool> defaultValue)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetDefaultNumberArray(string key, double[] defaultValue)
+        public bool SetDefaultNumberArray(string key, IList<double> defaultValue)
         {
             throw new NotImplementedException();
         }
 
-        public bool SetDefaultStringArray(string key, string[] defaultValue)
+        public bool SetDefaultStringArray(string key, IList<string> defaultValue)
         {
             throw new NotImplementedException();
         }
@@ -182,12 +182,12 @@ namespace DotNetDash.Test
             }
         }
 
-        public bool[] GetBooleanArray(string key)
+        public IList<bool> GetBooleanArray(string key)
         {
             return storage[key];
         }
 
-        public bool[] GetBooleanArray(string key, bool[] defaultValue)
+        public IList<bool> GetBooleanArray(string key, IList<bool> defaultValue)
         {
             if (storage.ContainsKey(key))
             {
@@ -235,12 +235,12 @@ namespace DotNetDash.Test
             }
         }
 
-        public double[] GetNumberArray(string key)
+        public IList<double> GetNumberArray(string key)
         {
             return storage[key];
         }
 
-        public double[] GetNumberArray(string key, double[] defaultValue)
+        public IList<double> GetNumberArray(string key, IList<double> defaultValue)
         {
             if (storage.ContainsKey(key))
             {
@@ -254,12 +254,12 @@ namespace DotNetDash.Test
             }
         }
 
-        public byte[] GetRaw(string key)
+        public IList<byte> GetRaw(string key)
         {
             throw new NotImplementedException();
         }
 
-        public byte[] GetRaw(string key, byte[] defaultValue)
+        public IList<byte> GetRaw(string key, IList<byte> defaultValue)
         {
             throw new NotImplementedException();
         }
@@ -283,12 +283,12 @@ namespace DotNetDash.Test
             }
         }
 
-        public string[] GetStringArray(string key)
+        public IList<string> GetStringArray(string key)
         {
             return storage[key];
         }
 
-        public string[] GetStringArray(string key, string[] defaultValue)
+        public IList<string> GetStringArray(string key, IList<string> defaultValue)
         {
             if (storage.ContainsKey(key))
             {
@@ -352,7 +352,7 @@ namespace DotNetDash.Test
             return true;
         }
 
-        public bool PutBooleanArray(string key, bool[] value)
+        public bool PutBooleanArray(string key, IList<bool> value)
         {
             storage[key] = value;
             RaiseListeners(tableListeners, key, Value.MakeBooleanArray(value), NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
@@ -366,14 +366,14 @@ namespace DotNetDash.Test
             return true;
         }
 
-        public bool PutNumberArray(string key, double[] value)
+        public bool PutNumberArray(string key, IList<double> value)
         {
             storage[key] = value;
             RaiseListeners(tableListeners, key, Value.MakeDoubleArray(value), NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);
             return true;
         }
 
-        public bool PutRaw(string key, byte[] value)
+        public bool PutRaw(string key, IList<byte> value)
         {
             throw new NotImplementedException();
         }
@@ -385,7 +385,7 @@ namespace DotNetDash.Test
             return true;
         }
 
-        public bool PutStringArray(string key, string[] value)
+        public bool PutStringArray(string key, IList<string> value)
         {
             storage[key] = value;
             RaiseListeners(tableListeners, key, Value.MakeStringArray(value), NotifyFlags.NotifyNew & NotifyFlags.NotifyUpdate);

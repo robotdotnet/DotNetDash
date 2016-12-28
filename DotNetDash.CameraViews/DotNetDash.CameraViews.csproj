@@ -62,13 +62,11 @@
       <DependentUpon>CameraView.xaml</DependentUpon>
     </Compile>
     <Compile Include="BitmapConverter.cs" />
-    <Compile Include="FrcMJpegStream.cs" />
     <Compile Include="LocalCameraSelector.xaml.cs">
       <DependentUpon>LocalCameraSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocalCameraView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoboRioCameraView.cs" />
     <Compile Include="WebCameraView.cs" />
     <Compile Include="SafeHBitmapHandle.cs" />
   </ItemGroup>

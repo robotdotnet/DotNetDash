@@ -7,13 +7,11 @@ namespace DotNetDash.CameraViews
 {
     class WebCameraView : CameraView
     {
-        private const int CameraServerPort = 1180;
-
         public WebCameraView()
         {
             var layout = new StackPanel { Orientation = Orientation.Horizontal };
-            layout.Children.Add(new TextBlock { Text = "Webcam IP Address/URL with port:" });
-            var urlBox = new TextBox { Margin = new Thickness(10, 0, 0, 0) };
+            layout.Children.Add(new TextBlock { Text = "Camera URL:" });
+            var urlBox = new TextBox { MinWidth = 300, Margin = new Thickness(10, 0, 0, 0) };
             urlBox.SetBinding(TextBox.TextProperty, new Binding
             {
                 Path = new PropertyPath(nameof(WebcamUrl)),
@@ -47,7 +45,7 @@ namespace DotNetDash.CameraViews
         public FrameworkElement View { get; } = new WebCameraView();
     }
 
-    [CustomViewFactory(Name = "Webcam")]
+    [CustomViewFactory(Name = "MJPEG Stream")]
     public class WebcamViewProcessorFactory : IViewProcessorFactory
     {
         public IViewProcessor Create()

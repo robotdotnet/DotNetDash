@@ -1,5 +1,5 @@
-﻿using AForge.Video.DirectShow;
-using System.Windows;
+﻿using System.Windows;
+using AForge.Video.DirectShow;
 
 namespace DotNetDash.CameraViews
 {

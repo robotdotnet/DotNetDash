@@ -1,7 +1,7 @@
-﻿using NetworkTables.Tables;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Collections.Generic;
+using NetworkTables.Tables;
 
 namespace DotNetDash
 {

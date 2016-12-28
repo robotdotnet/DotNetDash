@@ -1,6 +1,6 @@
-﻿using Microsoft.Win32.SafeHandles;
-using System;
+﻿using System;
 using System.Security;
+using Microsoft.Win32.SafeHandles;
 
 namespace DotNetDash.CameraViews
 {

@@ -1,6 +1,4 @@
-﻿using DotNetDash.BuiltinProcessors;
-using NetworkTables.Tables;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Globalization;
@@ -9,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using DotNetDash.BuiltinProcessors;
+using NetworkTables.Tables;
 
 namespace DotNetDash.LiveWindow
 {

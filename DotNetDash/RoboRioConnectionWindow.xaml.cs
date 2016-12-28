@@ -1,5 +1,5 @@
-﻿using NetworkTables;
-using System.Windows;
+﻿using System.Windows;
+using NetworkTables;
 
 namespace DotNetDash
 {

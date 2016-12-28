@@ -1,8 +1,8 @@
-﻿using NetworkTables.Tables;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
+using NetworkTables.Tables;
 
 namespace DotNetDash.SpeedController
 {

@@ -1,10 +1,10 @@
-﻿using Serilog;
-using System.ComponentModel.Composition.Hosting;
+﻿using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using Serilog;
 
 namespace DotNetDash
 {

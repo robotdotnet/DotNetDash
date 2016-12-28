@@ -418,5 +418,45 @@ namespace DotNetDash.Test
         {
             throw new NotImplementedException();
         }
+
+        bool[] ITable.GetBooleanArray(string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool[] GetBooleanArray(string key, bool[] defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        double[] ITable.GetNumberArray(string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] GetNumberArray(string key, double[] defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        string[] ITable.GetStringArray(string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string[] GetStringArray(string key, string[] defaultValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        byte[] ITable.GetRaw(string key)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] GetRaw(string key, byte[] defaultValue)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

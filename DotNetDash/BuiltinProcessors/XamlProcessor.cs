@@ -1,7 +1,7 @@
-﻿using NetworkTables.Tables;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using NetworkTables.Tables;
 
 namespace DotNetDash.BuiltinProcessors
 {

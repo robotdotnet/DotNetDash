@@ -1,9 +1,10 @@
 ﻿using System;
-using NetworkTables.Tables;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using NetworkTables;
+using NetworkTables.Tables;
 
 namespace DotNetDash
 {
@@ -13,15 +14,8 @@ namespace DotNetDash
 
         public NetworkTableBackedLookup(ITable table)
         {
-            bool validType = false;
-            foreach (var type in Value.GetSupportedValueTypes())
-            {
-                if (type == typeof(T))
-                {
-                    validType = true;
-                    break;
-                }
-            }
+            bool validType = Value.GetSupportedValueTypes().Contains(typeof(T));
+            
             if (!validType)
             {
                 throw new InvalidOperationException($"Generic type {typeof(T)} is not supported");

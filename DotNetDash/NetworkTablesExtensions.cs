@@ -1,7 +1,7 @@
-﻿using NetworkTables;
-using NetworkTables.Tables;
-using System;
+﻿using System;
 using System.Threading;
+using NetworkTables;
+using NetworkTables.Tables;
 
 namespace DotNetDash
 {

@@ -1,11 +1,10 @@
-﻿using NetworkTables.Tables;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
 using System.Windows.Markup;
+using NetworkTables.Tables;
+using Serilog;
 
 namespace DotNetDash.BuiltinProcessors
 {

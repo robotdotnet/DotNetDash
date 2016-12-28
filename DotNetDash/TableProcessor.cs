@@ -1,7 +1,4 @@
-﻿using Hellosam.Net.Collections;
-using NetworkTables.Tables;
-using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -10,6 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using Hellosam.Net.Collections;
+using NetworkTables.Tables;
+using Serilog;
 
 namespace DotNetDash
 {

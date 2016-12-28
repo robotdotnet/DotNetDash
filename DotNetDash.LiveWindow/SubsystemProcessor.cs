@@ -1,9 +1,9 @@
-﻿using NetworkTables.Tables;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
+using NetworkTables.Tables;
 
 namespace DotNetDash.LiveWindow
 {

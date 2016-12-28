@@ -87,13 +87,15 @@ namespace DotNetDash
 
         protected virtual NetworkTableContext GetTableContext(string name, ITable table) => new NetworkTableContext(name, table);
 
+        protected virtual string DefaultTableType => string.Empty;
+
         protected abstract FrameworkElement GetViewCore();
 
         private void AddProcessorOptionsForTable(string subTableName)
         {
             logger.Information($"Creating processors for subtable {subTableName}");
             var subTable = baseTable.GetSubTable(subTableName);
-            var tableType = subTable.GetString("~TYPE~", "");
+            var tableType = subTable.GetString("~TYPE~", DefaultTableType);
             logger.Information($"Subtable {subTableName} has a Dashboard type of '{tableType}'");
             var selectedProcessors = new ObservableCollection<IViewProcessor>(GetSortedTableProcessorsForType(subTable, subTableName, tableType));
             logger.Information($"Found {selectedProcessors.Count} applicable subprocessors for table '{subTableName}'");

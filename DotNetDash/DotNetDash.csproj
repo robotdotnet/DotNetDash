@@ -100,6 +100,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AutoLayoutCanvas.cs" />
     <Compile Include="BuiltinProcessors\DefaultProcessor.cs" />
     <Compile Include="BuiltinProcessors\DefaultRootTableProcessor.cs" />
     <Compile Include="BuiltinProcessors\FallbackProcessorFactory.cs" />

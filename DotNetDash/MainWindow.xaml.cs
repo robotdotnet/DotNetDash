@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -68,13 +69,11 @@ namespace DotNetDash
         {
             if (!connectivityMarkerInitialized)
             {
-                NetworkTables.NetworkTable.AddGlobalConnectionListener((remote, connection, connected) =>
-                {
-                    Dispatcher.Invoke(() =>
+                NetworkTablesExtensions.AddGlobalConnectionListenerOnSynchronizationContext(SynchronizationContext.Current,
+                    (remote, connection, connected) =>
                     {
                         ConnectionIndicator.Fill = connected ? Brushes.Green : Brushes.Red;
-                    });
-                }, true);
+                    }, true);
 
                 connectivityMarkerInitialized = true;
             }

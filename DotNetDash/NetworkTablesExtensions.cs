@@ -26,7 +26,7 @@ namespace DotNetDash
             });
         }
 
-        public static void AddTableListenerOnSynchronizationContext(this ITable table, SynchronizationContext context, Action<ITable, string, object, NotifyFlags> callback, bool immediateNotify = false)
+        public static void AddTableListenerOnSynchronizationContext(this ITable table, SynchronizationContext context, Action<ITable, string, Value, NotifyFlags> callback, bool immediateNotify = false)
         {
             if (callback == null)
             {
@@ -45,7 +45,7 @@ namespace DotNetDash
             }, immediateNotify);
         }
 
-        public static void AddTableListenerOnSynchronizationContext(this ITable table, SynchronizationContext context, Action<ITable, string, object, NotifyFlags> callback, NotifyFlags flags)
+        public static void AddTableListenerOnSynchronizationContext(this ITable table, SynchronizationContext context, Action<ITable, string, Value, NotifyFlags> callback, NotifyFlags flags)
         {
             if (callback == null)
             {
@@ -62,6 +62,26 @@ namespace DotNetDash
                     ThreadPool.QueueUserWorkItem(state => callback(tbl, name, value, _flags), null);
                 }
             }, flags);
+        }
+
+        public static void AddGlobalConnectionListenerOnSynchronizationContext(SynchronizationContext context, Action<IRemote, ConnectionInfo, bool> callback, bool notifyImmediate)
+        {
+            if (callback == null)
+            {
+                throw new ArgumentNullException(nameof(callback));
+            }
+
+            NetworkTable.AddGlobalConnectionListener((remote, info, connected) =>
+            {
+                if (context != null)
+                {
+                    context.Post(state => callback(remote, info, connected), null);
+                }
+                else
+                {
+                    ThreadPool.QueueUserWorkItem(state => callback(remote, info, connected), null);
+                }
+            }, notifyImmediate);
         }
     }
 }

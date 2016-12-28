@@ -18,7 +18,7 @@ namespace DotNetDash.BuiltinProcessors
                 if (key == "~TYPE~") return;
                 logger.Verbose($"Adding property view for {name}");
                 var stackPanel = (StackPanel)View;
-                stackPanel.Children.Add(CreateNewElementView(key, (Value)value));
+                stackPanel.Children.Add(CreateNewElementView(key, value));
             }, NotifyFlags.NotifyImmediate | NotifyFlags.NotifyNew);
         }
 
@@ -27,7 +27,7 @@ namespace DotNetDash.BuiltinProcessors
             return new StackPanel { Orientation = Orientation.Vertical };
         }
 
-        public override string Name => "Default Processor";
+        public override string Name => "Default Table View";
 
         private UIElement CreateNewElementView(string key, Value value)
         {

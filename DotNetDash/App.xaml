@@ -44,7 +44,7 @@
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
-                        <Canvas Focusable="True" />
+                        <local:AutoLayoutCanvas Focusable="True" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
@@ -78,6 +78,9 @@
             </Setter>
             <Setter Property="Focusable" Value="True" />
             <Setter Property="Background" Value="White" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="MinWidth" Value="100" />
         </Style>
     </Application.Resources>
 </Application>

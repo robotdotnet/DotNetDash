@@ -24,10 +24,10 @@ namespace DotNetDash.SpeedController
                 switch (key)
                 {
                     case nameof(Mode):
-                        Mode = (ControlMode)(int)(double)value;
+                        Mode = (ControlMode)(int)value.GetDouble();
                         break;
                     case "Value":
-                        ShowValue((double)value);
+                        ShowValue(value.GetDouble());
                         break;
                     default:
                         break;

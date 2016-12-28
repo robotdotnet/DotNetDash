@@ -15,7 +15,13 @@ namespace DotNetDash
 
         private void ConnectClicked(object sender, RoutedEventArgs e)
         {
-            NetworkTable.Shutdown();
+            try
+            {
+                NetworkTable.Shutdown();
+            }
+            catch (System.Exception)
+            {
+            }
             NetworkTable.SetIPAddress(Properties.Settings.Default.LastServer.ToString());
             NetworkTable.SetClientMode();
             NetworkTable.Initialize();

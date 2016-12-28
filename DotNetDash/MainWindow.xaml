@@ -16,7 +16,7 @@
         </Menu>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBlock>Connection:</TextBlock>
-            <Rectangle Width="40" x:Name="ConnectionIndicator" />
+            <Rectangle Width="40" x:Name="ConnectionIndicator" Fill="Red" />
         </StackPanel>
         <TabControl x:Name="Tabs" />
     </DockPanel>

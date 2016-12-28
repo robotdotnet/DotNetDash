@@ -24,6 +24,7 @@ namespace DotNetDash
         {
             base.OnExit(e);
             DotNetDash.Properties.Settings.Default.Save();
+            NetworkTables.NetworkTable.Shutdown();
         }
 
         private static ComposablePartCatalog CreateExtensionCatalog()

@@ -1,6 +1,7 @@
 ﻿using NetworkTables.Tables;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace DotNetDash
 {
@@ -15,10 +16,10 @@ namespace DotNetDash
             Numbers = new NetworkTableBackedLookup<double>(table);
             Booleans = new NetworkTableBackedLookup<bool>(table);
             Strings = new NetworkTableBackedLookup<string>(table);
-            Raw = new NetworkTableBackedLookup<byte[]>(table);
-            StringArrays = new NetworkTableBackedLookup<string[]>(table);
-            BooleanArrays = new NetworkTableBackedLookup<bool[]>(table);
-            NumberArrays = new NetworkTableBackedLookup<double[]>(table);
+            Raw = new NetworkTableBackedLookup<IList<byte>>(table);
+            StringArrays = new NetworkTableBackedLookup<IList<string>>(table);
+            BooleanArrays = new NetworkTableBackedLookup<IList<bool>>(table);
+            NumberArrays = new NetworkTableBackedLookup<IList<double>>(table);
         }
 
         public string Name { get; }
@@ -29,13 +30,13 @@ namespace DotNetDash
 
         public NetworkTableBackedLookup<string> Strings { get; }
 
-        public NetworkTableBackedLookup<byte[]> Raw { get; }
+        public NetworkTableBackedLookup<IList<byte>> Raw { get; }
 
-        public NetworkTableBackedLookup<string[]> StringArrays { get; }
+        public NetworkTableBackedLookup<IList<string>> StringArrays { get; }
 
-        public NetworkTableBackedLookup<bool[]> BooleanArrays { get; }
+        public NetworkTableBackedLookup<IList<bool>> BooleanArrays { get; }
 
-        public NetworkTableBackedLookup<double[]> NumberArrays { get; }
+        public NetworkTableBackedLookup<IList<double>> NumberArrays { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

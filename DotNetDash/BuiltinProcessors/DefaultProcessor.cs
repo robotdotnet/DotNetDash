@@ -18,7 +18,7 @@ namespace DotNetDash.BuiltinProcessors
                 if (key == "~TYPE~") return;
                 logger.Verbose($"Adding property view for {name}");
                 var stackPanel = (StackPanel)View;
-                stackPanel.Children.Add(CreateNewElementView(key, value));
+                stackPanel.Children.Add(CreateNewElementView(key, (Value)value));
             }, NotifyFlags.NotifyImmediate | NotifyFlags.NotifyNew);
         }
 
@@ -29,7 +29,7 @@ namespace DotNetDash.BuiltinProcessors
 
         public override string Name => "Default Processor";
 
-        private UIElement CreateNewElementView(string key, object value)
+        private UIElement CreateNewElementView(string key, Value value)
         {
             var keyValueLine = new StackPanel { Orientation = Orientation.Horizontal };
             keyValueLine.Children.Add(new Label { Content = key });
@@ -40,37 +40,27 @@ namespace DotNetDash.BuiltinProcessors
             return keyValueLine;
         }
 
-        private static string DetermineValueNetworkType(object value)
+        private static string DetermineValueNetworkType(Value value)
         {
-            if (value is double)
+            switch (value.Type)
             {
-                return nameof(NetworkTableContext.Numbers);
+                case NtType.Boolean:
+                    return nameof(NetworkTableContext.Booleans);
+                case NtType.Double:
+                    return nameof(NetworkTableContext.Numbers);
+                case NtType.String:
+                    return nameof(NetworkTableContext.Strings);
+                case NtType.BooleanArray:
+                    return nameof(NetworkTableContext.BooleanArrays);
+                case NtType.DoubleArray:
+                    return nameof(NetworkTableContext.NumberArrays);
+                case NtType.StringArray:
+                    return nameof(NetworkTableContext.StringArrays);
+                case NtType.Raw:
+                    return nameof(NetworkTableContext.Raw);
+                default:
+                    return string.Empty;
             }
-            else if (value is string)
-            {
-                return nameof(NetworkTableContext.Strings);
-            }
-            else if (value is bool)
-            {
-                return nameof(NetworkTableContext.Booleans);
-            }
-            else if (value is byte[])
-            {
-                return nameof(NetworkTableContext.Raw);
-            }
-            else if (value is double[])
-            {
-                return nameof(NetworkTableContext.NumberArrays);
-            }
-            else if (value is string[])
-            {
-                return nameof(NetworkTableContext.StringArrays);
-            }
-            else if (value is bool[])
-            {
-                return nameof(NetworkTableContext.BooleanArrays);
-            }
-            return string.Empty;
         }
     }
 }

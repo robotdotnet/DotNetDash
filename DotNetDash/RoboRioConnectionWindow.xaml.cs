@@ -16,7 +16,7 @@ namespace DotNetDash
         private void ConnectClicked(object sender, RoutedEventArgs e)
         {
             NetworkTable.Shutdown();
-            NetworkTable.SetIPAddress($"roborio-{Properties.Settings.Default.TeamNumber}-frc.local");
+            NetworkTable.SetTeam(Properties.Settings.Default.TeamNumber);
             NetworkTable.SetClientMode();
             NetworkTable.Initialize();
             DialogResult = true;

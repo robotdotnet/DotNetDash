@@ -63,16 +63,21 @@ namespace DotNetDash
             InitializeConnectivityMarker();
         }
 
-        private async void InitializeConnectivityMarker()
+        private bool connectivityMarkerInitialized = false;
+
+        private void InitializeConnectivityMarker()
         {
-            await Task.Delay(500); //Add a delay to the connection check so NetworkTables can establish the connection
-            if(NetworkTables.NetworkTable.Connections().Any())
+            if (!connectivityMarkerInitialized)
             {
-                ConnectionIndicator.Fill = Brushes.Green;
-            }
-            else
-            {
-                ConnectionIndicator.Fill = Brushes.Red;
+                NetworkTables.NetworkTable.AddGlobalConnectionListener((remote, connection, connected) =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        ConnectionIndicator.Fill = connected ? Brushes.Green : Brushes.Red;
+                    });
+                }, true);
+
+                connectivityMarkerInitialized = true;
             }
         }
 

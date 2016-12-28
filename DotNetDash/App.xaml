@@ -53,7 +53,7 @@
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <ContentPresenter Content="{Binding View}" />
+                        <ContentPresenter Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.View}" />
                     </DataTemplate>
                 </Setter.Value>
             </Setter>

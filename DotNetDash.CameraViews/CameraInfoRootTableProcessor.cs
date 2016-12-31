@@ -18,7 +18,7 @@ namespace DotNetDash.CameraViews
         protected override string DefaultTableType => "CameraInformation";
     }
 
-    [DashboardType(typeof(IRootTableProcessorFactory), "CameraProcessor")]
+    [DashboardType(typeof(IRootTableProcessorFactory), "CameraPublisher")]
     public sealed class CameraInfoRootTableProcessorFactory : IRootTableProcessorFactory
     {
         private IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;

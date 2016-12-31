@@ -37,7 +37,7 @@ namespace DotNetDash.CameraViews
             var collection = new ObservableCollection<string>();
 
             var ntInterface = (App.Current as App).Container.GetExport<INetworkTablesInterface>().Value;
-            var cameraTable = ntInterface.GetTable("CameraProcessor");
+            var cameraTable = ntInterface.GetTable("CameraPublisher");
             var context = SynchronizationContext.Current;
 
             Action<string, NotifyFlags> subTableCallback = (name, flags) =>

@@ -17,6 +17,7 @@ namespace DotNetDash
         {
             base.OnStartup(e);
             Container = new CompositionContainer(CreateExtensionCatalog());
+            Directory.CreateDirectory("./logs");
             Log.Logger = new LoggerConfiguration().ReadFrom.AppSettings().Enrich.WithProperty("Table", "Application Core").CreateLogger();
         }
 

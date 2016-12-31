@@ -13,11 +13,17 @@ namespace DotNetDash
     /// </summary>
     public partial class MainWindow : Window
     {
+        private INetworkTablesInterface ntInterface;
         public MainWindow()
         {
             InitializeComponent();
+
+            ntInterface = GetService<INetworkTablesInterface>();
+            ntInterface.OnConnectionChanged += (obj, args) => ConnectionIndicator.Fill = args.Connected ? Brushes.Green : Brushes.Red;
+            ntInterface.OnDisconnect += (obj, args) => ConnectionIndicator.Fill = Brushes.Red;
+
             LoadCustomControls();
-            if(new RoboRioConnectionWindow().ShowDialog() != true)
+            if(new RoboRioConnectionWindow(ntInterface).ShowDialog() != true)
             {
                 Close();
             }
@@ -47,36 +53,19 @@ namespace DotNetDash
 
         protected override void OnClosed(EventArgs e)
         {
-            NetworkTables.NetworkTable.Shutdown();
+            ntInterface.Disconnect();
             base.OnClosed(e);
         }
 
         private void OpenRoboRioConnectionWindow(object sender, RoutedEventArgs e)
         {
-            new RoboRioConnectionWindow().ShowDialog();
+            new RoboRioConnectionWindow(ntInterface).ShowDialog();
             InitializeDashboard();
         }
 
         private void InitializeDashboard()
         {
             InitializeTabs();
-            InitializeConnectivityMarker();
-        }
-
-        private bool connectivityMarkerInitialized = false;
-
-        private void InitializeConnectivityMarker()
-        {
-            if (!connectivityMarkerInitialized)
-            {
-                NetworkTablesExtensions.AddGlobalConnectionListenerOnSynchronizationContext(SynchronizationContext.Current,
-                    (remote, connection, connected) =>
-                    {
-                        ConnectionIndicator.Fill = connected ? Brushes.Green : Brushes.Red;
-                    }, true);
-
-                connectivityMarkerInitialized = true;
-            }
         }
 
         private void InitializeTabs()
@@ -95,16 +84,22 @@ namespace DotNetDash
 
         private void OpenServerConnectionWindow(object sender, RoutedEventArgs e)
         {
-            new ServerConnectionWindow().ShowDialog();
+            new ServerConnectionWindow(ntInterface).ShowDialog();
             InitializeDashboard();
         }
 
-        private static TableProcessor CreateRootTableProcessor(IEnumerable<Lazy<IRootTableProcessorFactory, IDashboardTypeMetadata>> factories, string tableName)
+        private TableProcessor CreateRootTableProcessor(IEnumerable<Lazy<IRootTableProcessorFactory, IDashboardTypeMetadata>> factories, string tableName)
         {
             var matchedProcessors = factories.Where(factory => factory.Metadata.IsMatch(tableName));
             var processor = (matchedProcessors.FirstOrDefault(factory => !factory.Metadata.IsWildCard()) ?? matchedProcessors.First())
-                                  .Value.Create(tableName, NetworkTables.NetworkTable.GetTable(tableName));
+                                  .Value.Create(tableName, ntInterface.GetTable(tableName));
             return processor;
+        }
+
+        private static T GetService<T>()
+        {
+            var app = App.Current as App;
+            return app.Container.GetExport<T>().Value;
         }
     }
 }

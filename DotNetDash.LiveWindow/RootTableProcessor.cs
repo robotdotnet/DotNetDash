@@ -42,40 +42,14 @@ namespace DotNetDash.LiveWindow
                 Foreground = new SolidColorBrush(Colors.DarkRed)
             };
             var outline = new Grid();
-            enabledBody.SetBinding(UIElement.VisibilityProperty, new Binding("Enabled") { Converter = new LWEnabledToVisibilityConverter() });
-            disabledBody.SetBinding(UIElement.VisibilityProperty, new Binding("Enabled") { Converter = new LWDisabledToVisibilityConverter() });
+            enabledBody.SetBinding(UIElement.VisibilityProperty, new Binding("Enabled") { Converter = new IsVisibleConverter() });
+            disabledBody.SetBinding(UIElement.VisibilityProperty, new Binding("Enabled") { Converter = new IsHiddenConverter() });
             outline.Children.Add(enabledBody);
             outline.Children.Add(disabledBody);
             return outline;
         }
 
         protected override NetworkTableContext GetTableContext(string name, ITable table) => new RootTableContext(name, table);
-
-        private class LWEnabledToVisibilityConverter : IValueConverter
-        {
-            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                return (value as bool?) == true ? Visibility.Visible : Visibility.Hidden;
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private class LWDisabledToVisibilityConverter : IValueConverter
-        {
-            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                return (value as bool?) == true ? Visibility.Hidden : Visibility.Visible;
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            {
-                throw new NotImplementedException();
-            }
-        }
 
     }
 

@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FRC.NetworkTables, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FRC.NetworkTables.3.0.1-beta1\lib\net46\FRC.NetworkTables.dll</HintPath>
+      <HintPath>..\packages\FRC.NetworkTables.3.1.4-rc2\lib\net46\FRC.NetworkTables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Hellosam.Net.Collections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

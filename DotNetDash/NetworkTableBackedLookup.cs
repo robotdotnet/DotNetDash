@@ -33,9 +33,14 @@ namespace DotNetDash
             {
                 var value = table.GetValue(key, null);
                 if (value == null) return default(T);
-                bool success;
-                var rawVal = value.GetValue<T>(out success);
-                return !success ? default(T) : rawVal;
+                try
+                {
+                    return (T)value.GetObjectValue();
+                }
+                catch (InvalidCastException)
+                {
+                    return default(T);
+                }
             }
             set
             {

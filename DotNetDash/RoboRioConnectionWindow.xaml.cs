@@ -8,17 +8,23 @@ namespace DotNetDash
     /// </summary>
     public partial class RoboRioConnectionWindow : Window
     {
+        private INetworkTablesInterface ntInterface;
+
         public RoboRioConnectionWindow()
         {
             InitializeComponent();
         }
 
+        public RoboRioConnectionWindow(INetworkTablesInterface ntInterface)
+            :this()
+        {
+            this.ntInterface = ntInterface;
+        }
+
         private void ConnectClicked(object sender, RoutedEventArgs e)
         {
-            NetworkTable.Shutdown();
-            NetworkTable.SetTeam(Properties.Settings.Default.TeamNumber);
-            NetworkTable.SetClientMode();
-            NetworkTable.Initialize();
+            ntInterface.Disconnect();
+            ntInterface.ConnectToTeam(Properties.Settings.Default.TeamNumber);
             DialogResult = true;
             Close();
         }

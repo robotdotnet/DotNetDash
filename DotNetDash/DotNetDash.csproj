@@ -46,7 +46,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FRC.NetworkTables, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FRC.NetworkTables.3.0.1-beta1\lib\net46\FRC.NetworkTables.dll</HintPath>
+      <HintPath>..\packages\FRC.NetworkTables.3.1.4-rc2\lib\net46\FRC.NetworkTables.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Hellosam.Net.Collections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -114,6 +114,7 @@
     <Compile Include="DashboardTypeAttribute.cs" />
     <Compile Include="DragDropBehavior.cs" />
     <Compile Include="IDashboardTypeMetadata.cs" />
+    <Compile Include="INetworkTablesInterface.cs" />
     <Compile Include="IRootTableProcessorFactory.cs" />
     <Compile Include="ITableProcessorFactory.cs" />
     <Compile Include="IViewProcessor.cs" />
@@ -128,6 +129,7 @@
       <DependentUpon>ServerConnectionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuiltinProcessors\XamlProcessor.cs" />
+    <Compile Include="SingletonNetworkTablesInterface.cs" />
     <Compile Include="TableMultiView.cs" />
     <Compile Include="TableProcessor.cs" />
     <Compile Include="XamlView.xaml.cs">

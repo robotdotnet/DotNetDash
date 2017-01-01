@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,11 +14,16 @@ namespace DotNetDash.CameraViews
     {
         public WebCameraView()
         {
+            CameraServerCameras = GetCameraServerCameras();
+            CameraServerView = new CollectionViewSource();
+            CameraServerView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(CameraStream.CameraName)));
+            CameraServerView.Source = CameraServerCameras;
+
             var layout = new StackPanel { Orientation = Orientation.Horizontal };
             layout.Children.Add(new TextBlock { Text = "Camera URL:" });
             var urlBox = new ComboBox { MinWidth = 300, Margin = new Thickness(10, 0, 0, 0) };
             urlBox.IsEditable = true;
-            CameraServerCameras = GetCameraServerCameras();
+
             urlBox.SetBinding(ComboBox.SelectedItemProperty, new Binding
             {
                 Path = new PropertyPath(nameof(WebcamUrl)),
@@ -25,16 +31,20 @@ namespace DotNetDash.CameraViews
             });
             urlBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding
             {
-                Path = new PropertyPath(nameof(CameraServerCameras))
+                Source = CameraServerView
             });
+
+            urlBox.GroupStyle.Add(GroupStyle.Default);
+            urlBox.DisplayMemberPath = nameof(CameraStream.Stream);
+
             layout.Children.Add(urlBox);
             CameraSelector.Content = layout;
         }
 
-        private ObservableCollection<string> GetCameraServerCameras()
+        private static ObservableCollection<CameraStream> GetCameraServerCameras()
         {
-            var cache = new Dictionary<string, string[]>();
-            var collection = new ObservableCollection<string>();
+            var cache = new Dictionary<string, IEnumerable<CameraStream>>();
+            var collection = new ObservableCollection<CameraStream>();
 
             var ntInterface = (App.Current as App).Container.GetExport<INetworkTablesInterface>().Value;
             var cameraTable = ntInterface.GetTable("CameraPublisher");
@@ -48,14 +58,17 @@ namespace DotNetDash.CameraViews
                     {
                         context.Post(state =>
                         {
-                            var streams = value.GetStringArray();
-                            for (int i = 0; i < streams.Length; i++)
+                            var streamsArray = value.GetStringArray();
+                            for (int i = 0; i < streamsArray.Length; i++)
                             {
-                                if(streams[i].StartsWith("mjpeg:", StringComparison.InvariantCultureIgnoreCase))
+                                if(streamsArray[i].StartsWith("mjpeg:", StringComparison.InvariantCultureIgnoreCase))
                                 {
-                                    streams[i] = streams[i].Substring("mjpeg:".Length);
+                                    streamsArray[i] = streamsArray[i].Substring("mjpeg:".Length);
                                 }
                             }
+
+                            var streams = streamsArray.Select(stream => new CameraStream { CameraName = name, Stream = stream });
+
                             valueFlags &= ~NotifyFlags.NotifyLocal;
                             switch (valueFlags)
                             {
@@ -88,6 +101,15 @@ namespace DotNetDash.CameraViews
                         }, null);
                     }, true);
                 }
+                else if (flags == NotifyFlags.NotifyDelete)
+                {
+                    cache.Remove(name);
+                    var toRemove = collection.Where(stream => stream.CameraName == name).ToList();
+                    foreach (var item in toRemove)
+                    {
+                        collection.Remove(item);
+                    }
+                }
             };
 
             cameraTable.AddSubTableListener((table, name, _, flags) => subTableCallback(name, flags), true);
@@ -118,7 +140,15 @@ namespace DotNetDash.CameraViews
             }
         }
 
-        public ObservableCollection<string> CameraServerCameras { get; }
+        private ObservableCollection<CameraStream> CameraServerCameras { get; }
+
+        public CollectionViewSource CameraServerView { get; }
+    }
+
+    struct CameraStream
+    {
+        public string CameraName { get; set; }
+        public string Stream { get; set; }
     }
 
     sealed class WebcamViewProcessor : IViewProcessor

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
@@ -7,7 +8,7 @@ using System.Windows.Controls.Primitives;
 
 namespace DotNetDash
 {
-    [TemplatePart(Name = "PART_Presenter", Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = "PART_ViewsMenu", Type = typeof(MenuItem))]
     public class TableMultiView : Selector
     {
         public TableMultiView()
@@ -15,40 +16,30 @@ namespace DotNetDash
             AllowDrop = true;
         }
         
-        public DataTemplate ViewSwitchTemplate
+        public DataTemplate HeaderTemplate
         {
-            get { return (DataTemplate)GetValue(ViewSwitchTemplateProperty); }
-            set { SetValue(ViewSwitchTemplateProperty, value); }
+            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
+            set { SetValue(HeaderTemplateProperty, value); }
         }
         
-        public static readonly DependencyProperty ViewSwitchTemplateProperty =
-            DependencyProperty.Register(nameof(ViewSwitchTemplate), typeof(DataTemplate), typeof(TableMultiView), new PropertyMetadata(ViewSwitchTemplateChanged));
-
-        private static void ViewSwitchTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var view = (TableMultiView)d;
-            view.OnViewSwitchTemplateChanged((DataTemplate)e.OldValue, (DataTemplate)e.NewValue);
-        }
-
-        protected virtual void OnViewSwitchTemplateChanged(DataTemplate oldViewSwitchTemplate, DataTemplate newViewSwitchTemplate)
-        {
-            CreateContextMenu();
-        }
-
-
-        private ContentPresenter presenter;
+        public static readonly DependencyProperty HeaderTemplateProperty =
+            DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(TableMultiView));
+        
+        private MenuItem viewMenu;
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            presenter = (ContentPresenter)Template.FindName("PART_Presenter", this);
-            TrySetNewContent(SelectedItem);
+            viewMenu = (MenuItem)Template.FindName("PART_ViewsMenu", this);
+            viewMenu.AddHandler(MenuItem.ClickEvent, (RoutedEventHandler)OnViewMenuItemClicked);
         }
 
-        protected override void OnItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
+        private void OnViewMenuItemClicked(object sender, RoutedEventArgs args)
         {
-            base.OnItemTemplateChanged(oldItemTemplate, newItemTemplate);
-            TrySetNewContent(SelectedItem);
+            if (args.OriginalSource != viewMenu)
+            {
+                SelectedItem = ((MenuItem)args.OriginalSource).Header;
+            }
         }
 
         protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
@@ -58,31 +49,6 @@ namespace DotNetDash
             {
                 SelectedItem = newValue.OfType<object>().ElementAt(0);
             }
-            CreateContextMenu();
-        }
-
-        private void CreateContextMenu()
-        {
-            ContextMenu = new ContextMenu();
-            foreach (var item in ItemsSource ?? Enumerable.Empty<object>())
-            {
-                var menuItem = new MenuItem
-                {
-                    Header = item,
-                    HeaderTemplate = ViewSwitchTemplate
-                };
-                menuItem.Click += (o, e) =>
-                {
-                    SelectedItem = ((MenuItem)o).Header;
-                };
-                ContextMenu.Items.Add(menuItem);
-            }
-        }
-
-        protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
-        {
-            base.OnItemsChanged(e);
-            CreateContextMenu();
         }
 
         protected override void OnVisualParentChanged(DependencyObject oldParent)
@@ -90,22 +56,6 @@ namespace DotNetDash
             base.OnVisualParentChanged(oldParent);
             var dragDropBehavior = new DragDropBehavior();
             dragDropBehavior.Attach(VisualParent);
-        }
-
-        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
-        {
-            base.OnSelectionChanged(e);
-            if (e.AddedItems.Count > 0)
-            {
-                var newPresenter = e.AddedItems[0];
-                TrySetNewContent(newPresenter);
-            }
-        }
-
-        private void TrySetNewContent(object newPresenter)
-        {
-            if (presenter != null)
-                presenter.Content = newPresenter;
         }
     }
 }

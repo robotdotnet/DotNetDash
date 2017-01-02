@@ -28,6 +28,11 @@
                                     <ContentPresenter Content="{Binding View}" />
                                 </DataTemplate>
                             </local:TableMultiView.ItemTemplate>
+                            <local:TableMultiView.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </local:TableMultiView.HeaderTemplate>
                         </local:TableMultiView>
                     </DataTemplate>
                 </Setter.Value>
@@ -54,17 +59,14 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="local:TableMultiView">
                         <Border BorderBrush="Black" BorderThickness="1" CornerRadius="3">
-                            <ContentPresenter x:Name="PART_Presenter" ContentTemplate="{TemplateBinding ItemTemplate}" >
-                            </ContentPresenter>
+                            <StackPanel>
+                                <Menu HorizontalAlignment="Right" VerticalAlignment="Top">
+                                    <MenuItem x:Name="PART_ViewsMenu" Header="Views" ItemsSource="{TemplateBinding ItemsSource}" ItemTemplate="{TemplateBinding HeaderTemplate}" />
+                                </Menu>
+                                <ContentPresenter ContentTemplate="{TemplateBinding ItemTemplate}" Content="{TemplateBinding SelectedItem}" />
+                            </StackPanel>
                         </Border>
                     </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ViewSwitchTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="Focusable" Value="True" />

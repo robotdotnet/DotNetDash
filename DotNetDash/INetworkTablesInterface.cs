@@ -12,8 +12,9 @@ namespace DotNetDash
         void ConnectToTeam(int team);
         void ConnectToServer(string server, int port);
         void Disconnect();
+        event EventHandler OnClientConnectionAttempt;
         event EventHandler OnDisconnect;
-        event EventHandler<ConnectionChangedEventArgs> OnConnectionChanged;
+        event EventHandler<ConnectionChangedEventArgs> OnConnectionStatus;
         ITable GetTable(string path);
     }
 

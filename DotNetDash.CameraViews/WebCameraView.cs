@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -12,9 +13,9 @@ namespace DotNetDash.CameraViews
 {
     class WebCameraView : CameraView
     {
-        public WebCameraView()
+        public WebCameraView(INetworkTablesInterface ntInterface)
         {
-            CameraServerCameras = GetCameraServerCameras();
+            CameraServerCameras = GetCameraServerCameras(ntInterface);
             CameraServerView = new CollectionViewSource();
             CameraServerView.GroupDescriptions.Add(new PropertyGroupDescription(nameof(CameraStream.CameraName)));
             CameraServerView.Source = CameraServerCameras;
@@ -39,15 +40,15 @@ namespace DotNetDash.CameraViews
             urlBox.DisplayMemberPath = nameof(CameraStream.Stream);
 
             layout.Children.Add(urlBox);
+
             CameraSelector.Content = layout;
         }
 
-        private static ObservableCollection<CameraStream> GetCameraServerCameras()
+        private static ObservableCollection<CameraStream> GetCameraServerCameras(INetworkTablesInterface ntInterface)
         {
             var cache = new Dictionary<string, IEnumerable<CameraStream>>();
             var collection = new ObservableCollection<CameraStream>();
-
-            var ntInterface = (App.Current as App).Container.GetExport<INetworkTablesInterface>().Value;
+            
             var cameraTable = ntInterface.GetTable("CameraPublisher");
             var context = SynchronizationContext.Current;
 
@@ -156,15 +157,31 @@ namespace DotNetDash.CameraViews
 
     sealed class WebcamViewProcessor : IViewProcessor
     {
-        public FrameworkElement View { get; } = new WebCameraView();
+        private INetworkTablesInterface ntInterface;
+
+        public WebcamViewProcessor(INetworkTablesInterface ntInterface)
+        {
+            this.ntInterface = ntInterface;
+            View = new WebCameraView(ntInterface);
+        }
+
+        public FrameworkElement View { get; }
     }
 
     [CustomViewFactory(Name = "RoboRIO/MJPEG Camera")]
     public class WebcamViewProcessorFactory : IViewProcessorFactory
     {
+        private INetworkTablesInterface ntInterface;
+        
+        [ImportingConstructor]
+        public WebcamViewProcessorFactory(INetworkTablesInterface ntInterface)
+        {
+            this.ntInterface = ntInterface;
+        }
+
         public IViewProcessor Create()
         {
-            return new WebcamViewProcessor();
+            return new WebcamViewProcessor(ntInterface);
         }
     }
 }

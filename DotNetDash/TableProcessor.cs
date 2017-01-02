@@ -17,7 +17,6 @@ namespace DotNetDash
     {
         protected readonly ITable baseTable;
         protected ObservableDictionary<string, ObservableCollection<IViewProcessor>> keyToMultiProcessorMap = new ObservableDictionary<string, ObservableCollection<IViewProcessor>>();
-        protected readonly string tableName;
         protected readonly ILogger logger;
 
         private readonly IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories;
@@ -28,7 +27,7 @@ namespace DotNetDash
         {
             logger = Log.ForContext(GetType()).ForContext("Table", name);
             logger.Information("Creating table processor for table");
-            this.tableName = name;
+            TableName = name;
             baseTable = table;
             this.processorFactories = processorFactories;
             InitCurrentSubTables();
@@ -36,6 +35,8 @@ namespace DotNetDash
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public string TableName { get; }
 
         public ObservableDictionary<string, ObservableCollection<IViewProcessor>> KeyToMultiProcessorMap
         {
@@ -151,7 +152,7 @@ namespace DotNetDash
             if (view != null)
             {
 
-                view.DataContext = GetTableContext(tableName, baseTable);
+                view.DataContext = GetTableContext(TableName, baseTable);
             }
         }
     }

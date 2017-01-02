@@ -14,13 +14,14 @@ namespace DotNetDash
     [Export(typeof(INetworkTablesInterface))]
     public class SingletonNetworkTablesInterface : INetworkTablesInterface
     {
-        public event EventHandler<ConnectionChangedEventArgs> OnConnectionChanged;
+        public event EventHandler<ConnectionChangedEventArgs> OnConnectionStatus;
         public event EventHandler OnDisconnect;
+        public event EventHandler OnClientConnectionAttempt;
 
         public SingletonNetworkTablesInterface()
         {
             NetworkTablesExtensions.AddGlobalConnectionListenerOnSynchronizationContext(SynchronizationContext.Current,
-                (remote, info, connected) => OnConnectionChanged?.Invoke(this, new ConnectionChangedEventArgs { Connected = connected }), true);
+                (remote, info, connected) => OnConnectionStatus?.Invoke(this, new ConnectionChangedEventArgs { Connected = connected }), true);
         }
 
         public void ConnectToServer(string server, int port)
@@ -29,6 +30,7 @@ namespace DotNetDash
             NetworkTable.SetIPAddress(server);
             NetworkTable.SetPort(port);
             NetworkTable.Initialize();
+            OnClientConnectionAttempt?.Invoke(this, EventArgs.Empty);
         }
 
         public void ConnectToTeam(int team)
@@ -36,6 +38,7 @@ namespace DotNetDash
             NetworkTable.SetClientMode();
             NetworkTable.SetTeam(team);
             NetworkTable.Initialize();
+            OnClientConnectionAttempt?.Invoke(this, EventArgs.Empty);
         }
 
         public ITable GetTable(string path)

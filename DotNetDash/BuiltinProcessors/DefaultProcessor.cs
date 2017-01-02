@@ -25,7 +25,7 @@ namespace DotNetDash.BuiltinProcessors
         protected override FrameworkElement GetViewCore()
         {
             var panel = new StackPanel { Orientation = Orientation.Vertical };
-            panel.Children.Add(new TextBlock { Text = tableName, HorizontalAlignment = HorizontalAlignment.Center });
+            panel.Children.Add(new TextBlock { Text = TableName, HorizontalAlignment = HorizontalAlignment.Center });
             return panel;
         }
 

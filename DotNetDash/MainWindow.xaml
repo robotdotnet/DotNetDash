@@ -6,18 +6,38 @@
         xmlns:local="clr-namespace:DotNetDash"
         mc:Ignorable="d"
         Title="DotNetDash - Dashboard from RobotDotNet" Height="350" Width="525">
+    <Window.Resources>
+        <local:BoolToRedGreenConverter x:Key="ConnectionConverter" />
+    </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Connect...">
-                <MenuItem Header="To RoboRIO" Click="OpenRoboRioConnectionWindow" />
-                <MenuItem Header="To Other Server" Click="OpenServerConnectionWindow" />
+                <MenuItem Header="To RoboRIO" Command="{Binding ConnectToRoboRioCommand}" />
+                <MenuItem Header="To Other Server" Command="{Binding ConnectToServerCommand}" />
             </MenuItem>
-            <MenuItem Header="Insert Dash Contol" x:Name="InsertMenu" />
+            <MenuItem Header="Insert Dash Contol" ItemsSource="{Binding CustomViews}">
+                <MenuItem.ItemTemplate>
+                    <DataTemplate>
+                        <MenuItem Header="{Binding Name}" Command="{Binding Command}" />
+                    </DataTemplate>
+                </MenuItem.ItemTemplate>
+            </MenuItem>
         </Menu>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
             <TextBlock>Connection:</TextBlock>
-            <Rectangle Width="40" x:Name="ConnectionIndicator" Fill="Red" />
+            <Rectangle Width="40" Fill="{Binding Connected, Converter={StaticResource ConnectionConverter}}" />
         </StackPanel>
-        <TabControl x:Name="Tabs" />
+        <TabControl ItemsSource="{Binding RootTables}" SelectedItem="{Binding CurrentlyViewedRootTable, Mode=TwoWay}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding TableName}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentPresenter Content="{Binding View}" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
     </DockPanel>
 </Window>

@@ -13,6 +13,7 @@
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;SmartDashboard&lt;/string&gt;
   &lt;string&gt;LiveWindow&lt;/string&gt;
+  &lt;string&gt;CameraPublisher&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>

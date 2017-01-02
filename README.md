@@ -8,16 +8,17 @@ It is currently under heavy development, and may have breaking changes.
 
 ## Supported Operating Systems
 The current implementation is based on WPF, so it is Windows only.
-Between now and release, we may switch over to [Perspex](https://perspex.github.io) for multi-platform support.
+
+In the future, cross platform support will be added by switching from WPF to [Avalonia](https://github.com/AvaloniaUI/Avalonia).
 
 ## Extensibility
 ### XAML Plugins
-You can write plugins using just XAML Markup if you only need basic data-binding capabilities.  For example, a Digital Input display can be coded as follows (which it currently is):
+You can write plugins using just XAML Markup if you only need basic data-binding capabilities.  For example, a Digital Input display can be coded as follows:
 ```xaml
 <dash:XamlView
             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            xmlns:dash="clr-namespace:DotNetDash;assembly=DotNetDash"
+            xmlns:dash="https://robotdotnet.github.io/dotnetdash"
             DashboardType="Digital Input">
     <StackPanel Orientation="Horizontal">
         <TextBlock Text="{Binding Name}" />

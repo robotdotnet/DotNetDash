@@ -55,7 +55,12 @@ namespace DotNetDash.CameraViews
         private void NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             var bitmap = eventArgs.Frame.Clone() as System.Drawing.Bitmap;
-            Dispatcher.BeginInvoke((Action)(() => View = bitmap));
+            Dispatcher.BeginInvoke((Action)(() =>
+            {
+                var oldView = View;
+                View = bitmap;
+                oldView?.Dispose();
+            }));
         }
 
         private System.Drawing.Bitmap cameraView;

@@ -29,6 +29,7 @@ namespace DotNetDash
             var catalog = new AggregateCatalog(from directory in extensionRootDirectory.EnumerateDirectories()
                                                select new DirectoryCatalog(directory.FullName));
             catalog.Catalogs.Add(new AssemblyCatalog(typeof(App).Assembly));
+            catalog.Catalogs.Add(new AssemblyCatalog(typeof(TableProcessor).Assembly));
             return catalog;
         }
 

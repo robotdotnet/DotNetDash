@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DotNetDash.CameraViews"
-             xmlns:dotnetdash="clr-namespace:DotNetDash;assembly=DotNetDash"
+             xmlns:dash="https://robotdotnet.github.io/dotnetdash"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <dotnetdash:BoolToRedGreenConverter x:Key="Converter" />
+        <dash:BoolToRedGreenConverter x:Key="Converter" />
     </UserControl.Resources>
     <DockPanel>
         <StackPanel VerticalAlignment="Top" Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,5,0">

@@ -7,11 +7,6 @@ using System.Threading.Tasks;
 
 namespace DotNetDash
 {
-    public interface IRootTablesList
-    {
-        IEnumerable<string> RootTables { get; }
-    }
-
     [Export(typeof(IRootTablesList))]
     public class SettingsRootTablesList : IRootTablesList
     {

@@ -110,14 +110,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DotNetDash\DotNetDash.csproj">
-      <Project>{956d8251-a86b-4a80-8b99-5d356b6ed9fc}</Project>
-      <Name>DotNetDash</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\DotNetDash.Core\DotNetDash.Core.csproj">
+      <Project>{8907117d-e11d-4f1d-8a26-7d0f1d8aceab}</Project>
+      <Name>DotNetDash.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

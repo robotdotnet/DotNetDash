@@ -61,6 +61,7 @@ namespace DotNetDash.CameraViews
                 View = bitmap;
                 oldView?.Dispose();
             }));
+            eventArgs.Frame.Dispose();
         }
 
         private System.Drawing.Bitmap cameraView;

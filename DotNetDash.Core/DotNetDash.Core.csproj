@@ -100,15 +100,7 @@
     <Compile Include="NetworkTablesRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableProcessor.cs" />
-    <Compile Include="XamlView.xaml.cs">
-      <DependentUpon>XamlView.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="XamlView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="XamlView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

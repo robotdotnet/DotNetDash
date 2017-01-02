@@ -24,7 +24,9 @@ namespace DotNetDash.BuiltinProcessors
 
         protected override FrameworkElement GetViewCore()
         {
-            return new StackPanel { Orientation = Orientation.Vertical };
+            var panel = new StackPanel { Orientation = Orientation.Vertical };
+            panel.Children.Add(new TextBlock { Text = tableName, HorizontalAlignment = HorizontalAlignment.Center });
+            return panel;
         }
 
         public override string Name => "Default Table View";
@@ -32,11 +34,22 @@ namespace DotNetDash.BuiltinProcessors
         private UIElement CreateNewElementView(string key, Value value)
         {
             var keyValueLine = new StackPanel { Orientation = Orientation.Horizontal };
-            keyValueLine.Children.Add(new Label { Content = key });
-            var valueBox = new TextBox();
+            keyValueLine.Children.Add(new Label { Content = key, VerticalAlignment = VerticalAlignment.Center });
+            
             var typeCategory = DetermineValueNetworkType(value);
-            valueBox.SetBinding(TextBox.TextProperty, $"{typeCategory}[{key}]");
-            keyValueLine.Children.Add(valueBox);
+            var bindingPath = $"{typeCategory}[{key}]";
+            if (value.Type != NtType.Boolean)
+            {
+                var valueBox = new TextBox { VerticalAlignment = VerticalAlignment.Center };
+                valueBox.SetBinding(TextBox.TextProperty, bindingPath);
+                keyValueLine.Children.Add(valueBox); 
+            }
+            else
+            {
+                var checkBox = new CheckBox { VerticalAlignment = VerticalAlignment.Center };
+                checkBox.SetBinding(CheckBox.IsCheckedProperty, bindingPath);
+                keyValueLine.Children.Add(checkBox);
+            }
             return keyValueLine;
         }
 

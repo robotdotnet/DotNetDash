@@ -23,6 +23,7 @@ namespace DotNetDash.CameraViews
             layout.Children.Add(new TextBlock { Text = "Camera URL:" });
             var urlBox = new ComboBox { MinWidth = 300, Margin = new Thickness(10, 0, 0, 0) };
             urlBox.IsEditable = true;
+            urlBox.IsReadOnly = false;
 
             urlBox.SetBinding(ComboBox.SelectedItemProperty, new Binding
             {
@@ -149,6 +150,8 @@ namespace DotNetDash.CameraViews
     {
         public string CameraName { get; set; }
         public string Stream { get; set; }
+
+        public override string ToString() => Stream;
     }
 
     sealed class WebcamViewProcessor : IViewProcessor

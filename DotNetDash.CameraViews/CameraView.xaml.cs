@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using AForge.Video;
 
 namespace DotNetDash.CameraViews
@@ -55,18 +57,28 @@ namespace DotNetDash.CameraViews
         private void NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             var bitmap = eventArgs.Frame.Clone() as System.Drawing.Bitmap;
-            Dispatcher.BeginInvoke((Action)(() =>
+            var previous = View;
+            Stream stream = unusedStream;
+            stream.Seek(0, SeekOrigin.Begin);
+            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+            stream.Seek(0, SeekOrigin.Begin);
+            bitmap.Dispose();
+
+            Dispatcher.Invoke(() =>
             {
-                var oldView = View;
-                View = bitmap;
-                oldView?.Dispose();
-            }));
-            eventArgs.Frame.Dispose();
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.StreamSource = stream;
+                image.EndInit();
+                View = image;
+                unusedStream = previous != null ? previous.StreamSource : new MemoryStream();
+            });
         }
 
-        private System.Drawing.Bitmap cameraView;
+        private Stream unusedStream = new MemoryStream();
+        private BitmapImage cameraView;
 
-        public System.Drawing.Bitmap View
+        public BitmapImage View
         {
             get { return cameraView; }
             set

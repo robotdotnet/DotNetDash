@@ -7,11 +7,8 @@
              mc:Ignorable="d"
              MaxWidth="1000"
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <local:BitmapConverter x:Key="BitmapConverter" />
-    </UserControl.Resources>
     <DockPanel>
         <ContentControl DockPanel.Dock="Top" x:FieldModifier="protected" x:Name="CameraSelector" />
-        <Image Source="{Binding View, Converter={StaticResource BitmapConverter}}" />
+        <Image Source="{Binding View}" />
     </DockPanel>
 </UserControl>

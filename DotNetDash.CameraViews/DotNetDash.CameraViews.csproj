@@ -86,7 +86,6 @@
     <Compile Include="CameraView.xaml.cs">
       <DependentUpon>CameraView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BitmapConverter.cs" />
     <Compile Include="LocalCameraSelector.xaml.cs">
       <DependentUpon>LocalCameraSelector.xaml</DependentUpon>
     </Compile>

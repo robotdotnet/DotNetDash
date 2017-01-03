@@ -29,7 +29,7 @@ namespace DotNetDash
         private void AutoLayoutCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
-            Keyboard.ClearFocus();
+            Keyboard.Focus(this);
         }
 
         protected override Size ArrangeOverride(Size arrangeSize)

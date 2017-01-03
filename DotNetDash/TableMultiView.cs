@@ -51,11 +51,13 @@ namespace DotNetDash
             }
         }
 
+        private DragDropBehavior behavior = new DragDropBehavior();
+
         protected override void OnVisualParentChanged(DependencyObject oldParent)
         {
             base.OnVisualParentChanged(oldParent);
-            var dragDropBehavior = new DragDropBehavior();
-            dragDropBehavior.Attach(VisualParent);
+            behavior.Detach();
+            behavior.Attach(VisualParent);
         }
     }
 }

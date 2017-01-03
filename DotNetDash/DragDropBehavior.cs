@@ -14,19 +14,25 @@ namespace DotNetDash
         protected override void OnAttached()
         {
             base.OnAttached();
-            AssociatedObject.AllowDrop = true;
-            AssociatedObject.MouseLeftButtonDown += OnMouseLeftButtonDown;
-            AssociatedObject.MouseLeftButtonUp += OnMouseLeftButtonUp;
-            AssociatedObject.MouseMove += OnMouseMove;
-            logger = Log.ForContext(AssociatedObject.GetType());
+            if (AssociatedObject != null)
+            {
+                AssociatedObject.AllowDrop = true;
+                AssociatedObject.MouseLeftButtonDown += OnMouseLeftButtonDown;
+                AssociatedObject.MouseLeftButtonUp += OnMouseLeftButtonUp;
+                AssociatedObject.MouseMove += OnMouseMove;
+                logger = Log.ForContext(AssociatedObject.GetType());
+            }
         }
 
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            AssociatedObject.PreviewMouseLeftButtonDown -= OnMouseLeftButtonDown;
-            AssociatedObject.PreviewMouseLeftButtonUp -= OnMouseLeftButtonUp;
-            AssociatedObject.PreviewMouseMove -= OnMouseMove;
+            if (AssociatedObject != null)
+            {
+                AssociatedObject.PreviewMouseLeftButtonDown -= OnMouseLeftButtonDown;
+                AssociatedObject.PreviewMouseLeftButtonUp -= OnMouseLeftButtonUp;
+                AssociatedObject.PreviewMouseMove -= OnMouseMove; 
+            }
         }
 
         // The following code is taken from StackOverflow from answers written by Kevin Cruijssen

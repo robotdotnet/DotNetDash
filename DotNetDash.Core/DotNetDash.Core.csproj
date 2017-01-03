@@ -78,7 +78,6 @@
     <Compile Include="BuiltinProcessors\DefaultRootTableProcessor.cs" />
     <Compile Include="BuiltinProcessors\FallbackProcessorFactory.cs" />
     <Compile Include="BuiltinProcessors\IXamlSearcher.cs" />
-    <Compile Include="BuiltinProcessors\XamlFileSearcher.cs" />
     <Compile Include="BuiltinProcessors\XamlProcessor.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommonConverters.cs" />

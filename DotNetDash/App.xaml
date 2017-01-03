@@ -8,7 +8,9 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ItemsControl">
-                        <ItemsPresenter />
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

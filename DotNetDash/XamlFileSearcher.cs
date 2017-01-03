@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
+using DotNetDash.BuiltinProcessors;
 
-namespace DotNetDash.BuiltinProcessors
+namespace DotNetDash
 {
     [Export(typeof(IXamlSearcher))]
     public class XamlFileSearcher : IXamlSearcher

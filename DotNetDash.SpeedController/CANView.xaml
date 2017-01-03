@@ -35,7 +35,7 @@
                 <TextBox Grid.Row="0" Grid.Column="7" Text="{Binding Numbers[f], StringFormat='{}{0:0.00000}'}" />
                 <oxyplot:Plot Title="PID Tuning Graph" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="7"
                                 IsLegendVisible="True" LegendTitle="Legend" LegendPlacement="Outside" LegendPosition="RightMiddle"
-                                Width="500" Height="150">
+                                Width="500" Height="250">
                     <oxyplot:LineSeries Title="Setpoint" ItemsSource="{Binding SetpointLine}" />
                     <oxyplot:LineSeries Title="Output" ItemsSource="{Binding OutputPoints}" />
                 </oxyplot:Plot>

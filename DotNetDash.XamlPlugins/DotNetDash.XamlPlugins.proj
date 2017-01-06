@@ -11,9 +11,7 @@
     <XamlPlugin Include="Gyro.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <XamlPlugin Include="Command.xaml">
-      <SubType>Designer</SubType>
-    </XamlPlugin>
+    <XamlPlugin Include="Command.xaml" />
   </ItemGroup>
   <Target Name="Build">
     <Copy SourceFiles="@(XamlPlugin)" DestinationFolder="../bin/$(Configuration)/Plugins/XAML Plugins" SkipUnchangedFiles="true" />

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DotNetDash.CameraViews</RootNamespace>
     <AssemblyName>DotNetDash.CameraViews</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,9 +43,21 @@
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FRC.CameraServer">
+      <HintPath>..\..\cameraserver\src\FRC.CameraServer\bin\Debug\netstandard2.0\FRC.CameraServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FRC.CameraServer.DesktopLibraries">
+      <HintPath>..\..\cameraserver\src\FRC.CameraServer.DesktopLibraries\bin\Debug\netstandard2.0\FRC.CameraServer.DesktopLibraries.dll</HintPath>
+    </Reference>
+    <Reference Include="FRC.CameraServer.OpenCvSharp">
+      <HintPath>..\..\cameraserver\src\FRC.CameraServer.OpenCvSharp\bin\Debug\netstandard2.0\FRC.CameraServer.OpenCvSharp.dll</HintPath>
+    </Reference>
     <Reference Include="FRC.NetworkTables, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FRC.NetworkTables.3.1.6\lib\net46\FRC.NetworkTables.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="FRC.Utilities, Version=0.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FRC.Utilities.0.0.3-beta\lib\netstandard2.0\FRC.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="Nito.AsyncEx.Coordination, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nito.AsyncEx.Coordination.1.0.2\lib\net46\Nito.AsyncEx.Coordination.dll</HintPath>
@@ -90,6 +103,7 @@
       <DependentUpon>LocalCameraSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocalCameraView.cs" />
+    <Compile Include="LocalCsCameraView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebCameraView.cs" />
   </ItemGroup>

@@ -26,6 +26,7 @@ namespace DotNetDash.CameraViews
                     CurrentDevice = null;
                     return;
                 }
+                
                 ;
             }
         }

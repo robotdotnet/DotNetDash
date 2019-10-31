@@ -96,6 +96,9 @@
       <DependentUpon>CameraInformationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CameraInfoRootTableProcessor.cs" />
+    <Compile Include="CsCameraView.xaml.cs">
+      <DependentUpon>CsCameraView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CameraView.xaml.cs">
       <DependentUpon>CameraView.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,10 @@
     <Page Include="CameraInformationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CsCameraView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CameraView.xaml">
       <SubType>Designer</SubType>

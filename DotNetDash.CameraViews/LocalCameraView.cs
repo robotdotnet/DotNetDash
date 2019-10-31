@@ -3,7 +3,7 @@ using AForge.Video.DirectShow;
 
 namespace DotNetDash.CameraViews
 {
-    class LocalCameraView : CsCameraView
+    class LocalCameraView : CameraView
     {
         public LocalCameraView()
         {

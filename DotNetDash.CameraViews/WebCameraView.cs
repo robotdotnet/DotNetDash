@@ -7,11 +7,12 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using FRC.CameraServer;
 using NetworkTables;
 
 namespace DotNetDash.CameraViews
 {
-    class WebCameraView : CameraView
+    class WebCameraView : CsCameraView
     {
         public WebCameraView(INetworkTablesInterface ntInterface)
         {
@@ -131,7 +132,11 @@ namespace DotNetDash.CameraViews
                 try
                 {
 
-                    CurrentDevice = new AForge.Video.MJPEGStream(value);
+                    HttpCamera camera = new HttpCamera("Http", value);
+                    BitmapSink sink = new BitmapSink("Streamer");
+                    sink.Source = camera;
+
+                    CurrentDevice = new CsVideoSource(sink, camera);
                 }
                 catch (ArgumentException)
                 {

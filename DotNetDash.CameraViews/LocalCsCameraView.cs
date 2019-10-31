@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace DotNetDash.CameraViews
 {
-    public class LocalCsCameraView : CameraView
+    public class LocalCsCameraView : CsCameraView
     {
         public LocalCsCameraView()
         {
@@ -23,10 +23,16 @@ namespace DotNetDash.CameraViews
             {
                 if (value == null)
                 {
+                    CurrentDevice?.Stop();
                     CurrentDevice = null;
                     return;
                 }
-                
+
+                UsbCamera camera = new UsbCamera("Usb", value.Value.Path);
+                BitmapSink sink = new BitmapSink("Streamer");
+                sink.Source = camera;
+
+                CurrentDevice = new CsVideoSource(sink, camera);
                 ;
             }
         }

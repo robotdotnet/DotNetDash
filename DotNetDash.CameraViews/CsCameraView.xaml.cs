@@ -6,9 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using AForge.Video;
-using OpenCvSharp;
-using OpenCvSharp.Extensions;
 
 namespace DotNetDash.CameraViews
 {

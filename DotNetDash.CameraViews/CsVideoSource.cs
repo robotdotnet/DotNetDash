@@ -1,6 +1,5 @@
 ﻿using FRC.CameraServer;
 using FRC.CameraServer.OpenCvSharp;
-using OpenCvSharp;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

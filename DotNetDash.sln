@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash", "DotNetDash\DotNetDash.csproj", "{956D8251-A86B-4A80-8B99-5D356B6ED9FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDash", "DotNetDash\DotNetDash.csproj", "{956D8251-A86B-4A80-8B99-5D356B6ED9FC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{75EFB940-7C2F-4535-9C6B-A6A3BC01622B} = {75EFB940-7C2F-4535-9C6B-A6A3BC01622B}
 		{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC} = {B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}
@@ -13,14 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash", "DotNetDash\Do
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.Test", "DotNetDash.Test\DotNetDash.Test.csproj", "{AEDD1D24-7E04-4A20-AD7F-9702FF2EDD62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.LiveWindow", "DotNetDash.LiveWindow\DotNetDash.LiveWindow.csproj", "{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDash.LiveWindow", "DotNetDash.LiveWindow\DotNetDash.LiveWindow.csproj", "{BDA47DB8-EB8E-43AD-A8A1-AAD0AE9B2C8E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.XamlPlugins", "DotNetDash.XamlPlugins\DotNetDash.XamlPlugins.proj", "{B9B7AAD7-C3E7-44AA-9DEF-58AFF8ACD713}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8907117D-E11D-4F1D-8A26-7D0F1D8ACEAB} = {8907117D-E11D-4F1D-8A26-7D0F1D8ACEAB}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.CameraViews", "DotNetDash.CameraViews\DotNetDash.CameraViews.csproj", "{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDash.CameraViews", "DotNetDash.CameraViews\DotNetDash.CameraViews.csproj", "{75EFB940-7C2F-4535-9C6B-A6A3BC01622B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1E09CA6-E7D8-4BDB-AAE3-0D0D93F658BA}"
 	ProjectSection(SolutionItems) = preProject
@@ -28,9 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.SpeedController", "DotNetDash.SpeedController\DotNetDash.SpeedController.csproj", "{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDash.SpeedController", "DotNetDash.SpeedController\DotNetDash.SpeedController.csproj", "{B49B9A6F-A3ED-4BA9-A5A3-8EA783237DFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDash.Core", "DotNetDash.Core\DotNetDash.Core.csproj", "{8907117D-E11D-4F1D-8A26-7D0F1D8ACEAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDash.Core", "DotNetDash.Core\DotNetDash.Core.csproj", "{8907117D-E11D-4F1D-8A26-7D0F1D8ACEAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,9 +42,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.CoreDebug|Any CPU.ActiveCfg = CoreDebug|Any CPU
-		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.CoreDebug|Any CPU.Build.0 = CoreDebug|Any CPU
-		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.CoreDebug|x86.ActiveCfg = CoreDebug|Any CPU
+		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.CoreDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.CoreDebug|Any CPU.Build.0 = Debug|Any CPU
+		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.CoreDebug|x86.ActiveCfg = Debug|Any CPU
+		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.CoreDebug|x86.Build.0 = Debug|Any CPU
 		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{956D8251-A86B-4A80-8B99-5D356B6ED9FC}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -126,5 +127,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA01FE9B-D93B-4B17-94CF-13C8C648389B}
 	EndGlobalSection
 EndGlobal

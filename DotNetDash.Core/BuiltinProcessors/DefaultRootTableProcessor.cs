@@ -1,15 +1,15 @@
-﻿using System;
+﻿using FRC.NetworkTables;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using System.Windows;
-using NetworkTables.Tables;
 
 namespace DotNetDash.BuiltinProcessors
 {
     public class DefaultRootTableProcessor : TableProcessor
     {
-        public DefaultRootTableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+        public DefaultRootTableProcessor(string name, NetworkTable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
             KeyToMultiProcessorMap.Add(name,
@@ -35,7 +35,7 @@ namespace DotNetDash.BuiltinProcessors
             this.processorFactories = processorFactories;
         }
 
-        public TableProcessor Create(string subTable, ITable table)
+        public TableProcessor Create(string subTable, NetworkTable table)
         {
             return new DefaultRootTableProcessor(subTable, table, processorFactories);
         }

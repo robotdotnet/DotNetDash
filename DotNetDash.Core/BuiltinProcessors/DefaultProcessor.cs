@@ -1,16 +1,15 @@
-﻿using System;
+﻿using FRC.NetworkTables;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using NetworkTables;
-using NetworkTables.Tables;
 
 namespace DotNetDash.BuiltinProcessors
 {
     class DefaultProcessor : TableProcessor
     {
-        public DefaultProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+        public DefaultProcessor(string name, NetworkTable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
             baseTable.AddTableListenerOnSynchronizationContext(SynchronizationContext.Current, (sendingTable, key, value, flags) =>
@@ -19,7 +18,7 @@ namespace DotNetDash.BuiltinProcessors
                 logger.Verbose($"Adding property view for {name}");
                 var stackPanel = (StackPanel)View;
                 stackPanel.Children.Add(CreateNewElementView(key, value));
-            }, NotifyFlags.NotifyImmediate | NotifyFlags.NotifyNew);
+            }, NotifyFlags.Immediate | NotifyFlags.New);
         }
 
         protected override FrameworkElement GetViewCore()
@@ -31,7 +30,7 @@ namespace DotNetDash.BuiltinProcessors
 
         public override string Name => "Default Table View";
 
-        private UIElement CreateNewElementView(string key, Value value)
+        private UIElement CreateNewElementView(string key, NetworkTableValue value)
         {
             var keyValueLine = new StackPanel { Orientation = Orientation.Horizontal };
             keyValueLine.Children.Add(new Label { Content = key, VerticalAlignment = VerticalAlignment.Center });
@@ -53,7 +52,7 @@ namespace DotNetDash.BuiltinProcessors
             return keyValueLine;
         }
 
-        private static string DetermineValueNetworkType(Value value)
+        private static string DetermineValueNetworkType(NetworkTableValue value)
         {
             switch (value.Type)
             {

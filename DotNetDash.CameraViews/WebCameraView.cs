@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using FRC.CameraServer;
-using NetworkTables;
+using FRC.NetworkTables;
 
 namespace DotNetDash.CameraViews
 {
@@ -55,13 +55,13 @@ namespace DotNetDash.CameraViews
 
             Action<string, NotifyFlags> subTableCallback = (name, flags) =>
             {
-                if (flags == NotifyFlags.NotifyNew || flags == NotifyFlags.NotifyImmediate)
+                if (flags == NotifyFlags.New || flags == NotifyFlags.Immediate)
                 {
-                    cameraTable.GetSubTable(name).AddTableListener("streams", (subTable, __, value, valueFlags) =>
+                    cameraTable.GetSubTable(name).AddEntryListener("streams", (NetworkTable subTable, ReadOnlySpan<char> key, in NetworkTableEntry notification, in RefNetworkTableValue value, NotifyFlags valueFlags) =>
                     {
+                        var streamsArray = value.GetStringArray().ToArray();
                         context.Post(state =>
                         {
-                            var streamsArray = value.GetStringArray();
                             for (int i = 0; i < streamsArray.Length; i++)
                             {
                                 if(streamsArray[i].StartsWith("mjpeg:", StringComparison.InvariantCultureIgnoreCase))
@@ -72,24 +72,24 @@ namespace DotNetDash.CameraViews
 
                             var streams = streamsArray.Select(stream => new CameraStream { CameraName = name, Stream = stream });
 
-                            valueFlags &= ~NotifyFlags.NotifyLocal;
+                            valueFlags &= ~NotifyFlags.Local;
                             switch (valueFlags)
                             {
-                                case NotifyFlags.NotifyImmediate:
-                                case NotifyFlags.NotifyNew:
+                                case NotifyFlags.Immediate:
+                                case NotifyFlags.New:
                                     cache[name] = streams;
                                     foreach (var stream in streams)
                                     {
                                         collection.Add(stream);
                                     }
                                     break;
-                                case NotifyFlags.NotifyDelete:
+                                case NotifyFlags.Delete:
                                     foreach (var stream in cache[name])
                                     {
                                         collection.Remove(stream);
                                     }
                                     break;
-                                case NotifyFlags.NotifyUpdate:
+                                case NotifyFlags.Update:
                                     foreach (var stream in cache[name])
                                     {
                                         collection.Remove(stream);
@@ -102,9 +102,9 @@ namespace DotNetDash.CameraViews
                                     break;
                             }
                         }, null);
-                    }, true);
+                    }, NotifyFlags.Update | NotifyFlags.Immediate);
                 }
-                else if (flags == NotifyFlags.NotifyDelete)
+                else if (flags == NotifyFlags.Delete)
                 {
                     cache.Remove(name);
                     var toRemove = collection.Where(stream => stream.CameraName == name).ToList();
@@ -115,11 +115,11 @@ namespace DotNetDash.CameraViews
                 }
             };
 
-            cameraTable.AddSubTableListener((table, name, _, flags) => subTableCallback(name, flags), true);
+            cameraTable.AddSubTableListener((table, name, flags) => subTableCallback(name.ToString(), flags), true);
 
             foreach(var subTable in cameraTable.GetSubTables())
             {
-                subTableCallback(subTable, NotifyFlags.NotifyImmediate);
+                subTableCallback(subTable, NotifyFlags.Immediate);
             }
 
             return collection;

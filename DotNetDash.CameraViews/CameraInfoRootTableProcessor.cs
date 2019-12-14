@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DotNetDash.BuiltinProcessors;
-using NetworkTables.Tables;
+using FRC.NetworkTables;
 
 namespace DotNetDash.CameraViews
 {
     class CameraInfoRootTableProcessor : DefaultRootTableProcessor
     {
-        public CameraInfoRootTableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories) : base(name, table, processorFactories)
+        public CameraInfoRootTableProcessor(string name, NetworkTable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories) : base(name, table, processorFactories)
         {
         }
 
@@ -29,7 +29,7 @@ namespace DotNetDash.CameraViews
             this.processorFactories = processorFactories;
         }
 
-        public TableProcessor Create(string subTable, ITable table)
+        public TableProcessor Create(string subTable, NetworkTable table)
         {
             return new CameraInfoRootTableProcessor(subTable, table, processorFactories);
         }

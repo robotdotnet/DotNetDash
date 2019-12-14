@@ -1,14 +1,14 @@
-﻿using System;
+﻿using FRC.NetworkTables;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
-using NetworkTables.Tables;
 
 namespace DotNetDash.SpeedController
 {
     class PWMControllerProcessor : TableProcessor
     {
-        public PWMControllerProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+        public PWMControllerProcessor(string name, NetworkTable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
         }
@@ -18,7 +18,7 @@ namespace DotNetDash.SpeedController
             return new SpeedControllerView();
         }
 
-        protected override NetworkTableContext GetTableContext(string name, ITable table) => new ControllerModel(name, table);
+        protected override NetworkTableContext GetTableContext(string name, NetworkTable table) => new ControllerModel(name, table);
 
         public override string Name => "PWM Speed Controller View";
     }
@@ -34,7 +34,7 @@ namespace DotNetDash.SpeedController
             this.processorFactories = processorFactories;
         }
 
-        public TableProcessor Create(string subTable, ITable table)
+        public TableProcessor Create(string subTable, NetworkTable table)
         {
             return new PWMControllerProcessor(subTable, table, processorFactories);
         }

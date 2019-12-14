@@ -7,15 +7,15 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using FRC.NetworkTables;
 using Hellosam.Net.Collections;
-using NetworkTables.Tables;
 using Serilog;
 
 namespace DotNetDash
 {
     public abstract class TableProcessor : IViewProcessor, INotifyPropertyChanged
     {
-        protected readonly ITable baseTable;
+        protected readonly NetworkTable baseTable;
         protected ObservableDictionary<string, ObservableCollection<IViewProcessor>> keyToMultiProcessorMap = new ObservableDictionary<string, ObservableCollection<IViewProcessor>>();
         protected readonly ILogger logger;
 
@@ -23,7 +23,7 @@ namespace DotNetDash
 
         private FrameworkElement view;
 
-        protected TableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+        protected TableProcessor(string name, NetworkTable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
         {
             logger = Log.ForContext(GetType()).ForContext("Table", name);
             logger.Information("Creating table processor for table");
@@ -86,7 +86,7 @@ namespace DotNetDash
             return new ContentControl { Content = content };
         }
 
-        protected virtual NetworkTableContext GetTableContext(string name, ITable table) => new NetworkTableContext(name, table);
+        protected virtual NetworkTableContext GetTableContext(string name, NetworkTable table) => new NetworkTableContext(name, table);
 
         protected virtual string DefaultTableType => string.Empty;
 
@@ -96,7 +96,7 @@ namespace DotNetDash
         {
             logger.Information($"Creating processors for subtable {subTableName}");
             var subTable = baseTable.GetSubTable(subTableName);
-            var tableType = subTable.GetString("~TYPE~", DefaultTableType);
+            var tableType = subTable.GetEntry("~TYPE~").GetString(DefaultTableType);
             logger.Information($"Subtable {subTableName} has a Dashboard type of '{tableType}'");
             var selectedProcessors = new ObservableCollection<IViewProcessor>(GetSortedTableProcessorsForType(subTable, subTableName, tableType));
             logger.Information($"Found {selectedProcessors.Count} applicable subprocessors for table '{subTableName}'");
@@ -114,7 +114,7 @@ namespace DotNetDash
             return view;
         }
 
-        protected IEnumerable<TableProcessor> GetSortedTableProcessorsForType(ITable table, string tableName, string tableType)
+        protected IEnumerable<TableProcessor> GetSortedTableProcessorsForType(NetworkTable table, string tableName, string tableType)
         {
             var matchedProcessorFactories = processorFactories.Where(factory => factory.Metadata.IsMatch(tableType)).ToList();
             matchedProcessorFactories.Sort((factory1, factory2) =>
@@ -139,7 +139,7 @@ namespace DotNetDash
         private void InitProcessorListener()
         {
             baseTable.AddSubTableListenerOnSynchronizationContext(SynchronizationContext.Current,
-                (table, newTableName, flags) => AddProcessorOptionsForTable(newTableName));
+                (table, newTableName) => AddProcessorOptionsForTable(newTableName));
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string prop = "")

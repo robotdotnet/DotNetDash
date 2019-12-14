@@ -1,25 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using FRC.NetworkTables;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using NetworkTables.Tables;
 
 namespace DotNetDash
 {
     public class NetworkTableContext : INotifyPropertyChanged
     {
-        private ITable table;
+        private NetworkTable table;
 
-        public NetworkTableContext(string tableName, ITable table)
+        public NetworkTableContext(string tableName, NetworkTable table)
         {
             Name = tableName;
             this.table = table;
             Numbers = new NetworkTableBackedLookup<double>(table);
             Booleans = new NetworkTableBackedLookup<bool>(table);
             Strings = new NetworkTableBackedLookup<string>(table);
-            Raw = new NetworkTableBackedLookup<IList<byte>>(table);
-            StringArrays = new NetworkTableBackedLookup<IList<string>>(table);
-            BooleanArrays = new NetworkTableBackedLookup<IList<bool>>(table);
-            NumberArrays = new NetworkTableBackedLookup<IList<double>>(table);
+            Raw = new NetworkTableBackedLookup<byte[]>(table);
+            StringArrays = new NetworkTableBackedLookup<string[]>(table);
+            BooleanArrays = new NetworkTableBackedLookup<bool[]>(table);
+            NumberArrays = new NetworkTableBackedLookup<double[]>(table);
         }
 
         public string Name { get; }
@@ -30,13 +30,13 @@ namespace DotNetDash
 
         public NetworkTableBackedLookup<string> Strings { get; }
 
-        public NetworkTableBackedLookup<IList<byte>> Raw { get; }
+        public NetworkTableBackedLookup<byte[]> Raw { get; }
 
-        public NetworkTableBackedLookup<IList<string>> StringArrays { get; }
+        public NetworkTableBackedLookup<string[]> StringArrays { get; }
 
-        public NetworkTableBackedLookup<IList<bool>> BooleanArrays { get; }
+        public NetworkTableBackedLookup<bool[]> BooleanArrays { get; }
 
-        public NetworkTableBackedLookup<IList<double>> NumberArrays { get; }
+        public NetworkTableBackedLookup<double[]> NumberArrays { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

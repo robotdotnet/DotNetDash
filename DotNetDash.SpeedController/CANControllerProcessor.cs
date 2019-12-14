@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
-using NetworkTables.Tables;
+using FRC.NetworkTables;
 
 namespace DotNetDash.SpeedController
 {
     class CANControllerProcessor : TableProcessor
     {
-        public CANControllerProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+        public CANControllerProcessor(string name, NetworkTable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
         }
@@ -18,7 +18,7 @@ namespace DotNetDash.SpeedController
             return new CANView();
         }
 
-        protected override NetworkTableContext GetTableContext(string name, ITable table) => new ControllerModel(name, table);
+        protected override NetworkTableContext GetTableContext(string name, NetworkTable table) => new ControllerModel(name, table);
 
         public override string Name => "CAN Speed Controller View";
     }
@@ -34,7 +34,7 @@ namespace DotNetDash.SpeedController
             this.processorFactories = processorFactories;
         }
 
-        public TableProcessor Create(string subTable, ITable table)
+        public TableProcessor Create(string subTable, NetworkTable table)
         {
             return new CANControllerProcessor(subTable, table, processorFactories);
         }

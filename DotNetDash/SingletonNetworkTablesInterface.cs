@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DotNetDash;
-using NetworkTables;
-using NetworkTables.Tables;
+using FRC.NetworkTables;
 
 namespace DotNetDash
 {
@@ -21,34 +20,31 @@ namespace DotNetDash
         public SingletonNetworkTablesInterface()
         {
             NetworkTablesExtensions.AddGlobalConnectionListenerOnSynchronizationContext(SynchronizationContext.Current,
-                (remote, info, connected) => OnConnectionStatus?.Invoke(this, new ConnectionChangedEventArgs { Connected = connected }), true);
+                (connected) => OnConnectionStatus?.Invoke(this, new ConnectionChangedEventArgs { Connected = connected }), true);
         }
 
         public void ConnectToServer(string server, int port)
         {
-            NetworkTable.SetClientMode();
-            NetworkTable.SetIPAddress(server);
-            NetworkTable.SetPort(port);
-            NetworkTable.Initialize();
+            var inst = NetworkTableInstance.Default;
+            inst.StartClient(server, port);
             OnClientConnectionAttempt?.Invoke(this, EventArgs.Empty);
         }
 
         public void ConnectToTeam(int team)
         {
-            NetworkTable.SetClientMode();
-            NetworkTable.SetTeam(team);
-            NetworkTable.Initialize();
+            var inst = NetworkTableInstance.Default;
+            inst.StartClientTeam(team);
             OnClientConnectionAttempt?.Invoke(this, EventArgs.Empty);
         }
 
-        public ITable GetTable(string path)
+        public NetworkTable GetTable(string path)
         {
-            return NetworkTable.GetTable(path);
+            return NetworkTableInstance.Default.GetTable(path);
         }
 
         public void Disconnect()
         {
-            NetworkTable.Shutdown();
+            NetworkTableInstance.Default.StopClient();
             OnDisconnect?.Invoke(this, EventArgs.Empty);
         }
     }

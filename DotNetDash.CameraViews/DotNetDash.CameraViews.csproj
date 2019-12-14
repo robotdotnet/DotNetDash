@@ -104,15 +104,11 @@
     <Compile Include="CsCameraView.xaml.cs">
       <DependentUpon>CsCameraView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CameraView.xaml.cs">
-      <DependentUpon>CameraView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CsVideoSource.cs" />
     <Compile Include="BitmapSink.cs" />
     <Compile Include="LocalCameraSelector.xaml.cs">
       <DependentUpon>LocalCameraSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LocalCameraView.cs" />
     <Compile Include="LocalCsCameraView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebCameraView.cs" />
@@ -125,10 +121,6 @@
     <Page Include="CsCameraView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="CameraView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LocalCameraSelector.xaml">
       <SubType>Designer</SubType>

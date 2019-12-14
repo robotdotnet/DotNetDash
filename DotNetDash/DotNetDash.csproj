@@ -5,6 +5,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Configurations>Debug;Release;Publish</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <OutputPath>..\bin\Publish\</OutputPath>
+    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,6 +22,7 @@
     <OutputPath>..\bin\Release\</OutputPath>
   </PropertyGroup>
 
+
   <ItemGroup>
     <PackageReference Include="FRC.NetworkTables.Core" Version="4.1.2" />
     <PackageReference Include="FRC.NetworkTables.Core.DesktopLibraries" Version="4.1.2" />
@@ -24,6 +32,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetDash.Core\DotNetDash.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
+    <ProjectReference Include="..\DotNetDash.CameraViews\DotNetDash.CameraViews.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\DotNetDash.LiveWindow\DotNetDash.LiveWindow.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\DotNetDash.SpeedController\DotNetDash.SpeedController.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

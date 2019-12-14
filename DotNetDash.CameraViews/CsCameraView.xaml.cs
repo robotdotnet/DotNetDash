@@ -1,38 +1,37 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using AForge.Video;
 
 namespace DotNetDash.CameraViews
 {
     /// <summary>
     /// Interaction logic for BaseCameraView.xaml
     /// </summary>
-    public partial class CameraView : UserControl, INotifyPropertyChanged
+    public partial class CsCameraView : UserControl, INotifyPropertyChanged
     {
-        public CameraView()
+        public CsCameraView()
         {
             DataContext = this;
             InitializeComponent();
             IsVisibleChanged += OnIsVisibleChanged;
         }
 
+        volatile bool doUpdate = false;
+
         private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var isVisible = (bool)e.NewValue;
-            if (isVisible)
-                CurrentDevice?.Start();
-            else
-                CurrentDevice?.SignalToStop();
+            doUpdate = isVisible;
         }
 
-        public IVideoSource currentDevice;
+        public CsVideoSource currentDevice;
 
-        public IVideoSource CurrentDevice
+        public CsVideoSource CurrentDevice
         {
             get
             {
@@ -42,7 +41,6 @@ namespace DotNetDash.CameraViews
             {
                 if (currentDevice != null)
                 {
-                    currentDevice.NewFrame -= NewFrame;
                     currentDevice.Stop();
                 }
                 currentDevice = value;
@@ -54,15 +52,14 @@ namespace DotNetDash.CameraViews
             }
         }
 
-        private void NewFrame(object sender, NewFrameEventArgs eventArgs)
+        private void NewFrame(object sender, Bitmap bitmap)
         {
-            var bitmap = eventArgs.Frame.Clone() as System.Drawing.Bitmap;
+            if (!doUpdate) return;
             var previous = View;
             Stream stream = unusedStream;
             stream.Seek(0, SeekOrigin.Begin);
             bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
             stream.Seek(0, SeekOrigin.Begin);
-            bitmap.Dispose();
 
             Dispatcher.Invoke(() =>
             {

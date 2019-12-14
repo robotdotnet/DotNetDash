@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using NetworkTables;
 
 namespace DotNetDash
 {

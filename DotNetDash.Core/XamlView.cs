@@ -20,6 +20,7 @@ namespace DotNetDash
             }
             set
             {
+                
                 SetValue(DashboardTypeProperty, value);
             }
         }

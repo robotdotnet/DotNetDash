@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NetworkTables.Tables;
+using FRC.NetworkTables;
 
 namespace DotNetDash
 {
@@ -15,7 +15,7 @@ namespace DotNetDash
         event EventHandler OnClientConnectionAttempt;
         event EventHandler OnDisconnect;
         event EventHandler<ConnectionChangedEventArgs> OnConnectionStatus;
-        ITable GetTable(string path);
+        NetworkTable GetTable(string path);
     }
 
     public class ConnectionChangedEventArgs : EventArgs
@@ -28,7 +28,7 @@ namespace DotNetDash
     {
         public static void ConnectToServer(this INetworkTablesInterface nt, string server)
         {
-            nt.ConnectToServer(server, NetworkTables.NetworkTable.DefaultPort);
+            nt.ConnectToServer(server, NetworkTableInstance.DefaultPort);
         }
     }
 }

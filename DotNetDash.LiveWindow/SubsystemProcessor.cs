@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
 using System.Windows.Controls;
-using NetworkTables.Tables;
+using FRC.NetworkTables;
 
 namespace DotNetDash.LiveWindow
 {
     class SubsystemProcessor : TableProcessor
     {
-        public SubsystemProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+        public SubsystemProcessor(string name, NetworkTable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
         }
@@ -38,7 +38,7 @@ namespace DotNetDash.LiveWindow
             this.processorFactories = processorFactories;
         }
 
-        public TableProcessor Create(string subTable, ITable table)
+        public TableProcessor Create(string subTable, NetworkTable table)
         {
             return new SubsystemProcessor(subTable, table, processorFactories);
         }

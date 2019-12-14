@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DotNetDash
 {
-    [Export]
+    [Export(typeof(NetworkTablesRoot))]
     public class NetworkTablesRoot : INotifyPropertyChanged
     {
         private IEnumerable<Lazy<IRootTableProcessorFactory, IDashboardTypeMetadata>> rootTableFactories;

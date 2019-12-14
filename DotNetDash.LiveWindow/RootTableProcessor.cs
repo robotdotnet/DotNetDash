@@ -8,16 +8,16 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using DotNetDash.BuiltinProcessors;
-using NetworkTables.Tables;
+using FRC.NetworkTables;
 
 namespace DotNetDash.LiveWindow
 {
     class RootTableProcessor : DefaultRootTableProcessor
     {
-        public RootTableProcessor(string name, ITable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
+        public RootTableProcessor(string name, NetworkTable table, IEnumerable<Lazy<ITableProcessorFactory, IDashboardTypeMetadata>> processorFactories)
             : base(name, table, processorFactories)
         {
-            baseTable.AddSubTableListenerOnSynchronizationContext(SynchronizationContext.Current, (tbl, subTableName, flags) =>
+            baseTable.AddSubTableListenerOnSynchronizationContext(SynchronizationContext.Current, (tbl, subTableName) =>
             {
                 if (subTableName == "~STATUS~")
                 {
@@ -49,7 +49,7 @@ namespace DotNetDash.LiveWindow
             return outline;
         }
 
-        protected override NetworkTableContext GetTableContext(string name, ITable table) => new RootTableContext(name, table);
+        protected override NetworkTableContext GetTableContext(string name, NetworkTable table) => new RootTableContext(name, table);
 
     }
 
@@ -64,7 +64,7 @@ namespace DotNetDash.LiveWindow
             this.processorFactories = processorFactories;
         }
 
-        public TableProcessor Create(string subTable, ITable table)
+        public TableProcessor Create(string subTable, NetworkTable table)
         {
             return new RootTableProcessor(subTable, table, processorFactories);
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Markup;
-using NetworkTables.Tables;
+using FRC.NetworkTables;
 using Serilog;
 
 namespace DotNetDash.BuiltinProcessors
@@ -27,15 +27,15 @@ namespace DotNetDash.BuiltinProcessors
             logger = Log.ForContext<FallbackProcessorFactory>();
         }
 
-        public TableProcessor Create(string subTable, ITable table)
+        public TableProcessor Create(string subTable, NetworkTable table)
         {
             var xamlViews = LoadXamlDocs();
-            var matchingView = xamlViews.FirstOrDefault(view => view.DashboardType == table.GetString("~TYPE~", ""));
+            var matchingView = xamlViews.FirstOrDefault(view => view.DashboardType == table.GetEntry("~TYPE~").GetString(""));
             return matchingView != null ? CreateProcessorForFirstView(subTable, table, matchingView) :
                 (TableProcessor)new DefaultProcessor(subTable, table, processorFactories);
         }
 
-        private XamlProcessor CreateProcessorForFirstView(string subTable, ITable table, XamlView view)
+        private XamlProcessor CreateProcessorForFirstView(string subTable, NetworkTable table, XamlView view)
         {
             return new XamlProcessor(subTable, table, processorFactories, view);
         }

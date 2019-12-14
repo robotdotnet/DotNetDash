@@ -24,7 +24,10 @@ namespace DotNetDash
         private static ComposablePartCatalog CreateExtensionCatalog()
         {
             if (!Directory.Exists("Plugins"))
-                return new AssemblyCatalog(typeof(App).Assembly);
+            {
+                return new AggregateCatalog(new AssemblyCatalog(typeof(App).Assembly),
+                    new AssemblyCatalog(typeof(TableProcessor).Assembly));
+            }
             var extensionRootDirectory = new DirectoryInfo("Plugins");
             var catalog = new AggregateCatalog(from directory in extensionRootDirectory.EnumerateDirectories()
                                                select new DirectoryCatalog(directory.FullName));

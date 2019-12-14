@@ -1,15 +1,16 @@
-﻿using NetworkTables.Tables;
+﻿using FRC.NetworkTables;
+using System;
 
 namespace DotNetDash.LiveWindow
 {
     public class RootTableContext : NetworkTableContext
     {
-        private ITable statusTable;
-        public RootTableContext(string tableName, ITable table) : base(tableName, table)
+        private NetworkTable statusTable;
+        public RootTableContext(string tableName, NetworkTable table) : base(tableName, table)
         {
             statusTable = table.GetSubTable("~STATUS~");
-            statusTable.AddTableListener("LW Enabled", (changedTable, _, value, flags) =>
-                Enabled = value.GetBoolean(), true);
+            statusTable.AddEntryListener("LW Enabled", (NetworkTable changedTable, ReadOnlySpan<char> _, in NetworkTableEntry entry, in RefNetworkTableValue value, NotifyFlags flags) =>
+                Enabled = value.GetBoolean(), NotifyFlags.Update | NotifyFlags.Immediate);
         }
 
         private bool enabled;

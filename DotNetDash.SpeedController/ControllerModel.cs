@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FRC.NetworkTables;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using NetworkTables.Tables;
 
 namespace DotNetDash.SpeedController
 {
@@ -13,7 +13,7 @@ namespace DotNetDash.SpeedController
         private object syncRoot = new object();
         public IEnumerable<ControlMode> ControlModes => controlModes;
 
-        public ControllerModel(string tableName, ITable table) : base(tableName, table)
+        public ControllerModel(string tableName, NetworkTable table) : base(tableName, table)
         {
             if(controlModes == null)
             {
@@ -32,7 +32,7 @@ namespace DotNetDash.SpeedController
                     default:
                         break;
                 }
-            }, NetworkTables.NotifyFlags.NotifyImmediate | NetworkTables.NotifyFlags.NotifyUpdate | NetworkTables.NotifyFlags.NotifyNew);
+            }, NotifyFlags.Immediate | NotifyFlags.Update | NotifyFlags.New);
             ZeroOutput = new Command(() => Numbers["Value"] = 0.0);
             ClearGraph = new Command(() =>
                 {

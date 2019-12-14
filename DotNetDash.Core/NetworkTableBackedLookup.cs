@@ -1,20 +1,30 @@
-﻿using System;
+﻿using FRC.NetworkTables;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using NetworkTables;
-using NetworkTables.Tables;
 
 namespace DotNetDash
 {
     public sealed class NetworkTableBackedLookup<T> : INotifyPropertyChanged
     {
-        private readonly ITable table;
-
-        public NetworkTableBackedLookup(ITable table)
+        private readonly Type[] SupportedValueTypes =
         {
-            bool validType = Value.GetSupportedValueTypes().Contains(typeof(T));
+            typeof(string),
+            typeof(double),
+            typeof(byte[]),
+            typeof(bool),
+            typeof(string[]),
+            typeof(double[]),
+            typeof(bool[]),
+        };
+
+        private readonly NetworkTable table;
+
+        public NetworkTableBackedLookup(NetworkTable table)
+        {
+            bool validType = SupportedValueTypes.Contains(typeof(T));
             
             if (!validType)
             {
@@ -31,11 +41,11 @@ namespace DotNetDash
         {
             get
             {
-                var value = table.GetValue(key, null);
+                var value = table.GetEntry(key).GetObjectValue();
                 if (value == null) return default(T);
                 try
                 {
-                    return (T)value.GetObjectValue();
+                    return (T)value;
                 }
                 catch (InvalidCastException)
                 {
@@ -44,9 +54,8 @@ namespace DotNetDash
             }
             set
             {
-                var val = Value.MakeValue(value);
-                if (val == null) return;
-                table.PutValue(key, val);
+                // TODO see if this needs a catch
+                table.GetEntry(key).SetValue(value);
                 NotifyPropertyChanged(System.Windows.Data.Binding.IndexerName);
             }
         }
